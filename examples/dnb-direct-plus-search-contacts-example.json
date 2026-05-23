@@ -1,0 +1,33 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://plus.dnb.com/v1/search/contact?searchTerm=Jane%20Doe&countryISOAlpha2Code=US&pageSize=10",
+    "headers": {
+      "Authorization": "Bearer <ACCESS_TOKEN>",
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "transactionDetail": {
+        "transactionID": "rrt-0123456789abcdef-c-iad-12345-678905-1",
+        "transactionTimestamp": "2026-05-23T19:18:00Z"
+      },
+      "candidatesReturnedQuantity": 1,
+      "searchCandidates": [
+        {
+          "contact": {
+            "fullName": "Jane Doe",
+            "jobTitles": [{ "title": "Chief Executive Officer" }]
+          },
+          "organization": {
+            "duns": "804735132",
+            "primaryName": "Acme Corporation",
+            "countryISOAlpha2Code": "US"
+          }
+        }
+      ]
+    }
+  }
+}

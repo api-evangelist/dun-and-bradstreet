@@ -1,0 +1,23 @@
+{
+  "request": {
+    "method": "DELETE",
+    "url": "https://plus.dnb.com/v1/monitoring/registrations/supplier-portfolio-2026/duns",
+    "headers": {
+      "Authorization": "Bearer <ACCESS_TOKEN>",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "dunsList": [
+        "001370583"
+      ]
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "addedQuantity": 0,
+      "removedQuantity": 1,
+      "rejectedDuns": []
+    }
+  }
+}

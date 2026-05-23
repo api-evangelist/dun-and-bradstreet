@@ -1,0 +1,51 @@
+name: third-party-risk-onboarding
+description: >-
+  Onboard a third party (supplier, partner, customer) with a single match-
+  plus-enrich call that returns identity, hierarchy, beneficial ownership,
+  compliance, and risk in one round-trip, then registers the resolved
+  D-U-N-S for ongoing monitoring.
+version: 0.1.0
+provider:
+  name: Dun & Bradstreet
+  api: D&B Direct+
+inputs:
+  - name: party_name
+    type: string
+    required: true
+  - name: country_iso2
+    type: string
+    required: true
+  - name: address
+    type: object
+  - name: blocks
+    type: array
+    default:
+      - companyinfo_L2_v1
+      - principalscontacts_L1_v2
+      - hierarchyconnections_L1_v1
+      - beneficialowners_L2_v1
+      - thirdpartyriskinsight_L3_v3
+  - name: monitoring_registration_reference
+    type: string
+    required: true
+outputs:
+  - name: duns
+    type: string
+  - name: risk_summary
+    type: object
+  - name: beneficial_owners
+    type: array
+  - name: monitoring_active
+    type: boolean
+operations:
+  - api: D&B Direct+ Multi-Process
+    method: POST
+    path: /v1/multiProcess
+    rationale: Single-call match plus enrichment with the requested risk and ownership blocks.
+  - api: D&B Direct+ Monitoring
+    method: POST
+    path: /v1/monitoring/registrations/{registrationReference}/duns
+    rationale: Add the newly resolved D-U-N-S to the monitored portfolio.
+risks:
+  - description: KYB and AML obligations require auditable retention; capture the transactionID returned by Direct+.
+  - description: Beneficial ownership coverage varies by jurisdiction.

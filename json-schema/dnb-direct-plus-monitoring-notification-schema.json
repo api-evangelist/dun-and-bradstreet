@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/dun-and-bradstreet/main/json-schema/dnb-direct-plus-monitoring-notification-schema.json",
+  "title": "DnB Direct+ Monitoring Notification",
+  "description": "A single change notification emitted by D&B Direct+ Monitoring for a D-U-N-S in a registered portfolio.",
+  "type": "object",
+  "required": ["duns", "changeTimestamp", "blockID", "elementId"],
+  "properties": {
+    "duns": { "type": "string", "pattern": "^[0-9]{9}$" },
+    "changeTimestamp": { "type": "string", "format": "date-time" },
+    "blockID": { "type": "string" },
+    "elementId": { "type": "string" },
+    "previousValue": {},
+    "currentValue": {}
+  }
+}

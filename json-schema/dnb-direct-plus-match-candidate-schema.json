@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/dun-and-bradstreet/main/json-schema/dnb-direct-plus-match-candidate-schema.json",
+  "title": "DnB Direct+ Match Candidate",
+  "description": "A single candidate returned by Direct+ Identity Resolution.",
+  "type": "object",
+  "required": ["displaySequence", "matchQualityInformation", "organization"],
+  "properties": {
+    "displaySequence": { "type": "integer", "minimum": 1 },
+    "matchQualityInformation": {
+      "type": "object",
+      "required": ["confidenceCode", "matchGrade"],
+      "properties": {
+        "confidenceCode": { "type": "integer", "minimum": 1, "maximum": 10 },
+        "matchGrade": { "type": "string", "minLength": 10, "maxLength": 11 },
+        "matchDataProfile": { "type": "string" }
+      }
+    },
+    "organization": {
+      "$ref": "dnb-direct-plus-organization-schema.json"
+    }
+  }
+}

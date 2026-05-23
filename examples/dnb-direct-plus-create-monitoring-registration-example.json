@@ -1,0 +1,27 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://plus.dnb.com/v1/monitoring/registrations",
+    "headers": {
+      "Authorization": "Bearer <ACCESS_TOKEN>",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "registrationReference": "supplier-portfolio-2026",
+      "description": "Supplier risk monitoring",
+      "blockIDs": [
+        "thirdpartyriskinsight_L3_v3",
+        "companyinfo_L2_v1"
+      ],
+      "deliveryMethod": "API_PULL"
+    }
+  },
+  "response": {
+    "status": 201,
+    "body": {
+      "registrationReference": "supplier-portfolio-2026",
+      "status": "ACTIVE",
+      "createdTimestamp": "2026-05-23T19:16:00Z"
+    }
+  }
+}

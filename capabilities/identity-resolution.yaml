@@ -1,0 +1,54 @@
+name: identity-resolution
+description: >-
+  Resolve a candidate business record (name, address, country, registration
+  number) to a single authoritative D-U-N-S Number using D&B Direct+ Identity
+  Resolution / Cleanse & Match. Returns the top match and a confidence score
+  the caller can use to auto-accept or escalate.
+version: 0.1.0
+provider:
+  name: Dun & Bradstreet
+  api: D&B Direct+
+inputs:
+  - name: company_name
+    type: string
+    required: true
+    description: Free-text business name as supplied by the user.
+  - name: country_iso2
+    type: string
+    required: true
+    description: ISO 3166-1 alpha-2 country code (e.g. US, GB, DE).
+  - name: street_address
+    type: string
+  - name: city
+    type: string
+  - name: region
+    type: string
+  - name: postal_code
+    type: string
+  - name: registration_number
+    type: string
+  - name: min_confidence_code
+    type: integer
+    default: 8
+    description: Minimum acceptable D&B confidence code (1-10) for auto-accept.
+outputs:
+  - name: duns
+    type: string
+    description: Nine-digit D-U-N-S Number of the resolved match.
+  - name: primary_name
+    type: string
+  - name: confidence_code
+    type: integer
+  - name: match_grade
+    type: string
+  - name: auto_accepted
+    type: boolean
+operations:
+  - api: D&B Direct+ Identity Resolution
+    method: GET
+    path: /v1/match/cleanseMatch
+    rationale: >-
+      Single-call resolution from noisy input to canonical D-U-N-S identifier.
+risks:
+  - description: Multiple candidates may share the same address; require manual review when confidence_code < min_confidence_code.
+  - description: Cross-border matching quality varies by country data coverage.

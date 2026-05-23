@@ -1,0 +1,82 @@
+name: Dun & Bradstreet Plans & Pricing
+description: >-
+  Commercial offering for D&B Direct+ and the broader Dun & Bradstreet data
+  product suite. Direct+ is sold exclusively as a contracted subscription;
+  Dun & Bradstreet does not publish a self-service pricing page or
+  pay-as-you-go credit card tier. Pricing is negotiated per customer based
+  on the data blocks subscribed to, transaction volume, monitored portfolio
+  size, and geographic coverage.
+specificationVersion: API Commons Plans 0.1
+provider: Dun & Bradstreet
+modified: '2026-05-23'
+source: https://www.dnb.com/products.html
+
+billingModel: contract
+publicPricing: false
+salesContactRequired: true
+pricingURL: https://www.dnb.com/contact-us.html
+
+plans:
+  - name: D&B Direct+ Subscription
+    description: >-
+      Contracted Direct+ subscription. Pricing is negotiated per customer
+      based on selected Data Blocks, anticipated transaction volume,
+      monitoring portfolio size, geographic coverage, and use case. There is
+      no published list price.
+    audience: Enterprise, mid-market, public sector, ISVs.
+    access: contract
+    commitment: annual
+    pricingURL: https://www.dnb.com/contact-us.html
+    includedFeatures:
+      - Identity Resolution / Cleanse & Match
+      - Search (companies and contacts)
+      - Enrich (subscribed Data Blocks)
+      - Multi-Process
+      - Data File (batch)
+      - Monitoring (subscribed portfolio size)
+      - Research / audit
+    metering:
+      - dimension: Transactions
+        description: >-
+          Per-call counts against Match, Search, Enrich, and Multi-Process
+          surfaces, typically with a contracted monthly or annual entitlement.
+      - dimension: Data Blocks
+        description: >-
+          Which Data Blocks (e.g. company info, financials, ownership, risk,
+          ESG) are licensed; downstream attribute access is gated by the
+          subscription.
+      - dimension: Monitored Portfolio Size
+        description: >-
+          Maximum number of D-U-N-S Numbers under active Monitoring; change
+          notifications are included up to the contracted volume.
+      - dimension: Geographic Coverage
+        description: >-
+          Domestic-only vs. multi-country vs. global coverage tiers.
+    notes:
+      - >-
+        Existing customers can access D&B Hoovers, D&B Optimizer, D&B Risk
+        Analytics, and other branded solutions that build on the same
+        underlying Data Cloud; those products carry their own contracts.
+      - >-
+        D&B also distributes data products on the Snowflake Marketplace
+        (and similar data marketplaces) where pricing is set per product.
+
+  - name: Get a D-U-N-S Number
+    description: >-
+      Standalone, free registration for a business to obtain a D-U-N-S
+      Number. Does not include API access or any enrichment data.
+    audience: Any business, particularly those registering for U.S. federal
+      procurement, grants, or supplier qualification programs.
+    access: self-service
+    pricingURL: https://www.dnb.com/duns/get-a-duns.html
+    cost: 0
+
+upgrades:
+  - from: Get a D-U-N-S Number
+    to: D&B Direct+ Subscription
+    path: Contact D&B sales to negotiate a subscription contract.
+
+absences:
+  - No published self-service / credit-card tier for Direct+.
+  - No free developer trial tier listed publicly; sandbox access is provisioned through sales.
+  - No published list-price catalog of Data Blocks; entitlement is contract-driven.

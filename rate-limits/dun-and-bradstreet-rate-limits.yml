@@ -1,0 +1,71 @@
+name: Dun & Bradstreet Rate Limits
+description: >-
+  Rate-limit and quota policies for D&B Direct+. Direct+ enforces both
+  per-token concurrency limits and contracted monthly transaction
+  entitlements. Specific numeric thresholds are not published outside the
+  gated documentation portal and vary by customer contract; the public
+  documentation home page calls out "rate limiting, quota enforcement,
+  versioning, best practices, and troubleshooting tips" as a documented
+  subject area, but the concrete numbers are made available to subscribers
+  only after sign-in.
+specificationVersion: API Commons Rate Limits 0.1
+provider: Dun & Bradstreet
+modified: '2026-05-23'
+source: https://directplus.documentation.dnb.com/
+
+publishedPublicly: false
+documentedTo: subscribers
+documentationURL: https://directplus.documentation.dnb.com/
+
+policies:
+  - scope: API token
+    type: concurrency
+    description: >-
+      Per-access-token concurrency cap on simultaneous in-flight requests.
+      The exact limit is contractually defined and visible to authenticated
+      customers in the Direct+ documentation portal.
+    limit: contract
+    enforcement: HTTP 429 Too Many Requests on excess.
+
+  - scope: API token
+    type: requests-per-second
+    description: >-
+      Per-token request-rate cap. Burst absorption is provided by the
+      Direct+ gateway; sustained rates above the contracted ceiling are
+      throttled with 429 responses.
+    limit: contract
+    enforcement: HTTP 429 with Retry-After header.
+
+  - scope: contract
+    type: monthly-quota
+    description: >-
+      Monthly entitlement of transactions per Direct+ surface (Match,
+      Search, Enrich, Multi-Process, Monitoring notifications) defined in
+      the customer contract. Overages may be metered or capped depending
+      on contract terms.
+    limit: contract
+    enforcement: HTTP 403 or 429 once monthly entitlement is exhausted.
+
+  - scope: contract
+    type: portfolio-size
+    description: >-
+      Maximum number of D-U-N-S Numbers under active Monitoring per
+      registration, defined in contract.
+    limit: contract
+    enforcement: 4xx error on portfolio-add when ceiling exceeded.
+
+errorResponses:
+  - status: 429
+    meaning: Too many requests / quota exceeded.
+    headers:
+      - Retry-After: Seconds to wait before retrying.
+  - status: 403
+    meaning: Subscription does not authorize requested block, or quota exhausted.
+
+retryGuidance: >-
+  Use exponential backoff honoring Retry-After; if 403 references quota,
+  contact D&B account management rather than retrying.
+
+absences:
+  - No public numeric rate-limit table; documentation portal is gated.
+  - No public best-practices retry page; guidance is in the gated portal.

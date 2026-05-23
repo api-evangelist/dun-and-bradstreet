@@ -1,0 +1,50 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://plus.dnb.com/v1/multiProcess",
+    "headers": {
+      "Authorization": "Bearer <ACCESS_TOKEN>",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "inquiryDetail": {
+        "name": "Acme Corporation",
+        "countryISOAlpha2Code": "US",
+        "address": {
+          "streetAddress": { "line1": "123 Main St" },
+          "addressLocality": { "name": "Boston" },
+          "addressRegion": { "abbreviatedName": "MA" },
+          "postalCode": "02101"
+        }
+      },
+      "blockIDs": [
+        "companyinfo_L2_v1",
+        "principalscontacts_L1_v2",
+        "thirdpartyriskinsight_L3_v3"
+      ]
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "transactionDetail": {
+        "transactionID": "rrt-0123456789abcdef-c-iad-12345-678904-1",
+        "transactionTimestamp": "2026-05-23T19:14:00Z",
+        "inLanguage": "en-US",
+        "serviceVersion": "1"
+      },
+      "matchCandidates": [
+        {
+          "displaySequence": 1,
+          "matchQualityInformation": { "confidenceCode": 10, "matchGrade": "AAAAAAFAZZ" },
+          "organization": { "duns": "804735132", "primaryName": "Acme Corporation" }
+        }
+      ],
+      "organization": {
+        "duns": "804735132",
+        "primaryName": "Acme Corporation",
+        "riskAssessment": { "dnbAssessment": { "failureScoreClassDescription": "Low Risk" } }
+      }
+    }
+  }
+}

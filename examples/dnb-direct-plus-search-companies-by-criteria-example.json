@@ -1,0 +1,39 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://plus.dnb.com/v1/search/criteria?searchTerm=Acme&countryISOAlpha2Code=US&pageSize=10",
+    "headers": {
+      "Authorization": "Bearer <ACCESS_TOKEN>",
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "transactionDetail": {
+        "transactionID": "rrt-0123456789abcdef-c-iad-12345-678902-1",
+        "transactionTimestamp": "2026-05-23T19:12:00Z",
+        "inLanguage": "en-US",
+        "serviceVersion": "1"
+      },
+      "candidatesReturnedQuantity": 2,
+      "candidatesMatchedQuantity": 137,
+      "searchCandidates": [
+        {
+          "organization": {
+            "duns": "804735132",
+            "primaryName": "Acme Corporation",
+            "countryISOAlpha2Code": "US"
+          }
+        },
+        {
+          "organization": {
+            "duns": "079814712",
+            "primaryName": "Acme Industries, Inc.",
+            "countryISOAlpha2Code": "US"
+          }
+        }
+      ]
+    }
+  }
+}

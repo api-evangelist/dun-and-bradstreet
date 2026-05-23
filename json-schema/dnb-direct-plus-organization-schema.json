@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/dun-and-bradstreet/main/json-schema/dnb-direct-plus-organization-schema.json",
+  "title": "DnB Direct+ Organization",
+  "description": "Canonical D&B Direct+ organization record keyed by D-U-N-S Number.",
+  "type": "object",
+  "required": ["duns", "primaryName"],
+  "properties": {
+    "duns": {
+      "type": "string",
+      "pattern": "^[0-9]{9}$",
+      "description": "Nine-digit Data Universal Numbering System identifier."
+    },
+    "primaryName": { "type": "string" },
+    "tradeStyleNames": {
+      "type": "array",
+      "items": { "type": "object", "properties": { "name": { "type": "string" } } }
+    },
+    "primaryAddress": { "$ref": "#/$defs/Address" },
+    "registrationNumbers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "registrationNumber": { "type": "string" },
+          "typeDescription": { "type": "string" }
+        }
+      }
+    },
+    "telephone": {
+      "type": "array",
+      "items": { "type": "object", "properties": { "telephoneNumber": { "type": "string" } } }
+    },
+    "websiteAddress": {
+      "type": "array",
+      "items": { "type": "object", "properties": { "url": { "type": "string", "format": "uri" } } }
+    },
+    "industryCodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": { "type": "string" },
+          "description": { "type": "string" },
+          "typeDescription": { "type": "string" }
+        }
+      }
+    },
+    "corporateLinkage": {
+      "type": "object",
+      "properties": {
+        "headQuarter": { "$ref": "#/$defs/LinkageNode" },
+        "parent": { "$ref": "#/$defs/LinkageNode" },
+        "domesticUltimate": { "$ref": "#/$defs/LinkageNode" },
+        "globalUltimate": { "$ref": "#/$defs/LinkageNode" }
+      }
+    },
+    "financials": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "principals": {
+      "type": "array",
+      "items": { "type": "object" }
+    },
+    "beneficialOwnership": { "type": "object" },
+    "riskAssessment": { "type": "object" }
+  },
+  "$defs": {
+    "LinkageNode": {
+      "type": "object",
+      "properties": {
+        "duns": { "type": "string", "pattern": "^[0-9]{9}$" },
+        "primaryName": { "type": "string" },
+        "countryISOAlpha2Code": { "type": "string", "minLength": 2, "maxLength": 2 }
+      }
+    },
+    "Address": {
+      "type": "object",
+      "properties": {
+        "streetAddress": {
+          "type": "object",
+          "properties": {
+            "line1": { "type": "string" },
+            "line2": { "type": "string" }
+          }
+        },
+        "addressLocality": { "type": "object", "properties": { "name": { "type": "string" } } },
+        "addressRegion": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "abbreviatedName": { "type": "string" }
+          }
+        },
+        "postalCode": { "type": "string" },
+        "addressCountry": { "type": "object", "properties": { "isoAlpha2Code": { "type": "string" } } }
+      }
+    }
+  }
+}

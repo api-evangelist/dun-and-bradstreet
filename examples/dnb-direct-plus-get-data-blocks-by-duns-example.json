@@ -1,0 +1,47 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://plus.dnb.com/v1/data/duns/804735132?blockIDs=companyinfo_L2_v1,principalscontacts_L1_v2,hierarchyconnections_L1_v1",
+    "headers": {
+      "Authorization": "Bearer <ACCESS_TOKEN>",
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "transactionDetail": {
+        "transactionID": "rrt-0123456789abcdef-c-iad-12345-678903-1",
+        "transactionTimestamp": "2026-05-23T19:13:00Z",
+        "inLanguage": "en-US",
+        "serviceVersion": "1"
+      },
+      "inquiryDetail": {
+        "duns": "804735132",
+        "blockIDs": [
+          "companyinfo_L2_v1",
+          "principalscontacts_L1_v2",
+          "hierarchyconnections_L1_v1"
+        ]
+      },
+      "organization": {
+        "duns": "804735132",
+        "primaryName": "Acme Corporation",
+        "primaryAddress": {
+          "streetAddress": { "line1": "123 Main St" },
+          "addressLocality": { "name": "Boston" },
+          "addressRegion": { "name": "Massachusetts", "abbreviatedName": "MA" },
+          "postalCode": "02101",
+          "addressCountry": { "isoAlpha2Code": "US" }
+        },
+        "registrationNumbers": [
+          { "registrationNumber": "12-3456789", "typeDescription": "US Employer ID" }
+        ],
+        "corporateLinkage": {
+          "headQuarter": { "duns": "804735132" },
+          "globalUltimate": { "duns": "804735132", "primaryName": "Acme Corporation" }
+        }
+      }
+    }
+  }
+}

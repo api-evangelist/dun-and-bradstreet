@@ -1,0 +1,33 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://plus.dnb.com/v1/monitoring/registrations/supplier-portfolio-2026/notifications?maximumQuantity=100",
+    "headers": {
+      "Authorization": "Bearer <ACCESS_TOKEN>",
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "notifications": [
+        {
+          "duns": "804735132",
+          "changeTimestamp": "2026-05-22T13:11:00Z",
+          "blockID": "companyinfo_L2_v1",
+          "elementId": "organization.primaryAddress.streetAddress.line1",
+          "previousValue": "123 Main St",
+          "currentValue": "456 Innovation Way"
+        },
+        {
+          "duns": "079814712",
+          "changeTimestamp": "2026-05-22T18:42:00Z",
+          "blockID": "thirdpartyriskinsight_L3_v3",
+          "elementId": "organization.riskAssessment.dnbAssessment.failureScoreClassDescription",
+          "previousValue": "Low Risk",
+          "currentValue": "Moderate Risk"
+        }
+      ]
+    }
+  }
+}

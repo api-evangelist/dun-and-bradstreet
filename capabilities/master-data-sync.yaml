@@ -1,0 +1,50 @@
+name: master-data-sync
+description: >-
+  Keep an internal customer or supplier master record continuously aligned
+  with D&B's authoritative company data. Workflow: register the D-U-N-S
+  portfolio with Direct+ Monitoring, pull change notifications on a schedule,
+  apply deltas to the local master, and refresh the full enrichment payload
+  whenever a watched element changes.
+version: 0.1.0
+provider:
+  name: Dun & Bradstreet
+  api: D&B Direct+
+inputs:
+  - name: portfolio_duns_list
+    type: array
+    required: true
+    description: D-U-N-S Numbers to monitor.
+  - name: blocks
+    type: array
+    required: true
+    description: Data Block IDs (with version) to track (e.g. companyinfo_L2_v1).
+  - name: registration_reference
+    type: string
+    required: true
+  - name: poll_interval_minutes
+    type: integer
+    default: 60
+outputs:
+  - name: change_events
+    type: array
+    description: Stream of per-D-U-N-S change notifications applied to local master.
+operations:
+  - api: D&B Direct+ Monitoring
+    method: POST
+    path: /v1/monitoring/registrations
+    rationale: Create monitored portfolio with desired data-block subscription.
+  - api: D&B Direct+ Monitoring
+    method: POST
+    path: /v1/monitoring/registrations/{registrationReference}/duns
+    rationale: Populate portfolio with the D-U-N-S list.
+  - api: D&B Direct+ Monitoring
+    method: GET
+    path: /v1/monitoring/registrations/{registrationReference}/notifications
+    rationale: Pull pending change events on a schedule.
+  - api: D&B Direct+ Enrich
+    method: GET
+    path: /v1/data/duns/{duns}
+    rationale: Refresh the full enrichment payload when a critical element changes.
+risks:
+  - description: Notification volume scales with portfolio size; budget poll capacity accordingly.
+  - description: Address changes may indicate fraud or M&A; downstream review may be required.

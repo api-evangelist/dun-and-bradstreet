@@ -1,0 +1,38 @@
+{
+  "name": "DnB Direct+ Organization Structure",
+  "description": "Structural overview of the canonical organization record returned by D&B Direct+ Enrich and Multi-Process responses.",
+  "source": "https://directplus.documentation.dnb.com/html/guides/EnrichmentGuide.html",
+  "structure": {
+    "duns": "string (9-digit DUNS Number, primary key)",
+    "primaryName": "string (legal name)",
+    "tradeStyleNames": "array of trade/dba names",
+    "primaryAddress": {
+      "streetAddress.line1": "string",
+      "addressLocality.name": "string (city)",
+      "addressRegion.abbreviatedName": "string (state/province code)",
+      "postalCode": "string",
+      "addressCountry.isoAlpha2Code": "string (ISO 3166-1 alpha-2)"
+    },
+    "registrationNumbers": "array of {registrationNumber, typeDescription}",
+    "telephone": "array of {telephoneNumber}",
+    "websiteAddress": "array of {url}",
+    "industryCodes": "array of {code, description, typeDescription} — SIC, NAICS, D&B Hoovers, NACE, ISIC",
+    "corporateLinkage": {
+      "headQuarter": "LinkageNode",
+      "parent": "LinkageNode",
+      "domesticUltimate": "LinkageNode",
+      "globalUltimate": "LinkageNode"
+    },
+    "financials": "array of fiscal-year financial statements",
+    "principals": "array of executives / contacts",
+    "beneficialOwnership": "UBO structure with ownership percentages",
+    "riskAssessment": {
+      "dnbAssessment": {
+        "failureScoreClassDescription": "Low Risk | Moderate Risk | High Risk",
+        "delinquencyScore": "integer",
+        "paydex": "integer (1-100)"
+      }
+    }
+  },
+  "notes": "Each top-level group corresponds to one or more Data Blocks (e.g. companyinfo_L*, principalscontacts_L*, hierarchyconnections_L*, financialstrength_L*, thirdpartyriskinsight_L*, beneficialowners_L*). Blocks are versioned and opted into per request via the blockIDs parameter."
+}

@@ -1,0 +1,82 @@
+name: Dun & Bradstreet Vocabulary
+description: >-
+  Controlled vocabulary covering the concepts, identifiers, and data blocks
+  used across the D&B Direct+ API surface. Used to align the API Evangelist
+  profile of Dun & Bradstreet with downstream schemas, JSON-LD contexts, and
+  Naftiko capabilities.
+created: '2026-05-23'
+modified: '2026-05-23'
+source: https://directplus.documentation.dnb.com/
+
+terms:
+  - term: D-U-N-S Number
+    definition: >-
+      Unique nine-digit identifier assigned by Dun & Bradstreet to a single
+      business location (legal entity or branch). The primary key across the
+      entire D&B Data Cloud.
+  - term: D&B Data Cloud
+    definition: >-
+      Dun & Bradstreet's master commercial database covering more than 500
+      million businesses globally; the substrate served by D&B Direct+.
+  - term: Direct+
+    definition: >-
+      Dun & Bradstreet's RESTful API platform that exposes the D&B Data Cloud
+      for identity resolution, search, enrichment, multi-process, batch, and
+      monitoring use cases.
+  - term: Data Block
+    definition: >-
+      A versioned, domain-grouped bundle of attributes returned by Direct+
+      Enrich. Examples include companyinfo_L2_v1, principalscontacts_L1_v2,
+      hierarchyconnections_L1_v1, financialstrength_L3_v2,
+      thirdpartyriskinsight_L3_v3, beneficialowners_L2_v1.
+  - term: Confidence Code
+    definition: >-
+      Integer 1-10 returned with each match candidate quantifying how
+      confident Direct+ is that the candidate is the correct match for the
+      input record. 10 is highest confidence.
+  - term: Match Grade
+    definition: >-
+      Per-attribute grade string indicating which input fields matched (A =
+      Above, B = Below, Z = Not used) for name, street, city, region, postal,
+      country, phone, EIN, etc.
+  - term: Multi-Process
+    definition: >-
+      A Direct+ surface that combines Identity Resolution and Enrich in a
+      single request, returning the resolved D-U-N-S and requested data blocks.
+  - term: Monitoring
+    definition: >-
+      A Direct+ surface that lets customers register a portfolio of D-U-N-S
+      Numbers and receive change notifications when monitored attributes
+      change.
+  - term: Hierarchy / Corporate Linkage
+    definition: >-
+      Structured relationships among a business and its headquarters,
+      parent, domestic ultimate parent, and global ultimate parent.
+  - term: Beneficial Owner (UBO)
+    definition: >-
+      Natural person who ultimately owns or controls a business above a
+      regulatory ownership threshold. Captured in the beneficialowners_L*
+      blocks.
+  - term: PAYDEX
+    definition: >-
+      D&B's 1-100 score summarizing a business's payment promptness based on
+      trade experiences reported to D&B.
+  - term: Failure Score
+    definition: >-
+      D&B's predictor of the likelihood that a business will cease operations
+      without paying its creditors over the next 12 months.
+  - term: Identity Resolution / Cleanse & Match
+    definition: >-
+      The Direct+ workflow that takes a free-text candidate record and
+      returns a ranked list of D-U-N-S Number matches with confidence and
+      match-grade indicators.
+
+categories:
+  - name: Identity
+    terms: [D-U-N-S Number, Identity Resolution / Cleanse & Match, Confidence Code, Match Grade]
+  - name: Enrichment
+    terms: [Data Block, Hierarchy / Corporate Linkage, Beneficial Owner (UBO)]
+  - name: Risk
+    terms: [PAYDEX, Failure Score]
+  - name: Operations
+    terms: [Multi-Process, Monitoring, D&B Data Cloud, Direct+]

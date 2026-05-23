@@ -1,0 +1,32 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "schema": "https://schema.org/",
+    "dnb": "https://www.dnb.com/vocab/",
+    "fibo": "https://spec.edmcouncil.org/fibo/ontology/",
+    "Organization": "schema:Organization",
+    "name": { "@id": "schema:name" },
+    "duns": { "@id": "dnb:duns", "@type": "xsd:string" },
+    "primaryName": { "@id": "schema:legalName" },
+    "tradeStyleNames": { "@id": "schema:alternateName", "@container": "@set" },
+    "primaryAddress": { "@id": "schema:address", "@type": "schema:PostalAddress" },
+    "streetAddress": { "@id": "schema:streetAddress" },
+    "addressLocality": { "@id": "schema:addressLocality" },
+    "addressRegion": { "@id": "schema:addressRegion" },
+    "postalCode": { "@id": "schema:postalCode" },
+    "addressCountry": { "@id": "schema:addressCountry" },
+    "telephone": { "@id": "schema:telephone" },
+    "websiteAddress": { "@id": "schema:url" },
+    "registrationNumbers": { "@id": "schema:identifier", "@container": "@set" },
+    "industryCodes": { "@id": "schema:naics", "@container": "@set" },
+    "corporateLinkage": { "@id": "fibo:hasOwnershipStructure" },
+    "headQuarter": { "@id": "schema:parentOrganization" },
+    "globalUltimate": { "@id": "fibo:hasUltimateParent" },
+    "principals": { "@id": "schema:employee", "@container": "@set" },
+    "beneficialOwnership": { "@id": "fibo:hasBeneficialOwner" },
+    "financials": { "@id": "fibo:hasFinancialReport", "@container": "@set" },
+    "riskAssessment": { "@id": "dnb:riskAssessment" },
+    "monitoringNotification": { "@id": "dnb:monitoringNotification" },
+    "changeTimestamp": { "@id": "schema:dateModified", "@type": "xsd:dateTime" }
+  }
+}

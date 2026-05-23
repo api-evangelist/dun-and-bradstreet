@@ -1,0 +1,71 @@
+extends: [[spectral:oas, all]]
+documentationUrl: https://directplus.documentation.dnb.com/
+rules:
+  # D&B Direct+ uses lowerCamelCase for all JSON field names; D-U-N-S Number
+  # is the singular identifier that should appear consistently as `duns`.
+  dnb-duns-field-name:
+    description: Identifier for a business should use the field name `duns`.
+    message: 'Use `duns` (not `dunsNumber`, `duns_number`, or `DUNS`) as the identifier field.'
+    severity: warn
+    given: $.components.schemas..properties
+    then:
+      field: dunsNumber
+      function: falsy
+  dnb-operation-id-camel-case:
+    description: Direct+ operationIds are lowerCamelCase verbs.
+    message: '`operationId` must be lowerCamelCase.'
+    severity: error
+    given: $.paths.*[get,post,put,delete,patch]
+    then:
+      field: operationId
+      function: pattern
+      functionOptions:
+        match: '^[a-z][a-zA-Z0-9]+$'
+  dnb-tags-title-case:
+    description: Tags use Title Case.
+    message: 'Tag names should use Title Case (e.g. `Identity Resolution`).'
+    severity: warn
+    given: $.tags[*].name
+    then:
+      function: pattern
+      functionOptions:
+        match: '^[A-Z][A-Za-z0-9]*( [A-Z][A-Za-z0-9-+]*)*$'
+  dnb-summary-title-case:
+    description: Operation summaries use Title Case.
+    severity: warn
+    given: $.paths.*[get,post,put,delete,patch].summary
+    then:
+      function: pattern
+      functionOptions:
+        match: '^[A-Z]'
+  dnb-bearer-auth-required:
+    description: All non-token operations must require bearer auth.
+    severity: error
+    given: $.paths[?(@property != "/v3/token")].*[get,post,put,delete,patch]
+    then:
+      field: security
+      function: truthy
+  dnb-version-in-path:
+    description: Direct+ paths must be prefixed with /v{n}/.
+    message: 'Paths must begin with /v1/, /v2/, or /v3/.'
+    severity: error
+    given: $.paths
+    then:
+      field: '@key'
+      function: pattern
+      functionOptions:
+        match: '^/v[0-9]+/'
+  dnb-country-code-iso2:
+    description: Country codes use ISO 3166-1 alpha-2 (countryISOAlpha2Code).
+    severity: warn
+    given: $..parameters[?(@.name == 'country' || @.name == 'countryCode')]
+    then:
+      function: falsy
+  dnb-pagination-page-size:
+    description: Paginated list endpoints expose pageNumber and pageSize.
+    severity: info
+    given: $.paths[?(@property =~ /search/)].get.parameters[*].name
+    then:
+      function: enumeration
+      functionOptions:
+        values: [pageNumber, pageSize, searchTerm, countryISOAlpha2Code]

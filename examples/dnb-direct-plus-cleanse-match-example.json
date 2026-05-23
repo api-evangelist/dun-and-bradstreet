@@ -1,0 +1,51 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://plus.dnb.com/v1/match/cleanseMatch?name=Acme%20Corporation&countryISOAlpha2Code=US&streetAddressLine1=123%20Main%20St&addressLocality=Boston&addressRegion=MA&postalCode=02101&candidateMaximumQuantity=5",
+    "headers": {
+      "Authorization": "Bearer <ACCESS_TOKEN>",
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "transactionDetail": {
+        "transactionID": "rrt-0123456789abcdef-c-iad-12345-678901-1",
+        "transactionTimestamp": "2026-05-23T19:11:08Z",
+        "inLanguage": "en-US",
+        "serviceVersion": "1"
+      },
+      "inquiryDetail": {
+        "name": "Acme Corporation",
+        "countryISOAlpha2Code": "US",
+        "streetAddressLine1": "123 Main St",
+        "addressLocality": "Boston",
+        "addressRegion": "MA",
+        "postalCode": "02101"
+      },
+      "matchCandidates": [
+        {
+          "displaySequence": 1,
+          "matchQualityInformation": {
+            "confidenceCode": 10,
+            "matchGrade": "AAAAAAFAZZ",
+            "matchDataProfile": "G-1-PFNNCANNN-S5"
+          },
+          "organization": {
+            "duns": "804735132",
+            "primaryName": "Acme Corporation",
+            "primaryAddress": {
+              "streetAddress": { "line1": "123 Main St" },
+              "addressLocality": { "name": "Boston" },
+              "addressRegion": { "name": "Massachusetts", "abbreviatedName": "MA" },
+              "postalCode": "02101",
+              "addressCountry": { "isoAlpha2Code": "US" }
+            },
+            "countryISOAlpha2Code": "US"
+          }
+        }
+      ]
+    }
+  }
+}

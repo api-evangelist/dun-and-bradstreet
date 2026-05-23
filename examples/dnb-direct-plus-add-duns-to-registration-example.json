@@ -1,0 +1,25 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://plus.dnb.com/v1/monitoring/registrations/supplier-portfolio-2026/duns",
+    "headers": {
+      "Authorization": "Bearer <ACCESS_TOKEN>",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "dunsList": [
+        "804735132",
+        "079814712",
+        "001370583"
+      ]
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "addedQuantity": 3,
+      "removedQuantity": 0,
+      "rejectedDuns": []
+    }
+  }
+}

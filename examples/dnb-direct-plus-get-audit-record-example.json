@@ -1,0 +1,24 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://plus.dnb.com/v2/audit/duns/804735132?transactionTimestamp=2025-12-01T00:00:00Z",
+    "headers": {
+      "Authorization": "Bearer <ACCESS_TOKEN>",
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "duns": "804735132",
+      "transactionTimestamp": "2025-12-01T00:00:00Z",
+      "originalResponse": {
+        "organization": {
+          "duns": "804735132",
+          "primaryName": "Acme Corporation",
+          "primaryAddress": { "addressLocality": { "name": "Boston" } }
+        }
+      }
+    }
+  }
+}

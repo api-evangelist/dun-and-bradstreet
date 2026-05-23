@@ -1,0 +1,21 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "https://plus.dnb.com/v3/token",
+    "headers": {
+      "Authorization": "Basic <base64(KEY:SECRET)>",
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "grant_type": "client_credentials"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+      "token_type": "Bearer",
+      "expirationDateTime": "2026-05-23T22:30:00Z"
+    }
+  }
+}

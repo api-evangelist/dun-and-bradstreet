@@ -1,0 +1,82 @@
+name: Dun & Bradstreet FinOps
+description: >-
+  FinOps view of the Dun & Bradstreet Direct+ commercial surface aligned to
+  the FinOps Framework / FOCUS data spec. Direct+ is a contracted
+  subscription product, not a public-cloud metered service; this file
+  describes the cost dimensions a customer's FinOps team should track,
+  even though detailed unit pricing and FOCUS-format billing files are not
+  publicly published.
+specificationVersion: FOCUS-aligned 0.1
+provider: Dun & Bradstreet
+modified: '2026-05-23'
+source: https://directplus.documentation.dnb.com/
+
+billingModel:
+  type: contract-subscription
+  cycle: annual
+  invoiceCadence: monthly-or-quarterly
+  currency: USD
+  publicPricing: false
+
+costDimensions:
+  - dimension: ServiceName
+    value: D&B Direct+
+    description: >-
+      Single product line covering all Direct+ surfaces (Match, Search,
+      Enrich, Multi-Process, Data File, Monitoring, Research).
+  - dimension: SubServices
+    values:
+      - Identity Resolution / Cleanse & Match
+      - Search
+      - Enrich (per Data Block)
+      - Multi-Process
+      - Data File (batch)
+      - Monitoring (registration + notifications)
+      - Research
+  - dimension: ChargeCategory
+    values:
+      - Subscription (recurring base fee)
+      - Usage (transactions per surface)
+      - Overage (transactions beyond contracted entitlement)
+  - dimension: UsageQuantity
+    description: >-
+      Per-call counts against each Direct+ surface plus monitored portfolio
+      size and notification volume.
+  - dimension: SkuId
+    description: >-
+      Internal D&B SKU identifying the contracted bundle of Data Blocks,
+      regions, and entitlements. Surfaced on the contract / order form,
+      not in API responses.
+
+allocation:
+  - tag: registrationReference
+    description: >-
+      Monitoring registrations can serve as a tag for splitting cost across
+      business units, programs, or use cases.
+  - tag: transactionID
+    description: >-
+      Per-call transactionID can be logged and aggregated for chargeback /
+      showback if internal usage of Direct+ spans multiple teams.
+
+optimizationLevers:
+  - description: >-
+      Right-size monitored portfolio — remove obsolete D-U-N-S from
+      Monitoring registrations to reduce notification volume and contracted
+      portfolio size.
+  - description: >-
+      Use Multi-Process instead of separate Match + Enrich round-trips to
+      reduce per-call counts.
+  - description: >-
+      Use Data File / Batch for nightly bulk refresh instead of
+      synchronous per-record calls.
+  - description: >-
+      Subscribe only to the Data Blocks actually consumed; ESG, beneficial
+      ownership, and advanced risk blocks are typically priced
+      separately.
+  - description: >-
+      Cache Enrich responses for slowly changing attributes; rely on
+      Monitoring to invalidate the cache.
+
+absences:
+  - No public FOCUS-format billing export documented.
+  - No public unit price list; FinOps teams must extract unit cost from the contract.

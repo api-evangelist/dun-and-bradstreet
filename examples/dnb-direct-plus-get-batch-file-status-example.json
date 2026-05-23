@@ -1,0 +1,19 @@
+{
+  "request": {
+    "method": "GET",
+    "url": "https://plus.dnb.com/v1/file/f-abc123def456/status",
+    "headers": {
+      "Authorization": "Bearer <ACCESS_TOKEN>",
+      "Accept": "application/json"
+    }
+  },
+  "response": {
+    "status": 200,
+    "body": {
+      "fileId": "f-abc123def456",
+      "status": "PROCESSING",
+      "processedRecordCount": 12450,
+      "totalRecordCount": 100000
+    }
+  }
+}
