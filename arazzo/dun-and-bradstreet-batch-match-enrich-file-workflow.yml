@@ -1,0 +1,111 @@
+arazzo: 1.0.1
+info:
+  title: D&B Batch Match And Enrich File
+  summary: Submit a batch input file, poll until processing completes, then download the matched and enriched results.
+  description: >-
+    The asynchronous batch-processing lifecycle. The workflow submits a batch
+    input file for match and enrichment, polls the processing status, and once
+    the file reaches a COMPLETED state branches to download the result file.
+    Each step spells out its request inline so the flow can be read and
+    executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: dnbDirectPlusApi
+  url: ../openapi/dnb-direct-plus-openapi-original.yml
+  type: openapi
+workflows:
+- workflowId: batch-match-enrich-file
+  summary: Submit a batch file, poll status, and download results when complete.
+  description: >-
+    Submits a batch input file, polls getBatchFileStatus, and branches: when
+    the status is COMPLETED it downloads the result file; otherwise it ends so
+    the caller can poll again later.
+  inputs:
+    type: object
+    required:
+    - accessToken
+    - file
+    - processId
+    properties:
+      accessToken:
+        type: string
+        description: A valid Direct+ OAuth 2.0 bearer access token.
+      file:
+        type: string
+        description: The batch input file payload to submit.
+      processId:
+        type: string
+        description: Direct+ process identifier (match, enrich, etc).
+      productId:
+        type: string
+        description: Optional product identifier for the batch job.
+  steps:
+  - stepId: submitFile
+    description: >-
+      Submit the batch input file for asynchronous match and enrichment,
+      returning a fileId to poll.
+    operationId: submitBatchFile
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    requestBody:
+      contentType: multipart/form-data
+      payload:
+        file: $inputs.file
+        processId: $inputs.processId
+        productId: $inputs.productId
+    successCriteria:
+    - condition: $statusCode == 202
+    outputs:
+      fileId: $response.body#/fileId
+      status: $response.body#/status
+  - stepId: checkStatus
+    description: >-
+      Poll the processing status of the submitted batch file.
+    operationId: getBatchFileStatus
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: fileId
+      in: path
+      value: $steps.submitFile.outputs.fileId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      status: $response.body#/status
+      processedRecordCount: $response.body#/processedRecordCount
+    onSuccess:
+    - name: completed
+      type: goto
+      stepId: downloadResults
+      criteria:
+      - context: $response.body
+        condition: $.status == "COMPLETED"
+        type: jsonpath
+    - name: notReady
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.status != "COMPLETED"
+        type: jsonpath
+  - stepId: downloadResults
+    description: >-
+      Download the matched and enriched output file once status is COMPLETED.
+    operationId: downloadBatchFileResults
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: fileId
+      in: path
+      value: $steps.submitFile.outputs.fileId
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      resultFile: $response.body
+  outputs:
+    fileId: $steps.submitFile.outputs.fileId
+    finalStatus: $steps.checkStatus.outputs.status
+    resultFile: $steps.downloadResults.outputs.resultFile

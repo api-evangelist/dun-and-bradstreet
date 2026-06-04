@@ -1,0 +1,115 @@
+arazzo: 1.0.1
+info:
+  title: D&B Authenticate And Match Company
+  summary: Obtain a Direct+ token, resolve a candidate record to a D-U-N-S Number, and pull its company information block.
+  description: >-
+    The canonical Direct+ identity-resolution flow. The workflow exchanges
+    client credentials for an OAuth 2.0 bearer token, submits a candidate
+    business record to cleanseMatch to obtain a ranked list of D-U-N-S
+    matches, and then retrieves the Company Information Data Block for the
+    top-ranked candidate. Each step spells out its request inline so the flow
+    can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: dnbDirectPlusApi
+  url: ../openapi/dnb-direct-plus-openapi-original.yml
+  type: openapi
+workflows:
+- workflowId: authenticate-and-match-company
+  summary: Token, match a candidate to a D-U-N-S Number, then enrich the top match.
+  description: >-
+    Generates a Direct+ access token from credentials, runs cleanseMatch on
+    the supplied candidate record, captures the top-ranked D-U-N-S Number, and
+    retrieves the requested Data Blocks for that D-U-N-S Number.
+  inputs:
+    type: object
+    required:
+    - grantType
+    - name
+    - countryISOAlpha2Code
+    properties:
+      grantType:
+        type: string
+        description: OAuth 2.0 grant type for the token request (client_credentials).
+        default: client_credentials
+      name:
+        type: string
+        description: Business name to resolve.
+      countryISOAlpha2Code:
+        type: string
+        description: ISO 3166-1 alpha-2 country code of the candidate.
+      streetAddressLine1:
+        type: string
+        description: Optional street address line 1 to sharpen the match.
+      postalCode:
+        type: string
+        description: Optional postal code to sharpen the match.
+      blockIDs:
+        type: string
+        description: Comma-separated Data Block IDs to retrieve for the matched D-U-N-S Number.
+        default: companyinfo_L2_v1
+  steps:
+  - stepId: authenticate
+    description: >-
+      Exchange Direct+ credentials for an OAuth 2.0 bearer access token using
+      the client-credentials grant.
+    operationId: generateAccessToken
+    requestBody:
+      contentType: application/json
+      payload:
+        grant_type: $inputs.grantType
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      accessToken: $response.body#/access_token
+  - stepId: matchCompany
+    description: >-
+      Submit the candidate business record and return a ranked list of
+      D-U-N-S matches with match-grade and confidence-code.
+    operationId: cleanseMatch
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $steps.authenticate.outputs.accessToken
+    - name: name
+      in: query
+      value: $inputs.name
+    - name: countryISOAlpha2Code
+      in: query
+      value: $inputs.countryISOAlpha2Code
+    - name: streetAddressLine1
+      in: query
+      value: $inputs.streetAddressLine1
+    - name: postalCode
+      in: query
+      value: $inputs.postalCode
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      topDuns: $response.body#/matchCandidates/0/organization/duns
+      topMatchGrade: $response.body#/matchCandidates/0/matchQualityInformation/matchGrade
+  - stepId: enrichTopMatch
+    description: >-
+      Retrieve the requested Data Blocks for the top-ranked matched D-U-N-S
+      Number.
+    operationId: getDataBlocksByDuns
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $steps.authenticate.outputs.accessToken
+    - name: duns
+      in: path
+      value: $steps.matchCompany.outputs.topDuns
+    - name: blockIDs
+      in: query
+      value: $inputs.blockIDs
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      duns: $response.body#/organization/duns
+      primaryName: $response.body#/organization/primaryName
+  outputs:
+    matchedDuns: $steps.matchCompany.outputs.topDuns
+    matchGrade: $steps.matchCompany.outputs.topMatchGrade
+    primaryName: $steps.enrichTopMatch.outputs.primaryName

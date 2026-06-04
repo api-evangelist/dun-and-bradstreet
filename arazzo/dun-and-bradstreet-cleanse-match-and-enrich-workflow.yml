@@ -1,0 +1,115 @@
+arazzo: 1.0.1
+info:
+  title: D&B Cleanse Match And Enrich
+  summary: Resolve a candidate to a D-U-N-S Number and branch to enrichment only when an acceptable match is found.
+  description: >-
+    Runs Direct+ identity resolution on a candidate business record, then
+    branches on the result: when at least one match candidate is returned it
+    pulls the requested Data Blocks for the top-ranked D-U-N-S Number, and
+    when the candidate list is empty it ends without an enrichment call. Each
+    step spells out its request inline so the flow can be read and executed
+    without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: dnbDirectPlusApi
+  url: ../openapi/dnb-direct-plus-openapi-original.yml
+  type: openapi
+workflows:
+- workflowId: cleanse-match-and-enrich
+  summary: Match a candidate, then conditionally enrich the top D-U-N-S Number.
+  description: >-
+    Submits cleanseMatch with the supplied candidate, and branches: if a match
+    candidate exists, retrieves Data Blocks for the top D-U-N-S Number;
+    otherwise the workflow ends.
+  inputs:
+    type: object
+    required:
+    - accessToken
+    - name
+    - countryISOAlpha2Code
+    properties:
+      accessToken:
+        type: string
+        description: A valid Direct+ OAuth 2.0 bearer access token.
+      name:
+        type: string
+        description: Business name to resolve.
+      countryISOAlpha2Code:
+        type: string
+        description: ISO 3166-1 alpha-2 country code of the candidate.
+      registrationNumber:
+        type: string
+        description: Optional registration number to sharpen the match.
+      confidenceLowerLevelThresholdValue:
+        type: integer
+        description: Minimum confidence code (1-10) for returned candidates.
+        default: 8
+      blockIDs:
+        type: string
+        description: Comma-separated Data Block IDs to retrieve when a match is found.
+        default: companyinfo_L2_v1,principalscontacts_L1_v2
+  steps:
+  - stepId: cleanseMatch
+    description: >-
+      Resolve the candidate record to ranked D-U-N-S match candidates filtered
+      by the supplied confidence threshold.
+    operationId: cleanseMatch
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: name
+      in: query
+      value: $inputs.name
+    - name: countryISOAlpha2Code
+      in: query
+      value: $inputs.countryISOAlpha2Code
+    - name: registrationNumber
+      in: query
+      value: $inputs.registrationNumber
+    - name: confidenceLowerLevelThresholdValue
+      in: query
+      value: $inputs.confidenceLowerLevelThresholdValue
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      topDuns: $response.body#/matchCandidates/0/organization/duns
+      confidenceCode: $response.body#/matchCandidates/0/matchQualityInformation/confidenceCode
+    onSuccess:
+    - name: matchFound
+      type: goto
+      stepId: enrichMatch
+      criteria:
+      - context: $response.body
+        condition: $.matchCandidates.length > 0
+        type: jsonpath
+    - name: noMatch
+      type: end
+      criteria:
+      - context: $response.body
+        condition: $.matchCandidates.length == 0
+        type: jsonpath
+  - stepId: enrichMatch
+    description: >-
+      Retrieve the requested Data Blocks for the top-ranked matched D-U-N-S
+      Number.
+    operationId: getDataBlocksByDuns
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: duns
+      in: path
+      value: $steps.cleanseMatch.outputs.topDuns
+    - name: blockIDs
+      in: query
+      value: $inputs.blockIDs
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      duns: $response.body#/organization/duns
+      primaryName: $response.body#/organization/primaryName
+  outputs:
+    matchedDuns: $steps.cleanseMatch.outputs.topDuns
+    confidenceCode: $steps.cleanseMatch.outputs.confidenceCode
+    primaryName: $steps.enrichMatch.outputs.primaryName

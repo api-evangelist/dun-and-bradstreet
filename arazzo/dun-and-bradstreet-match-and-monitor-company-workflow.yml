@@ -1,0 +1,121 @@
+arazzo: 1.0.1
+info:
+  title: D&B Match And Monitor Company
+  summary: Resolve a candidate to a D-U-N-S Number, create a monitoring registration, and add the D-U-N-S Number to its portfolio.
+  description: >-
+    Stands up change monitoring for a newly resolved company. The workflow
+    runs cleanseMatch on a candidate record, creates a monitoring registration
+    that declares which Data Blocks to watch, and adds the resolved D-U-N-S
+    Number to the registration's portfolio. Each step spells out its request
+    inline so the flow can be read and executed without opening the underlying
+    OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: dnbDirectPlusApi
+  url: ../openapi/dnb-direct-plus-openapi-original.yml
+  type: openapi
+workflows:
+- workflowId: match-and-monitor-company
+  summary: Match a candidate, create a registration, and enroll the D-U-N-S Number.
+  description: >-
+    Resolves a candidate to its top D-U-N-S Number, creates a monitoring
+    registration, and adds the resolved D-U-N-S Number to that registration's
+    monitored portfolio.
+  inputs:
+    type: object
+    required:
+    - accessToken
+    - name
+    - countryISOAlpha2Code
+    - registrationReference
+    properties:
+      accessToken:
+        type: string
+        description: A valid Direct+ OAuth 2.0 bearer access token.
+      name:
+        type: string
+        description: Business name to resolve and monitor.
+      countryISOAlpha2Code:
+        type: string
+        description: ISO 3166-1 alpha-2 country code of the candidate.
+      registrationReference:
+        type: string
+        description: Caller-defined reference identifying the monitoring registration.
+      description:
+        type: string
+        description: Human-readable description of the monitoring registration.
+        default: Portfolio monitoring registration
+      blockIDs:
+        type: array
+        description: List of Data Block IDs to monitor for change.
+        items:
+          type: string
+      deliveryMethod:
+        type: string
+        description: How notifications are delivered (SFTP or API_PULL).
+        default: API_PULL
+  steps:
+  - stepId: matchCompany
+    description: >-
+      Resolve the candidate record to ranked D-U-N-S match candidates.
+    operationId: cleanseMatch
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: name
+      in: query
+      value: $inputs.name
+    - name: countryISOAlpha2Code
+      in: query
+      value: $inputs.countryISOAlpha2Code
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      topDuns: $response.body#/matchCandidates/0/organization/duns
+  - stepId: createRegistration
+    description: >-
+      Create a monitoring registration declaring which Data Blocks to watch
+      and how notifications should be delivered.
+    operationId: createMonitoringRegistration
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    requestBody:
+      contentType: application/json
+      payload:
+        registrationReference: $inputs.registrationReference
+        description: $inputs.description
+        blockIDs: $inputs.blockIDs
+        deliveryMethod: $inputs.deliveryMethod
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      registrationReference: $response.body#/registrationReference
+      status: $response.body#/status
+  - stepId: enrollDuns
+    description: >-
+      Add the resolved D-U-N-S Number to the monitoring registration's
+      portfolio.
+    operationId: addDunsToRegistration
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: registrationReference
+      in: path
+      value: $steps.createRegistration.outputs.registrationReference
+    requestBody:
+      contentType: application/json
+      payload:
+        dunsList:
+        - $steps.matchCompany.outputs.topDuns
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      addedQuantity: $response.body#/addedQuantity
+  outputs:
+    monitoredDuns: $steps.matchCompany.outputs.topDuns
+    registrationReference: $steps.createRegistration.outputs.registrationReference
+    addedQuantity: $steps.enrollDuns.outputs.addedQuantity

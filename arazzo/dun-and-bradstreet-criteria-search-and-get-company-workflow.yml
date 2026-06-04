@@ -1,0 +1,93 @@
+arazzo: 1.0.1
+info:
+  title: D&B Criteria Search And Get Company
+  summary: Browse companies by free-form criteria, then enrich the first candidate's Data Blocks.
+  description: >-
+    A browse-and-pick discovery flow. The workflow searches the D&B Data Cloud
+    by free-form criteria such as name and country, captures the D-U-N-S Number
+    of the first returned candidate, and retrieves the requested Data Blocks
+    for that company. Each step spells out its request inline so the flow can
+    be read and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: dnbDirectPlusApi
+  url: ../openapi/dnb-direct-plus-openapi-original.yml
+  type: openapi
+workflows:
+- workflowId: criteria-search-and-get-company
+  summary: Search companies by criteria and enrich the first candidate.
+  description: >-
+    Runs searchCompaniesByCriteria with the supplied search term and country,
+    takes the first candidate's D-U-N-S Number, and retrieves Data Blocks for
+    that D-U-N-S Number.
+  inputs:
+    type: object
+    required:
+    - accessToken
+    - searchTerm
+    properties:
+      accessToken:
+        type: string
+        description: A valid Direct+ OAuth 2.0 bearer access token.
+      searchTerm:
+        type: string
+        description: Free-form search term (name, registration number, etc).
+      countryISOAlpha2Code:
+        type: string
+        description: ISO 3166-1 alpha-2 country code to scope the search.
+      pageSize:
+        type: integer
+        description: Maximum number of candidates to return per page.
+        default: 10
+      blockIDs:
+        type: string
+        description: Comma-separated Data Block IDs to retrieve for the chosen candidate.
+        default: companyinfo_L2_v1
+  steps:
+  - stepId: searchCompanies
+    description: >-
+      Find companies matching the supplied criteria, returning a paginated
+      candidate list.
+    operationId: searchCompaniesByCriteria
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: searchTerm
+      in: query
+      value: $inputs.searchTerm
+    - name: countryISOAlpha2Code
+      in: query
+      value: $inputs.countryISOAlpha2Code
+    - name: pageSize
+      in: query
+      value: $inputs.pageSize
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      firstDuns: $response.body#/searchCandidates/0/organization/duns
+      matchedQuantity: $response.body#/candidatesMatchedQuantity
+  - stepId: getCompany
+    description: >-
+      Retrieve the requested Data Blocks for the first search candidate's
+      D-U-N-S Number.
+    operationId: getDataBlocksByDuns
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: duns
+      in: path
+      value: $steps.searchCompanies.outputs.firstDuns
+    - name: blockIDs
+      in: query
+      value: $inputs.blockIDs
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      duns: $response.body#/organization/duns
+      primaryName: $response.body#/organization/primaryName
+  outputs:
+    matchedQuantity: $steps.searchCompanies.outputs.matchedQuantity
+    selectedDuns: $steps.searchCompanies.outputs.firstDuns
+    primaryName: $steps.getCompany.outputs.primaryName

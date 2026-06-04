@@ -1,0 +1,121 @@
+arazzo: 1.0.1
+info:
+  title: D&B Register And Pull Notifications
+  summary: Create a monitoring registration, enroll a portfolio of D-U-N-S Numbers, and pull pending change notifications.
+  description: >-
+    Stands up and drains a monitoring pipeline. The workflow creates a
+    monitoring registration, adds a supplied list of D-U-N-S Numbers to its
+    portfolio, and pulls pending change notifications describing which blocks
+    changed for which companies. Each step spells out its request inline so the
+    flow can be read and executed without opening the underlying OpenAPI
+    description.
+  version: 1.0.0
+sourceDescriptions:
+- name: dnbDirectPlusApi
+  url: ../openapi/dnb-direct-plus-openapi-original.yml
+  type: openapi
+workflows:
+- workflowId: register-and-pull-notifications
+  summary: Register a portfolio for monitoring and pull pending notifications.
+  description: >-
+    Creates a monitoring registration, adds the supplied D-U-N-S Numbers to
+    its portfolio, and pulls pending change notifications for that
+    registration.
+  inputs:
+    type: object
+    required:
+    - accessToken
+    - registrationReference
+    - dunsList
+    properties:
+      accessToken:
+        type: string
+        description: A valid Direct+ OAuth 2.0 bearer access token.
+      registrationReference:
+        type: string
+        description: Caller-defined reference identifying the monitoring registration.
+      description:
+        type: string
+        description: Human-readable description of the monitoring registration.
+        default: Portfolio monitoring registration
+      blockIDs:
+        type: array
+        description: List of Data Block IDs to monitor for change.
+        items:
+          type: string
+      deliveryMethod:
+        type: string
+        description: How notifications are delivered (SFTP or API_PULL).
+        default: API_PULL
+      dunsList:
+        type: array
+        description: List of nine-digit D-U-N-S Numbers to enroll in the portfolio.
+        items:
+          type: string
+      maximumQuantity:
+        type: integer
+        description: Maximum number of notifications to pull.
+        default: 100
+  steps:
+  - stepId: createRegistration
+    description: >-
+      Create a monitoring registration declaring which Data Blocks to watch
+      and how notifications should be delivered.
+    operationId: createMonitoringRegistration
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    requestBody:
+      contentType: application/json
+      payload:
+        registrationReference: $inputs.registrationReference
+        description: $inputs.description
+        blockIDs: $inputs.blockIDs
+        deliveryMethod: $inputs.deliveryMethod
+    successCriteria:
+    - condition: $statusCode == 201
+    outputs:
+      registrationReference: $response.body#/registrationReference
+  - stepId: enrollPortfolio
+    description: >-
+      Add the supplied D-U-N-S Numbers to the monitoring registration's
+      portfolio.
+    operationId: addDunsToRegistration
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: registrationReference
+      in: path
+      value: $steps.createRegistration.outputs.registrationReference
+    requestBody:
+      contentType: application/json
+      payload:
+        dunsList: $inputs.dunsList
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      addedQuantity: $response.body#/addedQuantity
+  - stepId: pullNotifications
+    description: >-
+      Pull pending change notifications for the monitoring registration.
+    operationId: pullMonitoringNotifications
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $inputs.accessToken
+    - name: registrationReference
+      in: path
+      value: $steps.createRegistration.outputs.registrationReference
+    - name: maximumQuantity
+      in: query
+      value: $inputs.maximumQuantity
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      notifications: $response.body#/notifications
+  outputs:
+    registrationReference: $steps.createRegistration.outputs.registrationReference
+    addedQuantity: $steps.enrollPortfolio.outputs.addedQuantity
+    notifications: $steps.pullNotifications.outputs.notifications

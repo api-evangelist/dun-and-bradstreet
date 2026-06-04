@@ -1,0 +1,87 @@
+arazzo: 1.0.1
+info:
+  title: D&B Match Plus Enrich
+  summary: Obtain a token, then resolve and enrich a candidate record in a single multiProcess call.
+  description: >-
+    The combined Direct+ multi-process flow. The workflow exchanges client
+    credentials for an OAuth 2.0 bearer token, then submits a single
+    multiProcess request that resolves the candidate record to a D-U-N-S
+    Number and returns the requested Data Blocks for the top-ranked match in
+    one call. Each step spells out its request inline so the flow can be read
+    and executed without opening the underlying OpenAPI description.
+  version: 1.0.0
+sourceDescriptions:
+- name: dnbDirectPlusApi
+  url: ../openapi/dnb-direct-plus-openapi-original.yml
+  type: openapi
+workflows:
+- workflowId: match-plus-enrich
+  summary: Token, then match plus enrich a candidate in one multiProcess request.
+  description: >-
+    Generates a Direct+ access token and submits multiProcessMatchAndEnrich
+    with the candidate inquiry detail and requested Data Block IDs, returning
+    the resolved match plus enrichment payload.
+  inputs:
+    type: object
+    required:
+    - grantType
+    - name
+    - countryISOAlpha2Code
+    - blockIDs
+    properties:
+      grantType:
+        type: string
+        description: OAuth 2.0 grant type for the token request (client_credentials).
+        default: client_credentials
+      name:
+        type: string
+        description: Business name to resolve and enrich.
+      countryISOAlpha2Code:
+        type: string
+        description: ISO 3166-1 alpha-2 country code of the candidate.
+      blockIDs:
+        type: array
+        description: List of Data Block IDs to return for the resolved match.
+        items:
+          type: string
+  steps:
+  - stepId: authenticate
+    description: >-
+      Exchange Direct+ credentials for an OAuth 2.0 bearer access token using
+      the client-credentials grant.
+    operationId: generateAccessToken
+    requestBody:
+      contentType: application/json
+      payload:
+        grant_type: $inputs.grantType
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      accessToken: $response.body#/access_token
+  - stepId: matchAndEnrich
+    description: >-
+      Submit the candidate inquiry detail and requested Data Block IDs;
+      Direct+ returns the resolved D-U-N-S match together with enrichment
+      payloads in a single response.
+    operationId: multiProcessMatchAndEnrich
+    parameters:
+    - name: Authorization
+      in: header
+      value: Bearer $steps.authenticate.outputs.accessToken
+    requestBody:
+      contentType: application/json
+      payload:
+        inquiryDetail:
+          name: $inputs.name
+          countryISOAlpha2Code: $inputs.countryISOAlpha2Code
+        blockIDs: $inputs.blockIDs
+    successCriteria:
+    - condition: $statusCode == 200
+    outputs:
+      topDuns: $response.body#/matchCandidates/0/organization/duns
+      topMatchGrade: $response.body#/matchCandidates/0/matchQualityInformation/matchGrade
+      transactionID: $response.body#/transactionDetail/transactionID
+  outputs:
+    matchedDuns: $steps.matchAndEnrich.outputs.topDuns
+    matchGrade: $steps.matchAndEnrich.outputs.topMatchGrade
+    transactionID: $steps.matchAndEnrich.outputs.transactionID
