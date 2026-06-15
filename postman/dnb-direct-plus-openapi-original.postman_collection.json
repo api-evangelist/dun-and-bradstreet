@@ -1,0 +1,2660 @@
+{
+  "info": {
+    "_postman_id": "11682156-7614-46a1-9182-c03427ab6ff5",
+    "name": "D&B Direct+ API",
+    "description": "D&B Direct+ is Dun & Bradstreet's RESTful API platform that exposes the D&B Data Cloud \u2014 more than 500 million companies worldwide \u2014 for identity resolution, search, enrichment, multi-process (match plus enrich), batch processing, change monitoring, and historical research. All endpoints return JSON, are versioned in the URI path, and require an OAuth 2.0 bearer token obtained from the /v3/token endpoint via client-credentials grant. This profile is an OpenAPI sketch of the public surface based on Dun & Bradstreet's published Direct+ documentation; the canonical operation definitions live behind the gated developer portal at https://directplus.documentation.dnb.com/.\n\nContact Support:\n Name: D&B Direct+ Support",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "createdAt": "2026-06-05T16:56:26.000Z",
+    "updatedAt": "2026-06-05T16:56:26.000Z",
+    "lastUpdatedBy": "35240",
+    "uid": "35240-11682156-7614-46a1-9182-c03427ab6ff5"
+  },
+  "item": [
+    {
+      "name": "v3",
+      "item": [
+        {
+          "name": "token",
+          "item": [
+            {
+              "name": "Generate Direct+ Access Token",
+              "id": "5d580f3f-cab8-4532-84fb-904a636f97d8",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "basic",
+                  "basic": [
+                    {
+                      "key": "username",
+                      "value": "{{basicAuthUsername}}",
+                      "type": "string"
+                    },
+                    {
+                      "key": "password",
+                      "value": "{{basicAuthPassword}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"grant_type\": \"client_credentials\"\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/v3/token",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v3",
+                    "token"
+                  ]
+                },
+                "description": "Exchange Direct+ API credentials for an OAuth 2.0 bearer access token using the client-credentials grant. The returned token is included as a Bearer authorization header on all subsequent Direct+ calls."
+              },
+              "response": [
+                {
+                  "id": "0ea7d662-86be-4e36-bba1-55f8328831c8",
+                  "name": "Access token issued.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: basic",
+                        "key": "Authorization",
+                        "value": "Basic <credentials>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"grant_type\": \"client_credentials\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v3/token",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "token"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"access_token\": \"<string>\",\n  \"token_type\": \"<string>\",\n  \"expirationDateTime\": \"<dateTime>\"\n}",
+                  "createdAt": "2026-06-05T16:56:27.000Z",
+                  "updatedAt": "2026-06-05T16:56:27.000Z",
+                  "uid": "35240-0ea7d662-86be-4e36-bba1-55f8328831c8"
+                },
+                {
+                  "id": "44b07ae0-2b4d-4dd7-b497-82dee872fefa",
+                  "name": "Missing or invalid bearer token.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: basic",
+                        "key": "Authorization",
+                        "value": "Basic <credentials>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"grant_type\": \"client_credentials\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v3/token",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v3",
+                        "token"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"transactionDetail\": {\n    \"transactionID\": \"<string>\",\n    \"transactionTimestamp\": \"<dateTime>\",\n    \"inLanguage\": \"<string>\",\n    \"serviceVersion\": \"<string>\"\n  },\n  \"error\": {\n    \"errorMessage\": \"<string>\",\n    \"errorCode\": \"<string>\"\n  }\n}",
+                  "createdAt": "2026-06-05T16:56:27.000Z",
+                  "updatedAt": "2026-06-05T16:56:27.000Z",
+                  "uid": "35240-44b07ae0-2b4d-4dd7-b497-82dee872fefa"
+                }
+              ],
+              "createdAt": "2026-06-05T16:56:27.000Z",
+              "updatedAt": "2026-06-05T16:56:27.000Z",
+              "uid": "35240-5d580f3f-cab8-4532-84fb-904a636f97d8"
+            }
+          ],
+          "id": "58dca052-6672-4484-99ac-2e4986ea963c",
+          "createdAt": "2026-06-05T16:56:27.000Z",
+          "updatedAt": "2026-06-05T16:56:27.000Z",
+          "uid": "35240-58dca052-6672-4484-99ac-2e4986ea963c"
+        }
+      ],
+      "id": "5731799f-626d-4397-ad8f-fe4d4820cc36",
+      "createdAt": "2026-06-05T16:56:27.000Z",
+      "updatedAt": "2026-06-05T16:56:27.000Z",
+      "uid": "35240-5731799f-626d-4397-ad8f-fe4d4820cc36"
+    },
+    {
+      "name": "v1",
+      "item": [
+        {
+          "name": "match",
+          "item": [
+            {
+              "name": "cleanseMatch",
+              "item": [
+                {
+                  "name": "Match Candidate To D-U-N-S Number",
+                  "id": "d404cc71-6931-4464-bbac-553e9df329be",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/match/cleanseMatch?name=<string>&countryISOAlpha2Code=<string>&streetAddressLine1=<string>&addressLocality=<string>&addressRegion=<string>&postalCode=<string>&telephoneNumber=<string>&registrationNumber=<string>&candidateMaximumQuantity=9&confidenceLowerLevelThresholdValue=<integer>",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "match",
+                        "cleanseMatch"
+                      ],
+                      "query": [
+                        {
+                          "description": "(Required) Business name as supplied by the caller.",
+                          "key": "name",
+                          "value": "<string>"
+                        },
+                        {
+                          "description": "(Required) ISO 3166-1 alpha-2 country code.",
+                          "key": "countryISOAlpha2Code",
+                          "value": "<string>"
+                        },
+                        {
+                          "key": "streetAddressLine1",
+                          "value": "<string>"
+                        },
+                        {
+                          "key": "addressLocality",
+                          "value": "<string>"
+                        },
+                        {
+                          "key": "addressRegion",
+                          "value": "<string>"
+                        },
+                        {
+                          "key": "postalCode",
+                          "value": "<string>"
+                        },
+                        {
+                          "key": "telephoneNumber",
+                          "value": "<string>"
+                        },
+                        {
+                          "key": "registrationNumber",
+                          "value": "<string>"
+                        },
+                        {
+                          "key": "candidateMaximumQuantity",
+                          "value": "9"
+                        },
+                        {
+                          "key": "confidenceLowerLevelThresholdValue",
+                          "value": "<integer>"
+                        }
+                      ]
+                    },
+                    "description": "Submit a candidate business record (name, address, registration number, phone, email) and receive a ranked list of D-U-N-S Number matches with match-grade, confidence-code, and quality indicators suitable for auto-acceptance or manual review."
+                  },
+                  "response": [
+                    {
+                      "id": "d1480647-951c-4da2-9efe-3b651de169b1",
+                      "name": "Ranked match candidates returned.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/match/cleanseMatch?name=<string>&countryISOAlpha2Code=<string>&streetAddressLine1=<string>&addressLocality=<string>&addressRegion=<string>&postalCode=<string>&telephoneNumber=<string>&registrationNumber=<string>&candidateMaximumQuantity=9&confidenceLowerLevelThresholdValue=<integer>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "match",
+                            "cleanseMatch"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) Business name as supplied by the caller.",
+                              "key": "name",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "(Required) ISO 3166-1 alpha-2 country code.",
+                              "key": "countryISOAlpha2Code",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "streetAddressLine1",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "addressLocality",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "addressRegion",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "postalCode",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "telephoneNumber",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "registrationNumber",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "candidateMaximumQuantity",
+                              "value": "9"
+                            },
+                            {
+                              "key": "confidenceLowerLevelThresholdValue",
+                              "value": "<integer>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"transactionDetail\": {\n    \"transactionID\": \"<string>\",\n    \"transactionTimestamp\": \"<dateTime>\",\n    \"inLanguage\": \"<string>\",\n    \"serviceVersion\": \"<string>\"\n  },\n  \"inquiryDetail\": {},\n  \"matchCandidates\": [\n    {\n      \"displaySequence\": \"<integer>\",\n      \"matchQualityInformation\": {\n        \"confidenceCode\": \"<integer>\",\n        \"matchGrade\": \"<string>\",\n        \"matchDataProfile\": \"<string>\"\n      },\n      \"organization\": {\n        \"duns\": \"957365909\",\n        \"primaryName\": \"<string>\",\n        \"primaryAddress\": {\n          \"streetAddress\": {\n            \"line1\": \"<string>\",\n            \"line2\": \"<string>\"\n          },\n          \"addressLocality\": {\n            \"name\": \"<string>\"\n          },\n          \"addressRegion\": {\n            \"name\": \"<string>\",\n            \"abbreviatedName\": \"<string>\"\n          },\n          \"postalCode\": \"<string>\",\n          \"addressCountry\": {\n            \"isoAlpha2Code\": \"<string>\"\n          }\n        },\n        \"countryISOAlpha2Code\": \"<string>\",\n        \"telephone\": [\n          {\n            \"telephoneNumber\": \"<string>\"\n          },\n          {\n            \"telephoneNumber\": \"<string>\"\n          }\n        ],\n        \"registrationNumbers\": [\n          {\n            \"registrationNumber\": \"<string>\",\n            \"typeDescription\": \"<string>\"\n          },\n          {\n            \"registrationNumber\": \"<string>\",\n            \"typeDescription\": \"<string>\"\n          }\n        ]\n      }\n    },\n    {\n      \"displaySequence\": \"<integer>\",\n      \"matchQualityInformation\": {\n        \"confidenceCode\": \"<integer>\",\n        \"matchGrade\": \"<string>\",\n        \"matchDataProfile\": \"<string>\"\n      },\n      \"organization\": {\n        \"duns\": \"869844127\",\n        \"primaryName\": \"<string>\",\n        \"primaryAddress\": {\n          \"streetAddress\": {\n            \"line1\": \"<string>\",\n            \"line2\": \"<string>\"\n          },\n          \"addressLocality\": {\n            \"name\": \"<string>\"\n          },\n          \"addressRegion\": {\n            \"name\": \"<string>\",\n            \"abbreviatedName\": \"<string>\"\n          },\n          \"postalCode\": \"<string>\",\n          \"addressCountry\": {\n            \"isoAlpha2Code\": \"<string>\"\n          }\n        },\n        \"countryISOAlpha2Code\": \"<string>\",\n        \"telephone\": [\n          {\n            \"telephoneNumber\": \"<string>\"\n          },\n          {\n            \"telephoneNumber\": \"<string>\"\n          }\n        ],\n        \"registrationNumbers\": [\n          {\n            \"registrationNumber\": \"<string>\",\n            \"typeDescription\": \"<string>\"\n          },\n          {\n            \"registrationNumber\": \"<string>\",\n            \"typeDescription\": \"<string>\"\n          }\n        ]\n      }\n    }\n  ]\n}",
+                      "createdAt": "2026-06-05T16:56:27.000Z",
+                      "updatedAt": "2026-06-05T16:56:27.000Z",
+                      "uid": "35240-d1480647-951c-4da2-9efe-3b651de169b1"
+                    },
+                    {
+                      "id": "7cc9e90e-21f7-4611-83da-41d66acd18a3",
+                      "name": "Missing or invalid bearer token.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/match/cleanseMatch?name=<string>&countryISOAlpha2Code=<string>&streetAddressLine1=<string>&addressLocality=<string>&addressRegion=<string>&postalCode=<string>&telephoneNumber=<string>&registrationNumber=<string>&candidateMaximumQuantity=9&confidenceLowerLevelThresholdValue=<integer>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "match",
+                            "cleanseMatch"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) Business name as supplied by the caller.",
+                              "key": "name",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "(Required) ISO 3166-1 alpha-2 country code.",
+                              "key": "countryISOAlpha2Code",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "streetAddressLine1",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "addressLocality",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "addressRegion",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "postalCode",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "telephoneNumber",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "registrationNumber",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "candidateMaximumQuantity",
+                              "value": "9"
+                            },
+                            {
+                              "key": "confidenceLowerLevelThresholdValue",
+                              "value": "<integer>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"transactionDetail\": {\n    \"transactionID\": \"<string>\",\n    \"transactionTimestamp\": \"<dateTime>\",\n    \"inLanguage\": \"<string>\",\n    \"serviceVersion\": \"<string>\"\n  },\n  \"error\": {\n    \"errorMessage\": \"<string>\",\n    \"errorCode\": \"<string>\"\n  }\n}",
+                      "createdAt": "2026-06-05T16:56:27.000Z",
+                      "updatedAt": "2026-06-05T16:56:27.000Z",
+                      "uid": "35240-7cc9e90e-21f7-4611-83da-41d66acd18a3"
+                    },
+                    {
+                      "id": "b4e17ff9-d7bf-4427-aac4-cbb94d161560",
+                      "name": "Resource not found for the supplied identifier.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/match/cleanseMatch?name=<string>&countryISOAlpha2Code=<string>&streetAddressLine1=<string>&addressLocality=<string>&addressRegion=<string>&postalCode=<string>&telephoneNumber=<string>&registrationNumber=<string>&candidateMaximumQuantity=9&confidenceLowerLevelThresholdValue=<integer>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "match",
+                            "cleanseMatch"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) Business name as supplied by the caller.",
+                              "key": "name",
+                              "value": "<string>"
+                            },
+                            {
+                              "description": "(Required) ISO 3166-1 alpha-2 country code.",
+                              "key": "countryISOAlpha2Code",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "streetAddressLine1",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "addressLocality",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "addressRegion",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "postalCode",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "telephoneNumber",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "registrationNumber",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "candidateMaximumQuantity",
+                              "value": "9"
+                            },
+                            {
+                              "key": "confidenceLowerLevelThresholdValue",
+                              "value": "<integer>"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Not Found",
+                      "code": 404,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"transactionDetail\": {\n    \"transactionID\": \"<string>\",\n    \"transactionTimestamp\": \"<dateTime>\",\n    \"inLanguage\": \"<string>\",\n    \"serviceVersion\": \"<string>\"\n  },\n  \"error\": {\n    \"errorMessage\": \"<string>\",\n    \"errorCode\": \"<string>\"\n  }\n}",
+                      "createdAt": "2026-06-05T16:56:27.000Z",
+                      "updatedAt": "2026-06-05T16:56:27.000Z",
+                      "uid": "35240-b4e17ff9-d7bf-4427-aac4-cbb94d161560"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T16:56:27.000Z",
+                  "updatedAt": "2026-06-05T16:56:27.000Z",
+                  "uid": "35240-d404cc71-6931-4464-bbac-553e9df329be"
+                }
+              ],
+              "id": "be731106-088c-4155-9646-b9180be5d462",
+              "createdAt": "2026-06-05T16:56:27.000Z",
+              "updatedAt": "2026-06-05T16:56:27.000Z",
+              "uid": "35240-be731106-088c-4155-9646-b9180be5d462"
+            }
+          ],
+          "id": "821ce780-cd8a-43f7-b570-9f26c98a0ab3",
+          "createdAt": "2026-06-05T16:56:27.000Z",
+          "updatedAt": "2026-06-05T16:56:27.000Z",
+          "uid": "35240-821ce780-cd8a-43f7-b570-9f26c98a0ab3"
+        },
+        {
+          "name": "search",
+          "item": [
+            {
+              "name": "criteria",
+              "item": [
+                {
+                  "name": "Search Companies By Criteria",
+                  "id": "07123377-05ad-4e28-b21a-ffa3aa211a7b",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/search/criteria?searchTerm=<string>&countryISOAlpha2Code=<string>&pageNumber=1&pageSize=50",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "search",
+                        "criteria"
+                      ],
+                      "query": [
+                        {
+                          "key": "searchTerm",
+                          "value": "<string>"
+                        },
+                        {
+                          "key": "countryISOAlpha2Code",
+                          "value": "<string>"
+                        },
+                        {
+                          "key": "pageNumber",
+                          "value": "1"
+                        },
+                        {
+                          "key": "pageSize",
+                          "value": "50"
+                        }
+                      ]
+                    },
+                    "description": "Find companies matching free-form criteria such as name, address, registration number, industry, or contact. Returns a paginated list of candidate records intended for browse-and-pick workflows rather than authoritative match."
+                  },
+                  "response": [
+                    {
+                      "id": "4989fce5-e5c5-49b3-9b4a-ba1b2f8e6f0f",
+                      "name": "Search results.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/search/criteria?searchTerm=<string>&countryISOAlpha2Code=<string>&pageNumber=1&pageSize=50",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "search",
+                            "criteria"
+                          ],
+                          "query": [
+                            {
+                              "key": "searchTerm",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "countryISOAlpha2Code",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "pageNumber",
+                              "value": "1"
+                            },
+                            {
+                              "key": "pageSize",
+                              "value": "50"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"transactionDetail\": {\n    \"transactionID\": \"<string>\",\n    \"transactionTimestamp\": \"<dateTime>\",\n    \"inLanguage\": \"<string>\",\n    \"serviceVersion\": \"<string>\"\n  },\n  \"candidatesReturnedQuantity\": \"<integer>\",\n  \"candidatesMatchedQuantity\": \"<integer>\",\n  \"searchCandidates\": [\n    {\n      \"organization\": {\n        \"duns\": \"707986998\",\n        \"primaryName\": \"<string>\",\n        \"primaryAddress\": {\n          \"streetAddress\": {\n            \"line1\": \"<string>\",\n            \"line2\": \"<string>\"\n          },\n          \"addressLocality\": {\n            \"name\": \"<string>\"\n          },\n          \"addressRegion\": {\n            \"name\": \"<string>\",\n            \"abbreviatedName\": \"<string>\"\n          },\n          \"postalCode\": \"<string>\",\n          \"addressCountry\": {\n            \"isoAlpha2Code\": \"<string>\"\n          }\n        },\n        \"countryISOAlpha2Code\": \"<string>\",\n        \"telephone\": [\n          {\n            \"telephoneNumber\": \"<string>\"\n          },\n          {\n            \"telephoneNumber\": \"<string>\"\n          }\n        ],\n        \"registrationNumbers\": [\n          {\n            \"registrationNumber\": \"<string>\",\n            \"typeDescription\": \"<string>\"\n          },\n          {\n            \"registrationNumber\": \"<string>\",\n            \"typeDescription\": \"<string>\"\n          }\n        ]\n      }\n    },\n    {\n      \"organization\": {\n        \"duns\": \"293349400\",\n        \"primaryName\": \"<string>\",\n        \"primaryAddress\": {\n          \"streetAddress\": {\n            \"line1\": \"<string>\",\n            \"line2\": \"<string>\"\n          },\n          \"addressLocality\": {\n            \"name\": \"<string>\"\n          },\n          \"addressRegion\": {\n            \"name\": \"<string>\",\n            \"abbreviatedName\": \"<string>\"\n          },\n          \"postalCode\": \"<string>\",\n          \"addressCountry\": {\n            \"isoAlpha2Code\": \"<string>\"\n          }\n        },\n        \"countryISOAlpha2Code\": \"<string>\",\n        \"telephone\": [\n          {\n            \"telephoneNumber\": \"<string>\"\n          },\n          {\n            \"telephoneNumber\": \"<string>\"\n          }\n        ],\n        \"registrationNumbers\": [\n          {\n            \"registrationNumber\": \"<string>\",\n            \"typeDescription\": \"<string>\"\n          },\n          {\n            \"registrationNumber\": \"<string>\",\n            \"typeDescription\": \"<string>\"\n          }\n        ]\n      }\n    }\n  ]\n}",
+                      "createdAt": "2026-06-05T16:56:27.000Z",
+                      "updatedAt": "2026-06-05T16:56:27.000Z",
+                      "uid": "35240-4989fce5-e5c5-49b3-9b4a-ba1b2f8e6f0f"
+                    },
+                    {
+                      "id": "c2420b1d-590a-4598-babf-8cf04ee69a14",
+                      "name": "Missing or invalid bearer token.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/search/criteria?searchTerm=<string>&countryISOAlpha2Code=<string>&pageNumber=1&pageSize=50",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "search",
+                            "criteria"
+                          ],
+                          "query": [
+                            {
+                              "key": "searchTerm",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "countryISOAlpha2Code",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "pageNumber",
+                              "value": "1"
+                            },
+                            {
+                              "key": "pageSize",
+                              "value": "50"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "Unauthorized",
+                      "code": 401,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"transactionDetail\": {\n    \"transactionID\": \"<string>\",\n    \"transactionTimestamp\": \"<dateTime>\",\n    \"inLanguage\": \"<string>\",\n    \"serviceVersion\": \"<string>\"\n  },\n  \"error\": {\n    \"errorMessage\": \"<string>\",\n    \"errorCode\": \"<string>\"\n  }\n}",
+                      "createdAt": "2026-06-05T16:56:27.000Z",
+                      "updatedAt": "2026-06-05T16:56:27.000Z",
+                      "uid": "35240-c2420b1d-590a-4598-babf-8cf04ee69a14"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T16:56:27.000Z",
+                  "updatedAt": "2026-06-05T16:56:27.000Z",
+                  "uid": "35240-07123377-05ad-4e28-b21a-ffa3aa211a7b"
+                }
+              ],
+              "id": "cf9c00ca-ab1e-4ce4-9439-677b1e48e0ea",
+              "createdAt": "2026-06-05T16:56:27.000Z",
+              "updatedAt": "2026-06-05T16:56:27.000Z",
+              "uid": "35240-cf9c00ca-ab1e-4ce4-9439-677b1e48e0ea"
+            },
+            {
+              "name": "contact",
+              "item": [
+                {
+                  "name": "Search Contacts By Criteria",
+                  "id": "15a7602c-cf87-4c04-ba85-7421e891eed1",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/search/contact?searchTerm=<string>&countryISOAlpha2Code=<string>&pageSize=50",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "search",
+                        "contact"
+                      ],
+                      "query": [
+                        {
+                          "key": "searchTerm",
+                          "value": "<string>"
+                        },
+                        {
+                          "key": "countryISOAlpha2Code",
+                          "value": "<string>"
+                        },
+                        {
+                          "key": "pageSize",
+                          "value": "50"
+                        }
+                      ]
+                    },
+                    "description": "Find named principals or contacts (executives, beneficial owners, decision-makers) matching the supplied criteria, returning a paginated candidate list."
+                  },
+                  "response": [
+                    {
+                      "id": "26cac016-5569-423f-becf-ae274c9a3b3d",
+                      "name": "Contact search results.",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/search/contact?searchTerm=<string>&countryISOAlpha2Code=<string>&pageSize=50",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "search",
+                            "contact"
+                          ],
+                          "query": [
+                            {
+                              "key": "searchTerm",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "countryISOAlpha2Code",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "pageSize",
+                              "value": "50"
+                            }
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"transactionDetail\": {\n    \"transactionID\": \"<string>\",\n    \"transactionTimestamp\": \"<dateTime>\",\n    \"inLanguage\": \"<string>\",\n    \"serviceVersion\": \"<string>\"\n  },\n  \"candidatesReturnedQuantity\": \"<integer>\",\n  \"searchCandidates\": [\n    {\n      \"contact\": {\n        \"fullName\": \"<string>\",\n        \"jobTitles\": [\n          {\n            \"title\": \"<string>\"\n          },\n          {\n            \"title\": \"<string>\"\n          }\n        ]\n      },\n      \"organization\": {\n        \"duns\": \"434984607\",\n        \"primaryName\": \"<string>\",\n        \"primaryAddress\": {\n          \"streetAddress\": {\n            \"line1\": \"<string>\",\n            \"line2\": \"<string>\"\n          },\n          \"addressLocality\": {\n            \"name\": \"<string>\"\n          },\n          \"addressRegion\": {\n            \"name\": \"<string>\",\n            \"abbreviatedName\": \"<string>\"\n          },\n          \"postalCode\": \"<string>\",\n          \"addressCountry\": {\n            \"isoAlpha2Code\": \"<string>\"\n          }\n        },\n        \"countryISOAlpha2Code\": \"<string>\",\n        \"telephone\": [\n          {\n            \"telephoneNumber\": \"<string>\"\n          },\n          {\n            \"telephoneNumber\": \"<string>\"\n          }\n        ],\n        \"registrationNumbers\": [\n          {\n            \"registrationNumber\": \"<string>\",\n            \"typeDescription\": \"<string>\"\n          },\n          {\n            \"registrationNumber\": \"<string>\",\n            \"typeDescription\": \"<string>\"\n          }\n        ]\n      }\n    },\n    {\n      \"contact\": {\n        \"fullName\": \"<string>\",\n        \"jobTitles\": [\n          {\n            \"title\": \"<string>\"\n          },\n          {\n            \"title\": \"<string>\"\n          }\n        ]\n      },\n      \"organization\": {\n        \"duns\": \"158774297\",\n        \"primaryName\": \"<string>\",\n        \"primaryAddress\": {\n          \"streetAddress\": {\n            \"line1\": \"<string>\",\n            \"line2\": \"<string>\"\n          },\n          \"addressLocality\": {\n            \"name\": \"<string>\"\n          },\n          \"addressRegion\": {\n            \"name\": \"<string>\",\n            \"abbreviatedName\": \"<string>\"\n          },\n          \"postalCode\": \"<string>\",\n          \"addressCountry\": {\n            \"isoAlpha2Code\": \"<string>\"\n          }\n        },\n        \"countryISOAlpha2Code\": \"<string>\",\n        \"telephone\": [\n          {\n            \"telephoneNumber\": \"<string>\"\n          },\n          {\n            \"telephoneNumber\": \"<string>\"\n          }\n        ],\n        \"registrationNumbers\": [\n          {\n            \"registrationNumber\": \"<string>\",\n            \"typeDescription\": \"<string>\"\n          },\n          {\n            \"registrationNumber\": \"<string>\",\n            \"typeDescription\": \"<string>\"\n          }\n        ]\n      }\n    }\n  ]\n}",
+                      "createdAt": "2026-06-05T16:56:27.000Z",
+                      "updatedAt": "2026-06-05T16:56:27.000Z",
+                      "uid": "35240-26cac016-5569-423f-becf-ae274c9a3b3d"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T16:56:27.000Z",
+                  "updatedAt": "2026-06-05T16:56:27.000Z",
+                  "uid": "35240-15a7602c-cf87-4c04-ba85-7421e891eed1"
+                }
+              ],
+              "id": "8ccb000b-80f3-4f25-8e96-df12138259e5",
+              "createdAt": "2026-06-05T16:56:27.000Z",
+              "updatedAt": "2026-06-05T16:56:27.000Z",
+              "uid": "35240-8ccb000b-80f3-4f25-8e96-df12138259e5"
+            }
+          ],
+          "id": "7dc21730-30ad-48a8-bc2e-9099559e40bb",
+          "createdAt": "2026-06-05T16:56:27.000Z",
+          "updatedAt": "2026-06-05T16:56:27.000Z",
+          "uid": "35240-7dc21730-30ad-48a8-bc2e-9099559e40bb"
+        },
+        {
+          "name": "data",
+          "item": [
+            {
+              "name": "duns",
+              "item": [
+                {
+                  "name": "{duns}",
+                  "item": [
+                    {
+                      "name": "Retrieve Data Blocks For D-U-N-S",
+                      "id": "2ad07980-19a8-42ee-ae0e-1de3ea58c5b4",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "auth": {
+                          "type": "bearer",
+                          "bearer": [
+                            {
+                              "key": "token",
+                              "value": "{{bearerToken}}",
+                              "type": "string"
+                            }
+                          ]
+                        },
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/data/duns/:duns?blockIDs=<string>&tradeUp=hq",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "data",
+                            "duns",
+                            ":duns"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) Comma-separated list of block IDs with version (e.g. companyinfo_L2_v1,principalscontacts_L1_v2).",
+                              "key": "blockIDs",
+                              "value": "<string>"
+                            },
+                            {
+                              "key": "tradeUp",
+                              "value": "hq"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "id": "4d53a498-5a66-41a0-98f6-b9ac86246369",
+                              "key": "duns",
+                              "value": "064028254",
+                              "description": "(Required) Nine-digit D-U-N-S Number."
+                            }
+                          ]
+                        },
+                        "description": "Retrieve one or more Data Blocks for a given D-U-N-S Number. The caller specifies which blocks (Company Information, Principals & Contacts, Hierarchy & Connections, Financial Strength, Risk & Compliance, Beneficial Ownership, ESG, etc.) to include via the blockIDs query parameter. Each block is independently versioned."
+                      },
+                      "response": [
+                        {
+                          "id": "13f8a7c2-0bed-492c-ae71-3d485e1c48a0",
+                          "name": "Requested data blocks for the D-U-N-S Number.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/data/duns/:duns?blockIDs=<string>&tradeUp=hq",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "data",
+                                "duns",
+                                ":duns"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) Comma-separated list of block IDs with version (e.g. companyinfo_L2_v1,principalscontacts_L1_v2).",
+                                  "key": "blockIDs",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "key": "tradeUp",
+                                  "value": "hq"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "duns"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"transactionDetail\": {\n    \"transactionID\": \"<string>\",\n    \"transactionTimestamp\": \"<dateTime>\",\n    \"inLanguage\": \"<string>\",\n    \"serviceVersion\": \"<string>\"\n  },\n  \"inquiryDetail\": {},\n  \"organization\": {\n    \"duns\": \"<string>\",\n    \"primaryName\": \"<string>\",\n    \"primaryAddress\": {\n      \"streetAddress\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\"\n      },\n      \"addressLocality\": {\n        \"name\": \"<string>\"\n      },\n      \"addressRegion\": {\n        \"name\": \"<string>\",\n        \"abbreviatedName\": \"<string>\"\n      },\n      \"postalCode\": \"<string>\",\n      \"addressCountry\": {\n        \"isoAlpha2Code\": \"<string>\"\n      }\n    },\n    \"corporateLinkage\": {},\n    \"beneficialOwnership\": {},\n    \"riskAssessment\": {}\n  }\n}",
+                          "createdAt": "2026-06-05T16:56:27.000Z",
+                          "updatedAt": "2026-06-05T16:56:27.000Z",
+                          "uid": "35240-13f8a7c2-0bed-492c-ae71-3d485e1c48a0"
+                        },
+                        {
+                          "id": "f8d433e6-0f73-48eb-b8a6-a07e366d92db",
+                          "name": "Missing or invalid bearer token.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/data/duns/:duns?blockIDs=<string>&tradeUp=hq",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "data",
+                                "duns",
+                                ":duns"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) Comma-separated list of block IDs with version (e.g. companyinfo_L2_v1,principalscontacts_L1_v2).",
+                                  "key": "blockIDs",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "key": "tradeUp",
+                                  "value": "hq"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "duns"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Unauthorized",
+                          "code": 401,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"transactionDetail\": {\n    \"transactionID\": \"<string>\",\n    \"transactionTimestamp\": \"<dateTime>\",\n    \"inLanguage\": \"<string>\",\n    \"serviceVersion\": \"<string>\"\n  },\n  \"error\": {\n    \"errorMessage\": \"<string>\",\n    \"errorCode\": \"<string>\"\n  }\n}",
+                          "createdAt": "2026-06-05T16:56:27.000Z",
+                          "updatedAt": "2026-06-05T16:56:27.000Z",
+                          "uid": "35240-f8d433e6-0f73-48eb-b8a6-a07e366d92db"
+                        },
+                        {
+                          "id": "c88a7ddf-ef2e-47a0-b08d-6cdd44186a9c",
+                          "name": "Resource not found for the supplied identifier.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/data/duns/:duns?blockIDs=<string>&tradeUp=hq",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "data",
+                                "duns",
+                                ":duns"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) Comma-separated list of block IDs with version (e.g. companyinfo_L2_v1,principalscontacts_L1_v2).",
+                                  "key": "blockIDs",
+                                  "value": "<string>"
+                                },
+                                {
+                                  "key": "tradeUp",
+                                  "value": "hq"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "duns"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"transactionDetail\": {\n    \"transactionID\": \"<string>\",\n    \"transactionTimestamp\": \"<dateTime>\",\n    \"inLanguage\": \"<string>\",\n    \"serviceVersion\": \"<string>\"\n  },\n  \"error\": {\n    \"errorMessage\": \"<string>\",\n    \"errorCode\": \"<string>\"\n  }\n}",
+                          "createdAt": "2026-06-05T16:56:27.000Z",
+                          "updatedAt": "2026-06-05T16:56:27.000Z",
+                          "uid": "35240-c88a7ddf-ef2e-47a0-b08d-6cdd44186a9c"
+                        }
+                      ],
+                      "createdAt": "2026-06-05T16:56:27.000Z",
+                      "updatedAt": "2026-06-05T16:56:27.000Z",
+                      "uid": "35240-2ad07980-19a8-42ee-ae0e-1de3ea58c5b4"
+                    }
+                  ],
+                  "id": "334c0fa3-d5f6-4548-90eb-790f30ec417e",
+                  "createdAt": "2026-06-05T16:56:27.000Z",
+                  "updatedAt": "2026-06-05T16:56:27.000Z",
+                  "uid": "35240-334c0fa3-d5f6-4548-90eb-790f30ec417e"
+                }
+              ],
+              "id": "867da38b-9768-457e-b0c3-af7b812767ff",
+              "createdAt": "2026-06-05T16:56:27.000Z",
+              "updatedAt": "2026-06-05T16:56:27.000Z",
+              "uid": "35240-867da38b-9768-457e-b0c3-af7b812767ff"
+            }
+          ],
+          "id": "658f139f-30f8-4f20-b5b3-7b6f69b2e6c5",
+          "createdAt": "2026-06-05T16:56:27.000Z",
+          "updatedAt": "2026-06-05T16:56:27.000Z",
+          "uid": "35240-658f139f-30f8-4f20-b5b3-7b6f69b2e6c5"
+        },
+        {
+          "name": "multiProcess",
+          "item": [
+            {
+              "name": "Match Plus Enrich In One Call",
+              "id": "aaeb809a-884e-4768-bbf7-99149b9a3ebb",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{bearerToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"inquiryDetail\": {\n    \"name\": \"<string>\",\n    \"countryISOAlpha2Code\": \"<string>\",\n    \"address\": {\n      \"streetAddress\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\"\n      },\n      \"addressLocality\": {\n        \"name\": \"<string>\"\n      },\n      \"addressRegion\": {\n        \"name\": \"<string>\",\n        \"abbreviatedName\": \"<string>\"\n      },\n      \"postalCode\": \"<string>\",\n      \"addressCountry\": {\n        \"isoAlpha2Code\": \"<string>\"\n      }\n    }\n  },\n  \"blockIDs\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "headerFamily": "json",
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/v1/multiProcess",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "multiProcess"
+                  ]
+                },
+                "description": "Combine Identity Resolution and Enrich in a single request: supply a candidate input record and the desired data blocks; Direct+ returns the resolved D-U-N-S match together with all requested enrichment payloads."
+              },
+              "response": [
+                {
+                  "id": "92fb6cc9-e524-4b94-83ce-c210a9097893",
+                  "name": "Resolved match plus enrichment payloads.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"inquiryDetail\": {\n    \"name\": \"<string>\",\n    \"countryISOAlpha2Code\": \"<string>\",\n    \"address\": {\n      \"streetAddress\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\"\n      },\n      \"addressLocality\": {\n        \"name\": \"<string>\"\n      },\n      \"addressRegion\": {\n        \"name\": \"<string>\",\n        \"abbreviatedName\": \"<string>\"\n      },\n      \"postalCode\": \"<string>\",\n      \"addressCountry\": {\n        \"isoAlpha2Code\": \"<string>\"\n      }\n    }\n  },\n  \"blockIDs\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/multiProcess",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "multiProcess"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"transactionDetail\": {\n    \"transactionID\": \"<string>\",\n    \"transactionTimestamp\": \"<dateTime>\",\n    \"inLanguage\": \"<string>\",\n    \"serviceVersion\": \"<string>\"\n  },\n  \"matchCandidates\": [\n    {\n      \"displaySequence\": \"<integer>\",\n      \"matchQualityInformation\": {\n        \"confidenceCode\": \"<integer>\",\n        \"matchGrade\": \"<string>\",\n        \"matchDataProfile\": \"<string>\"\n      },\n      \"organization\": {\n        \"duns\": \"660056219\",\n        \"primaryName\": \"<string>\",\n        \"primaryAddress\": {\n          \"streetAddress\": {\n            \"line1\": \"<string>\",\n            \"line2\": \"<string>\"\n          },\n          \"addressLocality\": {\n            \"name\": \"<string>\"\n          },\n          \"addressRegion\": {\n            \"name\": \"<string>\",\n            \"abbreviatedName\": \"<string>\"\n          },\n          \"postalCode\": \"<string>\",\n          \"addressCountry\": {\n            \"isoAlpha2Code\": \"<string>\"\n          }\n        },\n        \"countryISOAlpha2Code\": \"<string>\",\n        \"telephone\": [\n          {\n            \"telephoneNumber\": \"<string>\"\n          },\n          {\n            \"telephoneNumber\": \"<string>\"\n          }\n        ],\n        \"registrationNumbers\": [\n          {\n            \"registrationNumber\": \"<string>\",\n            \"typeDescription\": \"<string>\"\n          },\n          {\n            \"registrationNumber\": \"<string>\",\n            \"typeDescription\": \"<string>\"\n          }\n        ]\n      }\n    },\n    {\n      \"displaySequence\": \"<integer>\",\n      \"matchQualityInformation\": {\n        \"confidenceCode\": \"<integer>\",\n        \"matchGrade\": \"<string>\",\n        \"matchDataProfile\": \"<string>\"\n      },\n      \"organization\": {\n        \"duns\": \"004026273\",\n        \"primaryName\": \"<string>\",\n        \"primaryAddress\": {\n          \"streetAddress\": {\n            \"line1\": \"<string>\",\n            \"line2\": \"<string>\"\n          },\n          \"addressLocality\": {\n            \"name\": \"<string>\"\n          },\n          \"addressRegion\": {\n            \"name\": \"<string>\",\n            \"abbreviatedName\": \"<string>\"\n          },\n          \"postalCode\": \"<string>\",\n          \"addressCountry\": {\n            \"isoAlpha2Code\": \"<string>\"\n          }\n        },\n        \"countryISOAlpha2Code\": \"<string>\",\n        \"telephone\": [\n          {\n            \"telephoneNumber\": \"<string>\"\n          },\n          {\n            \"telephoneNumber\": \"<string>\"\n          }\n        ],\n        \"registrationNumbers\": [\n          {\n            \"registrationNumber\": \"<string>\",\n            \"typeDescription\": \"<string>\"\n          },\n          {\n            \"registrationNumber\": \"<string>\",\n            \"typeDescription\": \"<string>\"\n          }\n        ]\n      }\n    }\n  ],\n  \"organization\": {}\n}",
+                  "createdAt": "2026-06-05T16:56:27.000Z",
+                  "updatedAt": "2026-06-05T16:56:27.000Z",
+                  "uid": "35240-92fb6cc9-e524-4b94-83ce-c210a9097893"
+                },
+                {
+                  "id": "a3dab3c6-8c10-45f2-9bfe-d6c39c5d49a4",
+                  "name": "Missing or invalid bearer token.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"inquiryDetail\": {\n    \"name\": \"<string>\",\n    \"countryISOAlpha2Code\": \"<string>\",\n    \"address\": {\n      \"streetAddress\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\"\n      },\n      \"addressLocality\": {\n        \"name\": \"<string>\"\n      },\n      \"addressRegion\": {\n        \"name\": \"<string>\",\n        \"abbreviatedName\": \"<string>\"\n      },\n      \"postalCode\": \"<string>\",\n      \"addressCountry\": {\n        \"isoAlpha2Code\": \"<string>\"\n      }\n    }\n  },\n  \"blockIDs\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/multiProcess",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "multiProcess"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"transactionDetail\": {\n    \"transactionID\": \"<string>\",\n    \"transactionTimestamp\": \"<dateTime>\",\n    \"inLanguage\": \"<string>\",\n    \"serviceVersion\": \"<string>\"\n  },\n  \"error\": {\n    \"errorMessage\": \"<string>\",\n    \"errorCode\": \"<string>\"\n  }\n}",
+                  "createdAt": "2026-06-05T16:56:27.000Z",
+                  "updatedAt": "2026-06-05T16:56:27.000Z",
+                  "uid": "35240-a3dab3c6-8c10-45f2-9bfe-d6c39c5d49a4"
+                }
+              ],
+              "createdAt": "2026-06-05T16:56:27.000Z",
+              "updatedAt": "2026-06-05T16:56:27.000Z",
+              "uid": "35240-aaeb809a-884e-4768-bbf7-99149b9a3ebb"
+            }
+          ],
+          "id": "dbaaa634-4266-4ea8-ba3d-4540b25d9832",
+          "createdAt": "2026-06-05T16:56:27.000Z",
+          "updatedAt": "2026-06-05T16:56:27.000Z",
+          "uid": "35240-dbaaa634-4266-4ea8-ba3d-4540b25d9832"
+        },
+        {
+          "name": "file",
+          "item": [
+            {
+              "name": "{fileId}",
+              "item": [
+                {
+                  "name": "status",
+                  "item": [
+                    {
+                      "name": "Get Batch File Status",
+                      "id": "6327de22-5df9-4a2b-aad7-a89b15870232",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "auth": {
+                          "type": "bearer",
+                          "bearer": [
+                            {
+                              "key": "token",
+                              "value": "{{bearerToken}}",
+                              "type": "string"
+                            }
+                          ]
+                        },
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/file/:fileId/status",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "file",
+                            ":fileId",
+                            "status"
+                          ],
+                          "variable": [
+                            {
+                              "id": "fef08de5-a7e4-4b36-ae52-a209933e36a9",
+                              "key": "fileId",
+                              "value": "<string>",
+                              "description": "(Required) "
+                            }
+                          ]
+                        },
+                        "description": "Poll the processing status of a previously submitted batch file. Returns a state of PENDING, PROCESSING, COMPLETED, or FAILED along with progress counters."
+                      },
+                      "response": [
+                        {
+                          "id": "999570d2-6986-4c92-9ad1-77292158986e",
+                          "name": "Batch file status.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/file/:fileId/status",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "file",
+                                ":fileId",
+                                "status"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "fileId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"fileId\": \"<string>\",\n  \"status\": \"FAILED\",\n  \"processedRecordCount\": \"<integer>\",\n  \"totalRecordCount\": \"<integer>\"\n}",
+                          "createdAt": "2026-06-05T16:56:27.000Z",
+                          "updatedAt": "2026-06-05T16:56:27.000Z",
+                          "uid": "35240-999570d2-6986-4c92-9ad1-77292158986e"
+                        },
+                        {
+                          "id": "2d2a25fa-168f-46ee-950e-c71047f8fd8f",
+                          "name": "Resource not found for the supplied identifier.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/file/:fileId/status",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "file",
+                                ":fileId",
+                                "status"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "fileId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"transactionDetail\": {\n    \"transactionID\": \"<string>\",\n    \"transactionTimestamp\": \"<dateTime>\",\n    \"inLanguage\": \"<string>\",\n    \"serviceVersion\": \"<string>\"\n  },\n  \"error\": {\n    \"errorMessage\": \"<string>\",\n    \"errorCode\": \"<string>\"\n  }\n}",
+                          "createdAt": "2026-06-05T16:56:27.000Z",
+                          "updatedAt": "2026-06-05T16:56:27.000Z",
+                          "uid": "35240-2d2a25fa-168f-46ee-950e-c71047f8fd8f"
+                        }
+                      ],
+                      "createdAt": "2026-06-05T16:56:27.000Z",
+                      "updatedAt": "2026-06-05T16:56:27.000Z",
+                      "uid": "35240-6327de22-5df9-4a2b-aad7-a89b15870232"
+                    }
+                  ],
+                  "id": "10b7856e-8452-46d0-a545-1fedda8d2842",
+                  "createdAt": "2026-06-05T16:56:27.000Z",
+                  "updatedAt": "2026-06-05T16:56:27.000Z",
+                  "uid": "35240-10b7856e-8452-46d0-a545-1fedda8d2842"
+                },
+                {
+                  "name": "download",
+                  "item": [
+                    {
+                      "name": "Download Batch File Results",
+                      "id": "e0974c6f-c1fa-4262-a2a2-68672d870073",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "auth": {
+                          "type": "bearer",
+                          "bearer": [
+                            {
+                              "key": "token",
+                              "value": "{{bearerToken}}",
+                              "type": "string"
+                            }
+                          ]
+                        },
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/octet-stream"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/file/:fileId/download",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "file",
+                            ":fileId",
+                            "download"
+                          ],
+                          "variable": [
+                            {
+                              "id": "3f729227-6ed1-48b4-a29d-5b3b121b880d",
+                              "key": "fileId",
+                              "value": "<string>",
+                              "description": "(Required) "
+                            }
+                          ]
+                        },
+                        "description": "Download the matched and enriched output file once status is COMPLETED. The response is an octet-stream containing the result file in the originally requested format."
+                      },
+                      "response": [
+                        {
+                          "id": "2ffbc22f-8cf2-4c0f-aa57-74c31db295fe",
+                          "name": "Batch result file.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/octet-stream"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/file/:fileId/download",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "file",
+                                ":fileId",
+                                "download"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "fileId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "text",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/octet-stream"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "<binary>",
+                          "createdAt": "2026-06-05T16:56:27.000Z",
+                          "updatedAt": "2026-06-05T16:56:27.000Z",
+                          "uid": "35240-2ffbc22f-8cf2-4c0f-aa57-74c31db295fe"
+                        },
+                        {
+                          "id": "2fb978c4-f56a-4120-b9fa-cd5401e873ae",
+                          "name": "Resource not found for the supplied identifier.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/file/:fileId/download",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "file",
+                                ":fileId",
+                                "download"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "fileId"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"transactionDetail\": {\n    \"transactionID\": \"<string>\",\n    \"transactionTimestamp\": \"<dateTime>\",\n    \"inLanguage\": \"<string>\",\n    \"serviceVersion\": \"<string>\"\n  },\n  \"error\": {\n    \"errorMessage\": \"<string>\",\n    \"errorCode\": \"<string>\"\n  }\n}",
+                          "createdAt": "2026-06-05T16:56:27.000Z",
+                          "updatedAt": "2026-06-05T16:56:27.000Z",
+                          "uid": "35240-2fb978c4-f56a-4120-b9fa-cd5401e873ae"
+                        }
+                      ],
+                      "createdAt": "2026-06-05T16:56:27.000Z",
+                      "updatedAt": "2026-06-05T16:56:27.000Z",
+                      "uid": "35240-e0974c6f-c1fa-4262-a2a2-68672d870073"
+                    }
+                  ],
+                  "id": "3b574849-39fe-4117-992b-a8872ab11123",
+                  "createdAt": "2026-06-05T16:56:27.000Z",
+                  "updatedAt": "2026-06-05T16:56:27.000Z",
+                  "uid": "35240-3b574849-39fe-4117-992b-a8872ab11123"
+                }
+              ],
+              "id": "8a5a5f9d-5ae9-4519-ac7c-0b71587b765c",
+              "createdAt": "2026-06-05T16:56:27.000Z",
+              "updatedAt": "2026-06-05T16:56:27.000Z",
+              "uid": "35240-8a5a5f9d-5ae9-4519-ac7c-0b71587b765c"
+            },
+            {
+              "name": "Submit Batch Data File",
+              "id": "b87800bf-21f0-4bae-b4f7-1eaf1081531d",
+              "protocolProfileBehavior": {
+                "disableBodyPruning": true
+              },
+              "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{bearerToken}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "multipart/form-data"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "file",
+                      "type": "file",
+                      "value": null
+                    },
+                    {
+                      "description": "Direct+ process identifier (match, enrich, etc).",
+                      "key": "processId",
+                      "value": "<string>",
+                      "type": "text"
+                    },
+                    {
+                      "key": "productId",
+                      "value": "<string>",
+                      "type": "text"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/v1/file",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "v1",
+                    "file"
+                  ]
+                },
+                "description": "Submit a batch input file for asynchronous match and enrichment. Returns a fileID the caller polls until processing is complete."
+              },
+              "response": [
+                {
+                  "id": "2d2f3867-b42d-4327-9669-e2fe6f617deb",
+                  "name": "File accepted for processing.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "multipart/form-data"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "key": "file",
+                          "type": "file"
+                        },
+                        {
+                          "description": "Direct+ process identifier (match, enrich, etc).",
+                          "key": "processId",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "key": "productId",
+                          "value": "<string>",
+                          "type": "text"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/file",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "file"
+                      ]
+                    }
+                  },
+                  "status": "Accepted",
+                  "code": 202,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"fileId\": \"<string>\",\n  \"submissionTimestamp\": \"<dateTime>\",\n  \"status\": \"PENDING\"\n}",
+                  "createdAt": "2026-06-05T16:56:27.000Z",
+                  "updatedAt": "2026-06-05T16:56:27.000Z",
+                  "uid": "35240-2d2f3867-b42d-4327-9669-e2fe6f617deb"
+                },
+                {
+                  "id": "a16742e4-b238-4bad-956e-5edf617f3127",
+                  "name": "Missing or invalid bearer token.",
+                  "originalRequest": {
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "multipart/form-data"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      },
+                      {
+                        "description": "Added as a part of security scheme: bearer",
+                        "key": "Authorization",
+                        "value": "Bearer <token>"
+                      }
+                    ],
+                    "body": {
+                      "mode": "formdata",
+                      "formdata": [
+                        {
+                          "key": "file",
+                          "type": "file"
+                        },
+                        {
+                          "description": "Direct+ process identifier (match, enrich, etc).",
+                          "key": "processId",
+                          "value": "<string>",
+                          "type": "text"
+                        },
+                        {
+                          "key": "productId",
+                          "value": "<string>",
+                          "type": "text"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/file",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "file"
+                      ]
+                    }
+                  },
+                  "status": "Unauthorized",
+                  "code": 401,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json"
+                    }
+                  ],
+                  "cookie": [],
+                  "responseTime": null,
+                  "body": "{\n  \"transactionDetail\": {\n    \"transactionID\": \"<string>\",\n    \"transactionTimestamp\": \"<dateTime>\",\n    \"inLanguage\": \"<string>\",\n    \"serviceVersion\": \"<string>\"\n  },\n  \"error\": {\n    \"errorMessage\": \"<string>\",\n    \"errorCode\": \"<string>\"\n  }\n}",
+                  "createdAt": "2026-06-05T16:56:27.000Z",
+                  "updatedAt": "2026-06-05T16:56:27.000Z",
+                  "uid": "35240-a16742e4-b238-4bad-956e-5edf617f3127"
+                }
+              ],
+              "createdAt": "2026-06-05T16:56:27.000Z",
+              "updatedAt": "2026-06-05T16:56:27.000Z",
+              "uid": "35240-b87800bf-21f0-4bae-b4f7-1eaf1081531d"
+            }
+          ],
+          "id": "ecf768ae-d9c5-49a7-b4fe-724caeb33791",
+          "createdAt": "2026-06-05T16:56:27.000Z",
+          "updatedAt": "2026-06-05T16:56:27.000Z",
+          "uid": "35240-ecf768ae-d9c5-49a7-b4fe-724caeb33791"
+        },
+        {
+          "name": "monitoring",
+          "item": [
+            {
+              "name": "registrations",
+              "item": [
+                {
+                  "name": "{registrationReference}",
+                  "item": [
+                    {
+                      "name": "duns",
+                      "item": [
+                        {
+                          "name": "Add D-U-N-S To Registration",
+                          "id": "77562c17-251d-4613-afe9-84d5b4f53901",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "auth": {
+                              "type": "bearer",
+                              "bearer": [
+                                {
+                                  "key": "token",
+                                  "value": "{{bearerToken}}",
+                                  "type": "string"
+                                }
+                              ]
+                            },
+                            "method": "POST",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"dunsList\": [\n    \"508377582\",\n    \"068045771\"\n  ]\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/monitoring/registrations/:registrationReference/duns",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "monitoring",
+                                "registrations",
+                                ":registrationReference",
+                                "duns"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "1f21d112-a9f7-4957-9f59-fccf5acd4c3c",
+                                  "key": "registrationReference",
+                                  "value": "<string>",
+                                  "description": "(Required) "
+                                }
+                              ]
+                            },
+                            "description": "Add one or more D-U-N-S Numbers to an existing monitoring registration's portfolio."
+                          },
+                          "response": [
+                            {
+                              "id": "dfc5e957-3a50-4321-bd92-67f7f187fee3",
+                              "name": "Portfolio updated.",
+                              "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"dunsList\": [\n    \"508377582\",\n    \"068045771\"\n  ]\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/monitoring/registrations/:registrationReference/duns",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "monitoring",
+                                    "registrations",
+                                    ":registrationReference",
+                                    "duns"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "registrationReference"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"addedQuantity\": \"<integer>\",\n  \"removedQuantity\": \"<integer>\",\n  \"rejectedDuns\": [\n    {\n      \"duns\": \"<string>\",\n      \"reason\": \"<string>\"\n    },\n    {\n      \"duns\": \"<string>\",\n      \"reason\": \"<string>\"\n    }\n  ]\n}",
+                              "createdAt": "2026-06-05T16:56:27.000Z",
+                              "updatedAt": "2026-06-05T16:56:27.000Z",
+                              "uid": "35240-dfc5e957-3a50-4321-bd92-67f7f187fee3"
+                            }
+                          ],
+                          "createdAt": "2026-06-05T16:56:27.000Z",
+                          "updatedAt": "2026-06-05T16:56:27.000Z",
+                          "uid": "35240-77562c17-251d-4613-afe9-84d5b4f53901"
+                        },
+                        {
+                          "name": "Remove D-U-N-S From Registration",
+                          "id": "0d6b9d21-74a2-42f8-bd36-5371eac1c54d",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "auth": {
+                              "type": "bearer",
+                              "bearer": [
+                                {
+                                  "key": "token",
+                                  "value": "{{bearerToken}}",
+                                  "type": "string"
+                                }
+                              ]
+                            },
+                            "method": "DELETE",
+                            "header": [
+                              {
+                                "key": "Content-Type",
+                                "value": "application/json"
+                              },
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\n  \"dunsList\": [\n    \"508377582\",\n    \"068045771\"\n  ]\n}",
+                              "options": {
+                                "raw": {
+                                  "headerFamily": "json",
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/monitoring/registrations/:registrationReference/duns",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "monitoring",
+                                "registrations",
+                                ":registrationReference",
+                                "duns"
+                              ],
+                              "variable": [
+                                {
+                                  "id": "837a68f7-bf09-47d3-a4a0-f840212daf8a",
+                                  "key": "registrationReference",
+                                  "value": "<string>",
+                                  "description": "(Required) "
+                                }
+                              ]
+                            },
+                            "description": "Remove one or more D-U-N-S Numbers from a monitoring registration's portfolio."
+                          },
+                          "response": [
+                            {
+                              "id": "487a02e7-81ca-4b77-9695-ef33c4ed521f",
+                              "name": "Portfolio updated.",
+                              "originalRequest": {
+                                "method": "DELETE",
+                                "header": [
+                                  {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "body": {
+                                  "mode": "raw",
+                                  "raw": "{\n  \"dunsList\": [\n    \"508377582\",\n    \"068045771\"\n  ]\n}",
+                                  "options": {
+                                    "raw": {
+                                      "headerFamily": "json",
+                                      "language": "json"
+                                    }
+                                  }
+                                },
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/monitoring/registrations/:registrationReference/duns",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "monitoring",
+                                    "registrations",
+                                    ":registrationReference",
+                                    "duns"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "registrationReference"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"addedQuantity\": \"<integer>\",\n  \"removedQuantity\": \"<integer>\",\n  \"rejectedDuns\": [\n    {\n      \"duns\": \"<string>\",\n      \"reason\": \"<string>\"\n    },\n    {\n      \"duns\": \"<string>\",\n      \"reason\": \"<string>\"\n    }\n  ]\n}",
+                              "createdAt": "2026-06-05T16:56:27.000Z",
+                              "updatedAt": "2026-06-05T16:56:27.000Z",
+                              "uid": "35240-487a02e7-81ca-4b77-9695-ef33c4ed521f"
+                            }
+                          ],
+                          "createdAt": "2026-06-05T16:56:27.000Z",
+                          "updatedAt": "2026-06-05T16:56:27.000Z",
+                          "uid": "35240-0d6b9d21-74a2-42f8-bd36-5371eac1c54d"
+                        }
+                      ],
+                      "id": "2bd9a1eb-0cbc-49cc-a302-fa7178a8dad3",
+                      "createdAt": "2026-06-05T16:56:27.000Z",
+                      "updatedAt": "2026-06-05T16:56:27.000Z",
+                      "uid": "35240-2bd9a1eb-0cbc-49cc-a302-fa7178a8dad3"
+                    },
+                    {
+                      "name": "notifications",
+                      "item": [
+                        {
+                          "name": "Pull Monitoring Notifications",
+                          "id": "56fcc44f-6fdc-4d82-bf3a-1d01d0cae5d6",
+                          "protocolProfileBehavior": {
+                            "disableBodyPruning": true
+                          },
+                          "request": {
+                            "auth": {
+                              "type": "bearer",
+                              "bearer": [
+                                {
+                                  "key": "token",
+                                  "value": "{{bearerToken}}",
+                                  "type": "string"
+                                }
+                              ]
+                            },
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v1/monitoring/registrations/:registrationReference/notifications?maximumQuantity=100",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v1",
+                                "monitoring",
+                                "registrations",
+                                ":registrationReference",
+                                "notifications"
+                              ],
+                              "query": [
+                                {
+                                  "key": "maximumQuantity",
+                                  "value": "100"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "id": "d7cdb158-7a7c-4377-bdb4-407803f132dc",
+                                  "key": "registrationReference",
+                                  "value": "<string>",
+                                  "description": "(Required) "
+                                }
+                              ]
+                            },
+                            "description": "Pull pending change notifications for a monitoring registration. Each notification describes the D-U-N-S Number affected, the block that changed, the previous and new values, and the change timestamp."
+                          },
+                          "response": [
+                            {
+                              "id": "3da8ff84-3eb8-44d4-8fb5-2a70c78f65fb",
+                              "name": "Notifications package.",
+                              "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                  {
+                                    "key": "Accept",
+                                    "value": "application/json"
+                                  },
+                                  {
+                                    "description": "Added as a part of security scheme: bearer",
+                                    "key": "Authorization",
+                                    "value": "Bearer <token>"
+                                  }
+                                ],
+                                "url": {
+                                  "raw": "{{baseUrl}}/v1/monitoring/registrations/:registrationReference/notifications?maximumQuantity=100",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "v1",
+                                    "monitoring",
+                                    "registrations",
+                                    ":registrationReference",
+                                    "notifications"
+                                  ],
+                                  "query": [
+                                    {
+                                      "key": "maximumQuantity",
+                                      "value": "100"
+                                    }
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "registrationReference"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "OK",
+                              "code": 200,
+                              "_postman_previewlanguage": "json",
+                              "header": [
+                                {
+                                  "key": "Content-Type",
+                                  "value": "application/json"
+                                }
+                              ],
+                              "cookie": [],
+                              "responseTime": null,
+                              "body": "{\n  \"notifications\": [\n    {\n      \"duns\": \"<string>\",\n      \"changeTimestamp\": \"<dateTime>\",\n      \"blockID\": \"<string>\",\n      \"elementId\": \"<string>\",\n      \"previousValue\": {},\n      \"currentValue\": {}\n    },\n    {\n      \"duns\": \"<string>\",\n      \"changeTimestamp\": \"<dateTime>\",\n      \"blockID\": \"<string>\",\n      \"elementId\": \"<string>\",\n      \"previousValue\": {},\n      \"currentValue\": {}\n    }\n  ]\n}",
+                              "createdAt": "2026-06-05T16:56:27.000Z",
+                              "updatedAt": "2026-06-05T16:56:27.000Z",
+                              "uid": "35240-3da8ff84-3eb8-44d4-8fb5-2a70c78f65fb"
+                            }
+                          ],
+                          "createdAt": "2026-06-05T16:56:27.000Z",
+                          "updatedAt": "2026-06-05T16:56:27.000Z",
+                          "uid": "35240-56fcc44f-6fdc-4d82-bf3a-1d01d0cae5d6"
+                        }
+                      ],
+                      "id": "62ecb8f3-6294-4928-8af0-45bfa9cc11db",
+                      "createdAt": "2026-06-05T16:56:27.000Z",
+                      "updatedAt": "2026-06-05T16:56:27.000Z",
+                      "uid": "35240-62ecb8f3-6294-4928-8af0-45bfa9cc11db"
+                    }
+                  ],
+                  "id": "98039a2f-c22b-4cf2-bb55-f4f9a12564e3",
+                  "createdAt": "2026-06-05T16:56:27.000Z",
+                  "updatedAt": "2026-06-05T16:56:27.000Z",
+                  "uid": "35240-98039a2f-c22b-4cf2-bb55-f4f9a12564e3"
+                },
+                {
+                  "name": "Create Monitoring Registration",
+                  "id": "a5525958-1d39-48a6-888a-d5dc9e5c2932",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{bearerToken}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "POST",
+                    "header": [
+                      {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                      },
+                      {
+                        "key": "Accept",
+                        "value": "application/json"
+                      }
+                    ],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\n  \"registrationReference\": \"<string>\",\n  \"description\": \"<string>\",\n  \"blockIDs\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"deliveryMethod\": \"API_PULL\"\n}",
+                      "options": {
+                        "raw": {
+                          "headerFamily": "json",
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/v1/monitoring/registrations",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "v1",
+                        "monitoring",
+                        "registrations"
+                      ]
+                    },
+                    "description": "Register a portfolio of D-U-N-S Numbers for change monitoring. The registration declares which data blocks to monitor and how notifications should be delivered."
+                  },
+                  "response": [
+                    {
+                      "id": "97692eb6-b54e-4da4-94b0-4274bf5c2817",
+                      "name": "Monitoring registration created.",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [
+                          {
+                            "key": "Content-Type",
+                            "value": "application/json"
+                          },
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          },
+                          {
+                            "description": "Added as a part of security scheme: bearer",
+                            "key": "Authorization",
+                            "value": "Bearer <token>"
+                          }
+                        ],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\n  \"registrationReference\": \"<string>\",\n  \"description\": \"<string>\",\n  \"blockIDs\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"deliveryMethod\": \"API_PULL\"\n}",
+                          "options": {
+                            "raw": {
+                              "headerFamily": "json",
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/v1/monitoring/registrations",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v1",
+                            "monitoring",
+                            "registrations"
+                          ]
+                        }
+                      },
+                      "status": "Created",
+                      "code": 201,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json"
+                        }
+                      ],
+                      "cookie": [],
+                      "responseTime": null,
+                      "body": "{\n  \"registrationReference\": \"<string>\",\n  \"status\": \"<string>\",\n  \"createdTimestamp\": \"<dateTime>\"\n}",
+                      "createdAt": "2026-06-05T16:56:27.000Z",
+                      "updatedAt": "2026-06-05T16:56:27.000Z",
+                      "uid": "35240-97692eb6-b54e-4da4-94b0-4274bf5c2817"
+                    }
+                  ],
+                  "createdAt": "2026-06-05T16:56:27.000Z",
+                  "updatedAt": "2026-06-05T16:56:27.000Z",
+                  "uid": "35240-a5525958-1d39-48a6-888a-d5dc9e5c2932"
+                }
+              ],
+              "id": "f65d4242-30e5-4dff-957c-09e9b3e0f0c4",
+              "createdAt": "2026-06-05T16:56:27.000Z",
+              "updatedAt": "2026-06-05T16:56:27.000Z",
+              "uid": "35240-f65d4242-30e5-4dff-957c-09e9b3e0f0c4"
+            }
+          ],
+          "id": "1582a1a1-f2e0-48fa-8f6a-79daaa55d907",
+          "createdAt": "2026-06-05T16:56:27.000Z",
+          "updatedAt": "2026-06-05T16:56:27.000Z",
+          "uid": "35240-1582a1a1-f2e0-48fa-8f6a-79daaa55d907"
+        }
+      ],
+      "id": "82ea4692-1d3d-490d-826a-a39a00857a8d",
+      "createdAt": "2026-06-05T16:56:27.000Z",
+      "updatedAt": "2026-06-05T16:56:27.000Z",
+      "uid": "35240-82ea4692-1d3d-490d-826a-a39a00857a8d"
+    },
+    {
+      "name": "v2",
+      "item": [
+        {
+          "name": "audit",
+          "item": [
+            {
+              "name": "duns",
+              "item": [
+                {
+                  "name": "{duns}",
+                  "item": [
+                    {
+                      "name": "Retrieve Historical Audit Record",
+                      "id": "ff6ac8bc-3258-427e-9003-cf7fdc2685c7",
+                      "protocolProfileBehavior": {
+                        "disableBodyPruning": true
+                      },
+                      "request": {
+                        "auth": {
+                          "type": "bearer",
+                          "bearer": [
+                            {
+                              "key": "token",
+                              "value": "{{bearerToken}}",
+                              "type": "string"
+                            }
+                          ]
+                        },
+                        "method": "GET",
+                        "header": [
+                          {
+                            "key": "Accept",
+                            "value": "application/json"
+                          }
+                        ],
+                        "url": {
+                          "raw": "{{baseUrl}}/v2/audit/duns/:duns?transactionTimestamp=<dateTime>",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "v2",
+                            "audit",
+                            "duns",
+                            ":duns"
+                          ],
+                          "query": [
+                            {
+                              "description": "(Required) ",
+                              "key": "transactionTimestamp",
+                              "value": "<dateTime>"
+                            }
+                          ],
+                          "variable": [
+                            {
+                              "id": "a21674f8-399c-4a4f-9210-60760f21500b",
+                              "key": "duns",
+                              "value": "064028254",
+                              "description": "(Required) "
+                            }
+                          ]
+                        },
+                        "description": "Retrieve a historical Direct+ response previously returned for a D-U-N-S Number, supporting audit, dispute, and reconciliation use cases."
+                      },
+                      "response": [
+                        {
+                          "id": "599707f0-4f2d-49cc-a61e-227273ddd8b3",
+                          "name": "Historical record.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/audit/duns/:duns?transactionTimestamp=<dateTime>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                "audit",
+                                "duns",
+                                ":duns"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) ",
+                                  "key": "transactionTimestamp",
+                                  "value": "<dateTime>"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "duns"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"duns\": \"<string>\",\n  \"transactionTimestamp\": \"<dateTime>\",\n  \"originalResponse\": {}\n}",
+                          "createdAt": "2026-06-05T16:56:27.000Z",
+                          "updatedAt": "2026-06-05T16:56:27.000Z",
+                          "uid": "35240-599707f0-4f2d-49cc-a61e-227273ddd8b3"
+                        },
+                        {
+                          "id": "f4b38500-0c31-4968-96d6-66c1f1c1e84b",
+                          "name": "Resource not found for the supplied identifier.",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [
+                              {
+                                "key": "Accept",
+                                "value": "application/json"
+                              },
+                              {
+                                "description": "Added as a part of security scheme: bearer",
+                                "key": "Authorization",
+                                "value": "Bearer <token>"
+                              }
+                            ],
+                            "url": {
+                              "raw": "{{baseUrl}}/v2/audit/duns/:duns?transactionTimestamp=<dateTime>",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "v2",
+                                "audit",
+                                "duns",
+                                ":duns"
+                              ],
+                              "query": [
+                                {
+                                  "description": "(Required) ",
+                                  "key": "transactionTimestamp",
+                                  "value": "<dateTime>"
+                                }
+                              ],
+                              "variable": [
+                                {
+                                  "key": "duns"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json"
+                            }
+                          ],
+                          "cookie": [],
+                          "responseTime": null,
+                          "body": "{\n  \"transactionDetail\": {\n    \"transactionID\": \"<string>\",\n    \"transactionTimestamp\": \"<dateTime>\",\n    \"inLanguage\": \"<string>\",\n    \"serviceVersion\": \"<string>\"\n  },\n  \"error\": {\n    \"errorMessage\": \"<string>\",\n    \"errorCode\": \"<string>\"\n  }\n}",
+                          "createdAt": "2026-06-05T16:56:27.000Z",
+                          "updatedAt": "2026-06-05T16:56:27.000Z",
+                          "uid": "35240-f4b38500-0c31-4968-96d6-66c1f1c1e84b"
+                        }
+                      ],
+                      "createdAt": "2026-06-05T16:56:27.000Z",
+                      "updatedAt": "2026-06-05T16:56:27.000Z",
+                      "uid": "35240-ff6ac8bc-3258-427e-9003-cf7fdc2685c7"
+                    }
+                  ],
+                  "id": "120800d9-333d-4737-9f88-e2f44e908698",
+                  "createdAt": "2026-06-05T16:56:27.000Z",
+                  "updatedAt": "2026-06-05T16:56:27.000Z",
+                  "uid": "35240-120800d9-333d-4737-9f88-e2f44e908698"
+                }
+              ],
+              "id": "b9ef9e1d-cab9-4598-aeae-10ae1bd2f6ce",
+              "createdAt": "2026-06-05T16:56:27.000Z",
+              "updatedAt": "2026-06-05T16:56:27.000Z",
+              "uid": "35240-b9ef9e1d-cab9-4598-aeae-10ae1bd2f6ce"
+            }
+          ],
+          "id": "91a98b24-7935-48e5-a2ed-6357f8228e3b",
+          "createdAt": "2026-06-05T16:56:27.000Z",
+          "updatedAt": "2026-06-05T16:56:27.000Z",
+          "uid": "35240-91a98b24-7935-48e5-a2ed-6357f8228e3b"
+        }
+      ],
+      "id": "addf0965-fa77-453b-9b7b-e257489aef4d",
+      "createdAt": "2026-06-05T16:56:27.000Z",
+      "updatedAt": "2026-06-05T16:56:27.000Z",
+      "uid": "35240-addf0965-fa77-453b-9b7b-e257489aef4d"
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://plus.dnb.com"
+    }
+  ]
+}
