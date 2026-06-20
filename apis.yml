@@ -12,7 +12,7 @@ description: >-
   enrich, monitor, and stream company data programmatically using OAuth 2.0
   access tokens. D&B was taken private by Clearlake Capital in August 2025 for
   approximately $7.7 billion (including debt).
-image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
 url: >-
   https://raw.githubusercontent.com/api-evangelist/dun-and-bradstreet/refs/heads/main/apis.yml
 created: '2026-05-23'
@@ -53,7 +53,7 @@ apis:
       URI path, and require an OAuth 2.0 client-credentials bearer token.
     humanURL: https://directplus.documentation.dnb.com/
     baseURL: https://plus.dnb.com
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     tags:
       - Business Data
       - Identity Resolution
@@ -128,7 +128,7 @@ apis:
       converts noisy free-text input into a stable D&B identifier.
     humanURL: https://directplus.documentation.dnb.com/html/guides/IdentityResolution.html
     baseURL: https://plus.dnb.com
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     tags:
       - Identity Resolution
       - Match
@@ -148,7 +148,7 @@ apis:
       record.
     humanURL: https://directplus.documentation.dnb.com/html/guides/Search.html
     baseURL: https://plus.dnb.com
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     tags:
       - Search
       - Company Data
@@ -171,7 +171,7 @@ apis:
       with D&B's master data.
     humanURL: https://directplus.documentation.dnb.com/html/guides/EnrichmentGuide.html
     baseURL: https://plus.dnb.com
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     tags:
       - Enrichment
       - Data Blocks
@@ -195,7 +195,7 @@ apis:
       for high-volume onboarding and CRM-augment workflows.
     humanURL: https://directplus.documentation.dnb.com/html/guides/MultiProcess.html
     baseURL: https://plus.dnb.com
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     tags:
       - Multi-Process
       - Match Plus Enrich
@@ -215,7 +215,7 @@ apis:
       impractical.
     humanURL: https://directplus.documentation.dnb.com/html/guides/BatchUserGuide.html
     baseURL: https://plus.dnb.com
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     tags:
       - Batch
       - Data File
@@ -236,7 +236,7 @@ apis:
       is the streaming complement to Enrich's pull model.
     humanURL: https://directplus.documentation.dnb.com/html/guides/Monitoring.html
     baseURL: https://plus.dnb.com
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     tags:
       - Monitoring
       - Change Notifications
@@ -255,7 +255,7 @@ apis:
       data that was returned at a point in time rather than the current value.
     humanURL: https://directplus.documentation.dnb.com/html/guides/Research.html
     baseURL: https://plus.dnb.com
-    image: https://kinlane-productions2.s3.amazonaws.com/apis-json/apis-json-logo.jpg
+    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
     tags:
       - Research
       - Audit
