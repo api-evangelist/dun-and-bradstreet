@@ -87,33 +87,33 @@ apis:
         url: json-schema/dnb-direct-plus-monitoring-notification-schema.json
       - type: JSONStructure
         url: json-structure/dnb-direct-plus-organization-structure.json
-      - type: Example
+      - type: Examples
         url: examples/dnb-direct-plus-generate-access-token-example.json
-      - type: Example
+      - type: Examples
         url: examples/dnb-direct-plus-cleanse-match-example.json
-      - type: Example
+      - type: Examples
         url: examples/dnb-direct-plus-search-companies-by-criteria-example.json
-      - type: Example
+      - type: Examples
         url: examples/dnb-direct-plus-search-contacts-example.json
-      - type: Example
+      - type: Examples
         url: examples/dnb-direct-plus-get-data-blocks-by-duns-example.json
-      - type: Example
+      - type: Examples
         url: examples/dnb-direct-plus-multi-process-match-and-enrich-example.json
-      - type: Example
+      - type: Examples
         url: examples/dnb-direct-plus-submit-batch-file-example.json
-      - type: Example
+      - type: Examples
         url: examples/dnb-direct-plus-get-batch-file-status-example.json
-      - type: Example
+      - type: Examples
         url: examples/dnb-direct-plus-download-batch-file-results-example.json
-      - type: Example
+      - type: Examples
         url: examples/dnb-direct-plus-create-monitoring-registration-example.json
-      - type: Example
+      - type: Examples
         url: examples/dnb-direct-plus-add-duns-to-registration-example.json
-      - type: Example
+      - type: Examples
         url: examples/dnb-direct-plus-remove-duns-from-registration-example.json
-      - type: Example
+      - type: Examples
         url: examples/dnb-direct-plus-pull-monitoring-notifications-example.json
-      - type: Example
+      - type: Examples
         url: examples/dnb-direct-plus-get-audit-record-example.json
   - aid: dun-and-bradstreet:direct-plus-identity-resolution
     name: D&B Direct+ Identity Resolution API
@@ -266,39 +266,36 @@ apis:
 common:
   - type: PostmanWorkspace
     url: https://www.postman.com/kinlaneapi/dun-bradstreet/overview
-  - type: ArazzoWorkflows
-    url: arazzo/
-    workflows:
-    - url: arazzo/dun-and-bradstreet-authenticate-and-match-company-workflow.yml
-      name: D&B Authenticate And Match Company
-      summary: Obtain a Direct+ token, resolve a candidate record to a D-U-N-S Number, and pull its company information block.
-    - url: arazzo/dun-and-bradstreet-batch-match-enrich-file-workflow.yml
-      name: D&B Batch Match And Enrich File
-      summary: Submit a batch input file, poll until processing completes, then download the matched and enriched results.
-    - url: arazzo/dun-and-bradstreet-cleanse-match-and-enrich-workflow.yml
-      name: D&B Cleanse Match And Enrich
-      summary: Resolve a candidate to a D-U-N-S Number and branch to enrichment only when an acceptable match is found.
-    - url: arazzo/dun-and-bradstreet-contact-search-and-enrich-workflow.yml
-      name: D&B Contact Search And Enrich
-      summary: Find a principal or contact, then enrich the organization they are associated with.
-    - url: arazzo/dun-and-bradstreet-criteria-search-and-get-company-workflow.yml
-      name: D&B Criteria Search And Get Company
-      summary: Browse companies by free-form criteria, then enrich the first candidate's Data Blocks.
-    - url: arazzo/dun-and-bradstreet-manage-portfolio-membership-workflow.yml
-      name: D&B Manage Portfolio Membership
-      summary: Match a candidate, remove its D-U-N-S Number from a monitoring registration, and confirm remaining notifications.
-    - url: arazzo/dun-and-bradstreet-match-and-audit-history-workflow.yml
-      name: D&B Match And Audit History
-      summary: Resolve a candidate to a D-U-N-S Number, then retrieve a historical Direct+ response for audit and reconciliation.
-    - url: arazzo/dun-and-bradstreet-match-and-monitor-company-workflow.yml
-      name: D&B Match And Monitor Company
-      summary: Resolve a candidate to a D-U-N-S Number, create a monitoring registration, and add the D-U-N-S Number to its portfolio.
-    - url: arazzo/dun-and-bradstreet-match-plus-enrich-workflow.yml
-      name: D&B Match Plus Enrich
-      summary: Obtain a token, then resolve and enrich a candidate record in a single multiProcess call.
-    - url: arazzo/dun-and-bradstreet-register-and-pull-notifications-workflow.yml
-      name: D&B Register And Pull Notifications
-      summary: Create a monitoring registration, enroll a portfolio of D-U-N-S Numbers, and pull pending change notifications.
+  - type: Arazzo
+    url: arazzo/dun-and-bradstreet-authenticate-and-match-company-workflow.yml
+    name: D&B Authenticate And Match Company
+  - type: Arazzo
+    url: arazzo/dun-and-bradstreet-batch-match-enrich-file-workflow.yml
+    name: D&B Batch Match And Enrich File
+  - type: Arazzo
+    url: arazzo/dun-and-bradstreet-cleanse-match-and-enrich-workflow.yml
+    name: D&B Cleanse Match And Enrich
+  - type: Arazzo
+    url: arazzo/dun-and-bradstreet-contact-search-and-enrich-workflow.yml
+    name: D&B Contact Search And Enrich
+  - type: Arazzo
+    url: arazzo/dun-and-bradstreet-criteria-search-and-get-company-workflow.yml
+    name: D&B Criteria Search And Get Company
+  - type: Arazzo
+    url: arazzo/dun-and-bradstreet-manage-portfolio-membership-workflow.yml
+    name: D&B Manage Portfolio Membership
+  - type: Arazzo
+    url: arazzo/dun-and-bradstreet-match-and-audit-history-workflow.yml
+    name: D&B Match And Audit History
+  - type: Arazzo
+    url: arazzo/dun-and-bradstreet-match-and-monitor-company-workflow.yml
+    name: D&B Match And Monitor Company
+  - type: Arazzo
+    url: arazzo/dun-and-bradstreet-match-plus-enrich-workflow.yml
+    name: D&B Match Plus Enrich
+  - type: Arazzo
+    url: arazzo/dun-and-bradstreet-register-and-pull-notifications-workflow.yml
+    name: D&B Register And Pull Notifications
   - type: Website
     url: https://www.dnb.com/
   - type: DeveloperPortal
@@ -313,7 +310,7 @@ common:
     url: https://directplus.documentation.dnb.com/html/guides/Authentication.html
   - type: ChangeLog
     url: https://directplus.documentation.dnb.com/html/resources/ChangeHistory.html
-  - type: SignUp
+  - type: Signup
     url: https://directplus.documentation.dnb.com/registration/register
   - type: Login
     url: https://directplus.documentation.dnb.com/home
@@ -345,11 +342,11 @@ common:
     url: vocabulary/dun-and-bradstreet-vocabulary.yml
   - type: JSONLD
     url: json-ld/dun-and-bradstreet-context.jsonld
-  - type: NaftikoCapability
+  - type: X-NaftikoCapability
     url: capabilities/identity-resolution.yaml
-  - type: NaftikoCapability
+  - type: X-NaftikoCapability
     url: capabilities/master-data-sync.yaml
-  - type: NaftikoCapability
+  - type: X-NaftikoCapability
     url: capabilities/third-party-risk-onboarding.yaml
   - type: FinOps
     url: finops/dun-and-bradstreet-finops.yml

@@ -3,16 +3,12 @@
   "feeds": [
     {
       "source": "https://www.dnb.com/perspectives.html",
-      "feed_url": "https://www.dnb.com/perspectives.html",
-      "title": "",
       "saved": 0,
-      "method": "none"
-    },
-    {
-      "source": "https://www.youtube.com/user/DunandBradstreet",
-      "error": "HTTPError"
+      "method": "agent-scrape",
+      "error": "page renders client-side; no post links or dates extractable"
     }
   ],
   "post_count": 0,
-  "fetched": "2026-06-14T20:42:17Z"
+  "fetched": "2026-06-27T12:37:59Z",
+  "agent_pulled": "2026-06-27"
 }
