@@ -264,6 +264,10 @@ apis:
       - type: Documentation
         url: https://directplus.documentation.dnb.com/html/guides/Research.html
 common:
+  - type: DomainSecurity
+    url: security/dun-and-bradstreet-domain-security.yml
+  - type: Authentication
+    url: authentication/dun-and-bradstreet-authentication.yml
   - type: PostmanWorkspace
     url: https://www.postman.com/kinlaneapi/dun-bradstreet/overview
   - type: Arazzo
