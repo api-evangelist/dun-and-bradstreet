@@ -1,0 +1,207 @@
+openapi: 3.0.3
+info:
+  title: D&B Direct+ Authentication Monitoring API
+  description: D&B Direct+ is Dun & Bradstreet's RESTful API platform that exposes the D&B Data Cloud — more than 500 million companies worldwide — for identity resolution, search, enrichment, multi-process (match plus enrich), batch processing, change monitoring, and historical research. All endpoints return JSON, are versioned in the URI path, and require an OAuth 2.0 bearer token obtained from the /v3/token endpoint via client-credentials grant. This profile is an OpenAPI sketch of the public surface based on Dun & Bradstreet's published Direct+ documentation; the canonical operation definitions live behind the gated developer portal at https://directplus.documentation.dnb.com/.
+  version: '3.0'
+  contact:
+    name: D&B Direct+ Support
+    url: https://service.dnb.com/
+  termsOfService: https://www.dnb.com/utility-pages/terms-of-use.html
+  license:
+    name: Proprietary
+    url: https://www.dnb.com/utility-pages/terms-of-use.html
+servers:
+- url: https://plus.dnb.com
+  description: Production
+tags:
+- name: Monitoring
+  description: Subscribe to and consume change notifications on a portfolio.
+paths:
+  /v1/monitoring/registrations:
+    post:
+      tags:
+      - Monitoring
+      summary: Create Monitoring Registration
+      description: Register a portfolio of D-U-N-S Numbers for change monitoring. The registration declares which data blocks to monitor and how notifications should be delivered.
+      operationId: createMonitoringRegistration
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MonitoringRegistrationRequest'
+      responses:
+        '201':
+          description: Monitoring registration created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitoringRegistrationResponse'
+  /v1/monitoring/registrations/{registrationReference}/duns:
+    post:
+      tags:
+      - Monitoring
+      summary: Add D-U-N-S To Registration
+      description: Add one or more D-U-N-S Numbers to an existing monitoring registration's portfolio.
+      operationId: addDunsToRegistration
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: registrationReference
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PortfolioMembershipRequest'
+      responses:
+        '200':
+          description: Portfolio updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortfolioMembershipResponse'
+    delete:
+      tags:
+      - Monitoring
+      summary: Remove D-U-N-S From Registration
+      description: Remove one or more D-U-N-S Numbers from a monitoring registration's portfolio.
+      operationId: removeDunsFromRegistration
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: registrationReference
+        in: path
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PortfolioMembershipRequest'
+      responses:
+        '200':
+          description: Portfolio updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PortfolioMembershipResponse'
+  /v1/monitoring/registrations/{registrationReference}/notifications:
+    get:
+      tags:
+      - Monitoring
+      summary: Pull Monitoring Notifications
+      description: Pull pending change notifications for a monitoring registration. Each notification describes the D-U-N-S Number affected, the block that changed, the previous and new values, and the change timestamp.
+      operationId: pullMonitoringNotifications
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: registrationReference
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: maximumQuantity
+        in: query
+        schema:
+          type: integer
+          default: 100
+          maximum: 1000
+      responses:
+        '200':
+          description: Notifications package.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MonitoringNotificationsResponse'
+components:
+  schemas:
+    PortfolioMembershipResponse:
+      type: object
+      properties:
+        addedQuantity:
+          type: integer
+        removedQuantity:
+          type: integer
+        rejectedDuns:
+          type: array
+          items:
+            type: object
+            properties:
+              duns:
+                type: string
+              reason:
+                type: string
+    MonitoringNotificationsResponse:
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            type: object
+            properties:
+              duns:
+                type: string
+              changeTimestamp:
+                type: string
+                format: date-time
+              blockID:
+                type: string
+              elementId:
+                type: string
+              previousValue: {}
+              currentValue: {}
+    PortfolioMembershipRequest:
+      type: object
+      required:
+      - dunsList
+      properties:
+        dunsList:
+          type: array
+          items:
+            type: string
+            pattern: ^[0-9]{9}$
+    MonitoringRegistrationRequest:
+      type: object
+      required:
+      - registrationReference
+      properties:
+        registrationReference:
+          type: string
+        description:
+          type: string
+        blockIDs:
+          type: array
+          items:
+            type: string
+        deliveryMethod:
+          type: string
+          enum:
+          - SFTP
+          - API_PULL
+    MonitoringRegistrationResponse:
+      type: object
+      properties:
+        registrationReference:
+          type: string
+        status:
+          type: string
+        createdTimestamp:
+          type: string
+          format: date-time
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    basicAuth:
+      type: http
+      scheme: basic

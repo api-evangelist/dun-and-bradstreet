@@ -1,0 +1,182 @@
+openapi: 3.0.3
+info:
+  title: D&B Direct+ Authentication Data File API
+  description: D&B Direct+ is Dun & Bradstreet's RESTful API platform that exposes the D&B Data Cloud — more than 500 million companies worldwide — for identity resolution, search, enrichment, multi-process (match plus enrich), batch processing, change monitoring, and historical research. All endpoints return JSON, are versioned in the URI path, and require an OAuth 2.0 bearer token obtained from the /v3/token endpoint via client-credentials grant. This profile is an OpenAPI sketch of the public surface based on Dun & Bradstreet's published Direct+ documentation; the canonical operation definitions live behind the gated developer portal at https://directplus.documentation.dnb.com/.
+  version: '3.0'
+  contact:
+    name: D&B Direct+ Support
+    url: https://service.dnb.com/
+  termsOfService: https://www.dnb.com/utility-pages/terms-of-use.html
+  license:
+    name: Proprietary
+    url: https://www.dnb.com/utility-pages/terms-of-use.html
+servers:
+- url: https://plus.dnb.com
+  description: Production
+tags:
+- name: Data File
+  description: Asynchronous batch file submission, status, and download.
+paths:
+  /v1/file:
+    post:
+      tags:
+      - Data File
+      summary: Submit Batch Data File
+      description: Submit a batch input file for asynchronous match and enrichment. Returns a fileID the caller polls until processing is complete.
+      operationId: submitBatchFile
+      security:
+      - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BatchFileSubmission'
+      responses:
+        '202':
+          description: File accepted for processing.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchSubmissionResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v1/file/{fileId}/status:
+    get:
+      tags:
+      - Data File
+      summary: Get Batch File Status
+      description: Poll the processing status of a previously submitted batch file. Returns a state of PENDING, PROCESSING, COMPLETED, or FAILED along with progress counters.
+      operationId: getBatchFileStatus
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: fileId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Batch file status.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchStatusResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /v1/file/{fileId}/download:
+    get:
+      tags:
+      - Data File
+      summary: Download Batch File Results
+      description: Download the matched and enriched output file once status is COMPLETED. The response is an octet-stream containing the result file in the originally requested format.
+      operationId: downloadBatchFileResults
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: fileId
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Batch result file.
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    NotFound:
+      description: Resource not found for the supplied identifier.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    BatchSubmissionResponse:
+      type: object
+      properties:
+        fileId:
+          type: string
+        submissionTimestamp:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+          - PENDING
+    Error:
+      type: object
+      properties:
+        transactionDetail:
+          $ref: '#/components/schemas/TransactionDetail'
+        error:
+          type: object
+          properties:
+            errorMessage:
+              type: string
+            errorCode:
+              type: string
+            errorDetails:
+              type: array
+              items:
+                type: object
+    BatchStatusResponse:
+      type: object
+      properties:
+        fileId:
+          type: string
+        status:
+          type: string
+          enum:
+          - PENDING
+          - PROCESSING
+          - COMPLETED
+          - FAILED
+        processedRecordCount:
+          type: integer
+        totalRecordCount:
+          type: integer
+    BatchFileSubmission:
+      type: object
+      properties:
+        file:
+          type: string
+          format: binary
+        processId:
+          type: string
+          description: Direct+ process identifier (match, enrich, etc).
+        productId:
+          type: string
+    TransactionDetail:
+      type: object
+      properties:
+        transactionID:
+          type: string
+        transactionTimestamp:
+          type: string
+          format: date-time
+        inLanguage:
+          type: string
+        serviceVersion:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    basicAuth:
+      type: http
+      scheme: basic

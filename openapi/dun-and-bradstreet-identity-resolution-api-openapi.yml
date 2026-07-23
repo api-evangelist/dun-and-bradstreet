@@ -1,0 +1,226 @@
+openapi: 3.0.3
+info:
+  title: D&B Direct+ Authentication Identity Resolution API
+  description: D&B Direct+ is Dun & Bradstreet's RESTful API platform that exposes the D&B Data Cloud — more than 500 million companies worldwide — for identity resolution, search, enrichment, multi-process (match plus enrich), batch processing, change monitoring, and historical research. All endpoints return JSON, are versioned in the URI path, and require an OAuth 2.0 bearer token obtained from the /v3/token endpoint via client-credentials grant. This profile is an OpenAPI sketch of the public surface based on Dun & Bradstreet's published Direct+ documentation; the canonical operation definitions live behind the gated developer portal at https://directplus.documentation.dnb.com/.
+  version: '3.0'
+  contact:
+    name: D&B Direct+ Support
+    url: https://service.dnb.com/
+  termsOfService: https://www.dnb.com/utility-pages/terms-of-use.html
+  license:
+    name: Proprietary
+    url: https://www.dnb.com/utility-pages/terms-of-use.html
+servers:
+- url: https://plus.dnb.com
+  description: Production
+tags:
+- name: Identity Resolution
+  description: Match an input record to a D-U-N-S Number.
+paths:
+  /v1/match/cleanseMatch:
+    get:
+      tags:
+      - Identity Resolution
+      summary: Match Candidate To D-U-N-S Number
+      description: Submit a candidate business record (name, address, registration number, phone, email) and receive a ranked list of D-U-N-S Number matches with match-grade, confidence-code, and quality indicators suitable for auto-acceptance or manual review.
+      operationId: cleanseMatch
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: name
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Business name as supplied by the caller.
+      - name: countryISOAlpha2Code
+        in: query
+        required: true
+        schema:
+          type: string
+          minLength: 2
+          maxLength: 2
+        description: ISO 3166-1 alpha-2 country code.
+      - name: streetAddressLine1
+        in: query
+        schema:
+          type: string
+      - name: addressLocality
+        in: query
+        schema:
+          type: string
+      - name: addressRegion
+        in: query
+        schema:
+          type: string
+      - name: postalCode
+        in: query
+        schema:
+          type: string
+      - name: telephoneNumber
+        in: query
+        schema:
+          type: string
+      - name: registrationNumber
+        in: query
+        schema:
+          type: string
+      - name: candidateMaximumQuantity
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 50
+          default: 9
+      - name: confidenceLowerLevelThresholdValue
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 10
+      responses:
+        '200':
+          description: Ranked match candidates returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatchResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    NotFound:
+      description: Resource not found for the supplied identifier.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    OrganizationSummary:
+      type: object
+      properties:
+        duns:
+          type: string
+          pattern: ^[0-9]{9}$
+        primaryName:
+          type: string
+        primaryAddress:
+          $ref: '#/components/schemas/Address'
+        countryISOAlpha2Code:
+          type: string
+        telephone:
+          type: array
+          items:
+            type: object
+            properties:
+              telephoneNumber:
+                type: string
+        registrationNumbers:
+          type: array
+          items:
+            type: object
+            properties:
+              registrationNumber:
+                type: string
+              typeDescription:
+                type: string
+    Error:
+      type: object
+      properties:
+        transactionDetail:
+          $ref: '#/components/schemas/TransactionDetail'
+        error:
+          type: object
+          properties:
+            errorMessage:
+              type: string
+            errorCode:
+              type: string
+            errorDetails:
+              type: array
+              items:
+                type: object
+    Address:
+      type: object
+      properties:
+        streetAddress:
+          type: object
+          properties:
+            line1:
+              type: string
+            line2:
+              type: string
+        addressLocality:
+          type: object
+          properties:
+            name:
+              type: string
+        addressRegion:
+          type: object
+          properties:
+            name:
+              type: string
+            abbreviatedName:
+              type: string
+        postalCode:
+          type: string
+        addressCountry:
+          type: object
+          properties:
+            isoAlpha2Code:
+              type: string
+    TransactionDetail:
+      type: object
+      properties:
+        transactionID:
+          type: string
+        transactionTimestamp:
+          type: string
+          format: date-time
+        inLanguage:
+          type: string
+        serviceVersion:
+          type: string
+    MatchResponse:
+      type: object
+      properties:
+        transactionDetail:
+          $ref: '#/components/schemas/TransactionDetail'
+        inquiryDetail:
+          type: object
+        matchCandidates:
+          type: array
+          items:
+            $ref: '#/components/schemas/MatchCandidate'
+    MatchCandidate:
+      type: object
+      properties:
+        displaySequence:
+          type: integer
+        matchQualityInformation:
+          type: object
+          properties:
+            confidenceCode:
+              type: integer
+            matchGrade:
+              type: string
+            matchDataProfile:
+              type: string
+        organization:
+          $ref: '#/components/schemas/OrganizationSummary'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    basicAuth:
+      type: http
+      scheme: basic

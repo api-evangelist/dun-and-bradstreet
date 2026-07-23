@@ -1,0 +1,173 @@
+openapi: 3.0.3
+info:
+  title: D&B Direct+ Authentication Enrich API
+  description: D&B Direct+ is Dun & Bradstreet's RESTful API platform that exposes the D&B Data Cloud — more than 500 million companies worldwide — for identity resolution, search, enrichment, multi-process (match plus enrich), batch processing, change monitoring, and historical research. All endpoints return JSON, are versioned in the URI path, and require an OAuth 2.0 bearer token obtained from the /v3/token endpoint via client-credentials grant. This profile is an OpenAPI sketch of the public surface based on Dun & Bradstreet's published Direct+ documentation; the canonical operation definitions live behind the gated developer portal at https://directplus.documentation.dnb.com/.
+  version: '3.0'
+  contact:
+    name: D&B Direct+ Support
+    url: https://service.dnb.com/
+  termsOfService: https://www.dnb.com/utility-pages/terms-of-use.html
+  license:
+    name: Proprietary
+    url: https://www.dnb.com/utility-pages/terms-of-use.html
+servers:
+- url: https://plus.dnb.com
+  description: Production
+tags:
+- name: Enrich
+  description: Retrieve Data Blocks for a known D-U-N-S Number.
+paths:
+  /v1/data/duns/{duns}:
+    get:
+      tags:
+      - Enrich
+      summary: Retrieve Data Blocks For D-U-N-S
+      description: Retrieve one or more Data Blocks for a given D-U-N-S Number. The caller specifies which blocks (Company Information, Principals & Contacts, Hierarchy & Connections, Financial Strength, Risk & Compliance, Beneficial Ownership, ESG, etc.) to include via the blockIDs query parameter. Each block is independently versioned.
+      operationId: getDataBlocksByDuns
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: duns
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: ^[0-9]{9}$
+        description: Nine-digit D-U-N-S Number.
+      - name: blockIDs
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Comma-separated list of block IDs with version (e.g. companyinfo_L2_v1,principalscontacts_L1_v2).
+      - name: tradeUp
+        in: query
+        schema:
+          type: string
+          enum:
+          - hq
+      responses:
+        '200':
+          description: Requested data blocks for the D-U-N-S Number.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EnrichResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  responses:
+    NotFound:
+      description: Resource not found for the supplied identifier.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    EnrichResponse:
+      type: object
+      properties:
+        transactionDetail:
+          $ref: '#/components/schemas/TransactionDetail'
+        inquiryDetail:
+          type: object
+        organization:
+          type: object
+          properties:
+            duns:
+              type: string
+            primaryName:
+              type: string
+            primaryAddress:
+              $ref: '#/components/schemas/Address'
+            registrationNumbers:
+              type: array
+              items:
+                type: object
+            corporateLinkage:
+              type: object
+            financials:
+              type: array
+              items:
+                type: object
+            principals:
+              type: array
+              items:
+                type: object
+            beneficialOwnership:
+              type: object
+            riskAssessment:
+              type: object
+    Error:
+      type: object
+      properties:
+        transactionDetail:
+          $ref: '#/components/schemas/TransactionDetail'
+        error:
+          type: object
+          properties:
+            errorMessage:
+              type: string
+            errorCode:
+              type: string
+            errorDetails:
+              type: array
+              items:
+                type: object
+    Address:
+      type: object
+      properties:
+        streetAddress:
+          type: object
+          properties:
+            line1:
+              type: string
+            line2:
+              type: string
+        addressLocality:
+          type: object
+          properties:
+            name:
+              type: string
+        addressRegion:
+          type: object
+          properties:
+            name:
+              type: string
+            abbreviatedName:
+              type: string
+        postalCode:
+          type: string
+        addressCountry:
+          type: object
+          properties:
+            isoAlpha2Code:
+              type: string
+    TransactionDetail:
+      type: object
+      properties:
+        transactionID:
+          type: string
+        transactionTimestamp:
+          type: string
+          format: date-time
+        inLanguage:
+          type: string
+        serviceVersion:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    basicAuth:
+      type: http
+      scheme: basic

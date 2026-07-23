@@ -1,0 +1,235 @@
+openapi: 3.0.3
+info:
+  title: D&B Direct+ Authentication Search API
+  description: D&B Direct+ is Dun & Bradstreet's RESTful API platform that exposes the D&B Data Cloud — more than 500 million companies worldwide — for identity resolution, search, enrichment, multi-process (match plus enrich), batch processing, change monitoring, and historical research. All endpoints return JSON, are versioned in the URI path, and require an OAuth 2.0 bearer token obtained from the /v3/token endpoint via client-credentials grant. This profile is an OpenAPI sketch of the public surface based on Dun & Bradstreet's published Direct+ documentation; the canonical operation definitions live behind the gated developer portal at https://directplus.documentation.dnb.com/.
+  version: '3.0'
+  contact:
+    name: D&B Direct+ Support
+    url: https://service.dnb.com/
+  termsOfService: https://www.dnb.com/utility-pages/terms-of-use.html
+  license:
+    name: Proprietary
+    url: https://www.dnb.com/utility-pages/terms-of-use.html
+servers:
+- url: https://plus.dnb.com
+  description: Production
+tags:
+- name: Search
+  description: Find companies, principals, and related entities.
+paths:
+  /v1/search/criteria:
+    get:
+      tags:
+      - Search
+      summary: Search Companies By Criteria
+      description: Find companies matching free-form criteria such as name, address, registration number, industry, or contact. Returns a paginated list of candidate records intended for browse-and-pick workflows rather than authoritative match.
+      operationId: searchCompaniesByCriteria
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: searchTerm
+        in: query
+        schema:
+          type: string
+      - name: countryISOAlpha2Code
+        in: query
+        schema:
+          type: string
+      - name: pageNumber
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          default: 1
+      - name: pageSize
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 50
+          default: 50
+      responses:
+        '200':
+          description: Search results.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /v1/search/contact:
+    get:
+      tags:
+      - Search
+      summary: Search Contacts By Criteria
+      description: Find named principals or contacts (executives, beneficial owners, decision-makers) matching the supplied criteria, returning a paginated candidate list.
+      operationId: searchContacts
+      security:
+      - bearerAuth: []
+      parameters:
+      - name: searchTerm
+        in: query
+        schema:
+          type: string
+      - name: countryISOAlpha2Code
+        in: query
+        schema:
+          type: string
+      - name: pageSize
+        in: query
+        schema:
+          type: integer
+          minimum: 1
+          maximum: 50
+          default: 50
+      responses:
+        '200':
+          description: Contact search results.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactSearchResponse'
+components:
+  schemas:
+    OrganizationSummary:
+      type: object
+      properties:
+        duns:
+          type: string
+          pattern: ^[0-9]{9}$
+        primaryName:
+          type: string
+        primaryAddress:
+          $ref: '#/components/schemas/Address'
+        countryISOAlpha2Code:
+          type: string
+        telephone:
+          type: array
+          items:
+            type: object
+            properties:
+              telephoneNumber:
+                type: string
+        registrationNumbers:
+          type: array
+          items:
+            type: object
+            properties:
+              registrationNumber:
+                type: string
+              typeDescription:
+                type: string
+    SearchResponse:
+      type: object
+      properties:
+        transactionDetail:
+          $ref: '#/components/schemas/TransactionDetail'
+        candidatesReturnedQuantity:
+          type: integer
+        candidatesMatchedQuantity:
+          type: integer
+        searchCandidates:
+          type: array
+          items:
+            type: object
+            properties:
+              organization:
+                $ref: '#/components/schemas/OrganizationSummary'
+    Error:
+      type: object
+      properties:
+        transactionDetail:
+          $ref: '#/components/schemas/TransactionDetail'
+        error:
+          type: object
+          properties:
+            errorMessage:
+              type: string
+            errorCode:
+              type: string
+            errorDetails:
+              type: array
+              items:
+                type: object
+    ContactSearchResponse:
+      type: object
+      properties:
+        transactionDetail:
+          $ref: '#/components/schemas/TransactionDetail'
+        candidatesReturnedQuantity:
+          type: integer
+        searchCandidates:
+          type: array
+          items:
+            type: object
+            properties:
+              contact:
+                type: object
+                properties:
+                  fullName:
+                    type: string
+                  jobTitles:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+              organization:
+                $ref: '#/components/schemas/OrganizationSummary'
+    Address:
+      type: object
+      properties:
+        streetAddress:
+          type: object
+          properties:
+            line1:
+              type: string
+            line2:
+              type: string
+        addressLocality:
+          type: object
+          properties:
+            name:
+              type: string
+        addressRegion:
+          type: object
+          properties:
+            name:
+              type: string
+            abbreviatedName:
+              type: string
+        postalCode:
+          type: string
+        addressCountry:
+          type: object
+          properties:
+            isoAlpha2Code:
+              type: string
+    TransactionDetail:
+      type: object
+      properties:
+        transactionID:
+          type: string
+        transactionTimestamp:
+          type: string
+          format: date-time
+        inLanguage:
+          type: string
+        serviceVersion:
+          type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    basicAuth:
+      type: http
+      scheme: basic
