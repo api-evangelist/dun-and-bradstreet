@@ -12,7 +12,20 @@ description: >-
   enrich, monitor, and stream company data programmatically using OAuth 2.0
   access tokens. D&B was taken private by Clearlake Capital in August 2025 for
   approximately $7.7 billion (including debt).
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: paid
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Paid · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/dun-and-bradstreet.png
 url: >-
   https://raw.githubusercontent.com/api-evangelist/dun-and-bradstreet/refs/heads/main/apis.yml
 created: '2026-05-23'
@@ -35,234 +48,604 @@ tags:
   - Sales Intelligence
   - Monitoring
 apis:
-  - aid: dun-and-bradstreet:direct-plus
-    name: D&B Direct+ API
-    description: >-
-      D&B Direct+ is Dun & Bradstreet's flagship RESTful API platform that
-      exposes the D&B Data Cloud — covering more than 500 million companies
-      worldwide — to developers. Direct+ is organized into a small number of
-      capability groups: Identity Resolution (match an input record to a
-      D-U-N-S Number), Search (find candidate businesses by name, address,
-      registration number, contact, or other criteria), Enrich (retrieve
-      "data blocks" of company, principal, hierarchy, financial, beneficial-
-      ownership, ESG, and risk data for a known D-U-N-S Number), Multi-Process
-      (combine match + enrich in a single call), Data File / Batch (asynchronous
-      bulk processing), Research (audit historical responses), and Monitoring
-      (subscribe to change notifications on a managed portfolio of D-U-N-S
-      records). All endpoints accept and return JSON, are versioned via the
-      URI path, and require an OAuth 2.0 client-credentials bearer token.
-    humanURL: https://directplus.documentation.dnb.com/
-    baseURL: https://plus.dnb.com
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    tags:
-      - Business Data
-      - Identity Resolution
-      - Enrichment
-      - Hierarchy
-      - Monitoring
-      - Batch
-      - Credit
-      - Risk
-      - Master Data
-    properties:
-      - type: Documentation
-        url: https://directplus.documentation.dnb.com/
-      - type: APIReference
-        url: https://directplus.documentation.dnb.com/html/pages/APIList.html
-      - type: GettingStarted
-        url: https://directplus.documentation.dnb.com/html/pages/UsingAPIs.html
-      - type: Authentication
-        url: https://directplus.documentation.dnb.com/html/guides/Authentication.html
-      - type: ChangeLog
-        url: https://directplus.documentation.dnb.com/html/resources/ChangeHistory.html
-      - type: Support
-        url: https://directplus.documentation.dnb.com/support.html
-      - type: OpenAPI
-        url: openapi/dnb-direct-plus-openapi-original.yml
-      - type: JSONSchema
-        url: json-schema/dnb-direct-plus-organization-schema.json
-      - type: JSONSchema
-        url: json-schema/dnb-direct-plus-match-candidate-schema.json
-      - type: JSONSchema
-        url: json-schema/dnb-direct-plus-monitoring-notification-schema.json
-      - type: JSONStructure
-        url: json-structure/dnb-direct-plus-organization-structure.json
-      - type: Examples
-        url: examples/dnb-direct-plus-generate-access-token-example.json
-      - type: Examples
-        url: examples/dnb-direct-plus-cleanse-match-example.json
-      - type: Examples
-        url: examples/dnb-direct-plus-search-companies-by-criteria-example.json
-      - type: Examples
-        url: examples/dnb-direct-plus-search-contacts-example.json
-      - type: Examples
-        url: examples/dnb-direct-plus-get-data-blocks-by-duns-example.json
-      - type: Examples
-        url: examples/dnb-direct-plus-multi-process-match-and-enrich-example.json
-      - type: Examples
-        url: examples/dnb-direct-plus-submit-batch-file-example.json
-      - type: Examples
-        url: examples/dnb-direct-plus-get-batch-file-status-example.json
-      - type: Examples
-        url: examples/dnb-direct-plus-download-batch-file-results-example.json
-      - type: Examples
-        url: examples/dnb-direct-plus-create-monitoring-registration-example.json
-      - type: Examples
-        url: examples/dnb-direct-plus-add-duns-to-registration-example.json
-      - type: Examples
-        url: examples/dnb-direct-plus-remove-duns-from-registration-example.json
-      - type: Examples
-        url: examples/dnb-direct-plus-pull-monitoring-notifications-example.json
-      - type: Examples
-        url: examples/dnb-direct-plus-get-audit-record-example.json
-  - aid: dun-and-bradstreet:direct-plus-identity-resolution
-    name: D&B Direct+ Identity Resolution API
-    description: >-
-      The Identity Resolution surface of D&B Direct+ matches an input business
-      record — name, address, phone, email, registration number — to a single
-      authoritative D-U-N-S Number. The API returns ranked candidate matches
-      with confidence and match-grade indicators so applications can either
-      auto-accept the top result above a configured threshold or surface
-      candidates for manual review. This is the canonical entry point for
-      master-data-management and customer-onboarding workflows because it
-      converts noisy free-text input into a stable D&B identifier.
-    humanURL: https://directplus.documentation.dnb.com/html/guides/IdentityResolution.html
-    baseURL: https://plus.dnb.com
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    tags:
-      - Identity Resolution
-      - Match
-      - D-U-N-S Number
-      - Onboarding
-    properties:
-      - type: Documentation
-        url: https://directplus.documentation.dnb.com/html/guides/IdentityResolution.html
-  - aid: dun-and-bradstreet:direct-plus-search
-    name: D&B Direct+ Search API
-    description: >-
-      The Search surface of D&B Direct+ lets applications find businesses,
-      principals, and related entities using flexible criteria such as company
-      name, address, registration number, beneficial owner, or contact. It
-      complements Identity Resolution by supporting browse-and-pick workflows
-      where the user is exploring rather than asserting a single candidate
-      record.
-    humanURL: https://directplus.documentation.dnb.com/html/guides/Search.html
-    baseURL: https://plus.dnb.com
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    tags:
-      - Search
-      - Company Data
-      - Contacts
-      - Discovery
-    properties:
-      - type: Documentation
-        url: https://directplus.documentation.dnb.com/html/guides/Search.html
-  - aid: dun-and-bradstreet:direct-plus-enrich
-    name: D&B Direct+ Enrich (Data Blocks) API
-    description: >-
-      The Enrich surface returns standardized "data blocks" for a given
-      D-U-N-S Number. Blocks group attributes by domain — Company Information,
-      Principals & Contacts, Hierarchy & Connections, Financial Strength &
-      Payment, Third-Party Risk & Compliance, Beneficial Ownership, ESG
-      Rankings, Diversity, and similar themes — and are versioned independently
-      so consumers can opt into new attributes without breaking existing
-      integrations. Enrich is the highest-volume Direct+ surface and is the
-      preferred way to keep an internal customer or supplier record in sync
-      with D&B's master data.
-    humanURL: https://directplus.documentation.dnb.com/html/guides/EnrichmentGuide.html
-    baseURL: https://plus.dnb.com
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    tags:
-      - Enrichment
-      - Data Blocks
-      - Company Data
-      - Financials
-      - Risk
-      - Compliance
-      - Beneficial Ownership
-      - ESG
-    properties:
-      - type: Documentation
-        url: https://directplus.documentation.dnb.com/html/guides/EnrichmentGuide.html
-  - aid: dun-and-bradstreet:direct-plus-multi-process
-    name: D&B Direct+ Multi-Process API
-    description: >-
-      Multi-Process combines Identity Resolution and Enrich into a single
-      request: the caller submits a candidate input record plus a set of
-      desired data blocks, D&B resolves the input to a D-U-N-S Number and
-      returns the resolved entity together with all requested enrichment
-      payloads. This eliminates a round-trip and is the recommended pattern
-      for high-volume onboarding and CRM-augment workflows.
-    humanURL: https://directplus.documentation.dnb.com/html/guides/MultiProcess.html
-    baseURL: https://plus.dnb.com
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    tags:
-      - Multi-Process
-      - Match Plus Enrich
-      - Onboarding
-      - Automation
-    properties:
-      - type: Documentation
-        url: https://directplus.documentation.dnb.com/html/guides/MultiProcess.html
-  - aid: dun-and-bradstreet:direct-plus-data-file
-    name: D&B Direct+ Data File (Batch) API
-    description: >-
-      The Data File (Batch) surface lets customers submit large input files
-      and receive matched, enriched output files asynchronously. The workflow
-      is upload → process → poll status → download — suitable for nightly
-      master-data refresh jobs, large supplier onboarding events, or one-time
-      portfolio enrichment exercises where synchronous calls would be
-      impractical.
-    humanURL: https://directplus.documentation.dnb.com/html/guides/BatchUserGuide.html
-    baseURL: https://plus.dnb.com
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    tags:
-      - Batch
-      - Data File
-      - Asynchronous
-      - Bulk
-    properties:
-      - type: Documentation
-        url: https://directplus.documentation.dnb.com/html/guides/BatchUserGuide.html
-  - aid: dun-and-bradstreet:direct-plus-monitoring
-    name: D&B Direct+ Monitoring API
-    description: >-
-      The Monitoring surface lets customers register a portfolio of D-U-N-S
-      Numbers and subscribe to change events. When D&B detects an update to a
-      monitored attribute — address, ownership, financials, risk rating,
-      executives, business status — the change is delivered as a notification
-      package (typically via SFTP pull file or webhook-style delivery) that
-      downstream systems can replay to keep master data current. Monitoring
-      is the streaming complement to Enrich's pull model.
-    humanURL: https://directplus.documentation.dnb.com/html/guides/Monitoring.html
-    baseURL: https://plus.dnb.com
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    tags:
-      - Monitoring
-      - Change Notifications
-      - Events
-      - Portfolio
-      - Master Data
-    properties:
-      - type: Documentation
-        url: https://directplus.documentation.dnb.com/html/guides/Monitoring.html
-  - aid: dun-and-bradstreet:direct-plus-research
-    name: D&B Direct+ Research API
-    description: >-
-      The Research surface lets customers retrieve historical responses
-      Direct+ has previously returned, supporting audit, dispute, and
-      reconciliation use cases where the application needs to see the exact
-      data that was returned at a point in time rather than the current value.
-    humanURL: https://directplus.documentation.dnb.com/html/guides/Research.html
-    baseURL: https://plus.dnb.com
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    tags:
-      - Research
-      - Audit
-      - Historical Data
-    properties:
-      - type: Documentation
-        url: https://directplus.documentation.dnb.com/html/guides/Research.html
+- aid: dun-and-bradstreet:direct-plus-identity-resolution
+  name: D&B Direct+ Identity Resolution API
+  description: >-
+    The Identity Resolution surface of D&B Direct+ matches an input business record — name, address, phone,
+    email, registration number — to a single authoritative D-U-N-S Number. The API returns ranked candidate
+    matches with confidence and match-grade indicators so applications can either auto-accept the top
+    result above a configured threshold or surface candidates for manual review. This is the canonical
+    entry point for master-data-management and customer-onboarding workflows because it converts noisy
+    free-text input into a stable D&B identifier.
+  humanURL: https://directplus.documentation.dnb.com/html/guides/IdentityResolution.html
+  baseURL: https://plus.dnb.com
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  tags:
+  - Identity Resolution
+  - Match
+  - D-U-N-S Number
+  - Onboarding
+  properties:
+  - type: Documentation
+    url: https://directplus.documentation.dnb.com/html/guides/IdentityResolution.html
+- aid: dun-and-bradstreet:direct-plus-search
+  name: D&B Direct+ Search API
+  description: >-
+    The Search surface of D&B Direct+ lets applications find businesses, principals, and related entities
+    using flexible criteria such as company name, address, registration number, beneficial owner, or contact.
+    It complements Identity Resolution by supporting browse-and-pick workflows where the user is exploring
+    rather than asserting a single candidate record.
+  humanURL: https://directplus.documentation.dnb.com/html/guides/Search.html
+  baseURL: https://plus.dnb.com
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  tags:
+  - Search
+  - Company Data
+  - Contacts
+  - Discovery
+  properties:
+  - type: Documentation
+    url: https://directplus.documentation.dnb.com/html/guides/Search.html
+- aid: dun-and-bradstreet:direct-plus-enrich
+  name: D&B Direct+ Enrich (Data Blocks) API
+  description: >-
+    The Enrich surface returns standardized "data blocks" for a given D-U-N-S Number. Blocks group attributes
+    by domain — Company Information, Principals & Contacts, Hierarchy & Connections, Financial Strength
+    & Payment, Third-Party Risk & Compliance, Beneficial Ownership, ESG Rankings, Diversity, and similar
+    themes — and are versioned independently so consumers can opt into new attributes without breaking
+    existing integrations. Enrich is the highest-volume Direct+ surface and is the preferred way to keep
+    an internal customer or supplier record in sync with D&B's master data.
+  humanURL: https://directplus.documentation.dnb.com/html/guides/EnrichmentGuide.html
+  baseURL: https://plus.dnb.com
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  tags:
+  - Enrichment
+  - Data Blocks
+  - Company Data
+  - Financials
+  - Risk
+  - Compliance
+  - Beneficial Ownership
+  - ESG
+  properties:
+  - type: Documentation
+    url: https://directplus.documentation.dnb.com/html/guides/EnrichmentGuide.html
+- aid: dun-and-bradstreet:direct-plus-multi-process
+  name: D&B Direct+ Multi-Process API
+  description: >-
+    Multi-Process combines Identity Resolution and Enrich into a single request: the caller submits a
+    candidate input record plus a set of desired data blocks, D&B resolves the input to a D-U-N-S Number
+    and returns the resolved entity together with all requested enrichment payloads. This eliminates a
+    round-trip and is the recommended pattern for high-volume onboarding and CRM-augment workflows.
+  humanURL: https://directplus.documentation.dnb.com/html/guides/MultiProcess.html
+  baseURL: https://plus.dnb.com
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  tags:
+  - Multi-Process
+  - Match Plus Enrich
+  - Onboarding
+  - Automation
+  properties:
+  - type: Documentation
+    url: https://directplus.documentation.dnb.com/html/guides/MultiProcess.html
+- aid: dun-and-bradstreet:direct-plus-data-file
+  name: D&B Direct+ Data File (Batch) API
+  description: >-
+    The Data File (Batch) surface lets customers submit large input files and receive matched, enriched
+    output files asynchronously. The workflow is upload → process → poll status → download — suitable
+    for nightly master-data refresh jobs, large supplier onboarding events, or one-time portfolio enrichment
+    exercises where synchronous calls would be impractical.
+  humanURL: https://directplus.documentation.dnb.com/html/guides/BatchUserGuide.html
+  baseURL: https://plus.dnb.com
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  tags:
+  - Batch
+  - Data File
+  - Asynchronous
+  - Bulk
+  properties:
+  - type: Documentation
+    url: https://directplus.documentation.dnb.com/html/guides/BatchUserGuide.html
+- aid: dun-and-bradstreet:direct-plus-monitoring
+  name: D&B Direct+ Monitoring API
+  description: >-
+    The Monitoring surface lets customers register a portfolio of D-U-N-S Numbers and subscribe to change
+    events. When D&B detects an update to a monitored attribute — address, ownership, financials, risk
+    rating, executives, business status — the change is delivered as a notification package (typically
+    via SFTP pull file or webhook-style delivery) that downstream systems can replay to keep master data
+    current. Monitoring is the streaming complement to Enrich's pull model.
+  humanURL: https://directplus.documentation.dnb.com/html/guides/Monitoring.html
+  baseURL: https://plus.dnb.com
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  tags:
+  - Monitoring
+  - Change Notifications
+  - Events
+  - Portfolio
+  - Master Data
+  properties:
+  - type: Documentation
+    url: https://directplus.documentation.dnb.com/html/guides/Monitoring.html
+- aid: dun-and-bradstreet:direct-plus-research
+  name: D&B Direct+ Research API
+  description: >-
+    The Research surface lets customers retrieve historical responses Direct+ has previously returned,
+    supporting audit, dispute, and reconciliation use cases where the application needs to see the exact
+    data that was returned at a point in time rather than the current value.
+  humanURL: https://directplus.documentation.dnb.com/html/guides/Research.html
+  baseURL: https://plus.dnb.com
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  tags:
+  - Research
+  - Audit
+  - Historical Data
+  properties:
+  - type: Documentation
+    url: https://directplus.documentation.dnb.com/html/guides/Research.html
+- aid: dun-and-bradstreet:dun-and-bradstreet-authentication-api
+  name: Dun & Bradstreet Authentication API
+  description: OAuth 2.0 token issuance for Direct+.
+  humanURL: https://directplus.documentation.dnb.com/
+  baseURL: https://plus.dnb.com
+  tags:
+  - Authentication
+  properties:
+  - type: OpenAPI
+    url: openapi/dun-and-bradstreet-authentication-api-openapi.yml
+  - type: Documentation
+    url: https://directplus.documentation.dnb.com/
+  - type: APIReference
+    url: https://directplus.documentation.dnb.com/html/pages/APIList.html
+  - type: GettingStarted
+    url: https://directplus.documentation.dnb.com/html/pages/UsingAPIs.html
+  - type: Authentication
+    url: https://directplus.documentation.dnb.com/html/guides/Authentication.html
+  - type: ChangeLog
+    url: https://directplus.documentation.dnb.com/html/resources/ChangeHistory.html
+  - type: Support
+    url: https://directplus.documentation.dnb.com/support.html
+  - type: JSONSchema
+    url: json-schema/dnb-direct-plus-organization-schema.json
+  - type: JSONSchema
+    url: json-schema/dnb-direct-plus-match-candidate-schema.json
+  - type: JSONSchema
+    url: json-schema/dnb-direct-plus-monitoring-notification-schema.json
+  - type: JSONStructure
+    url: json-structure/dnb-direct-plus-organization-structure.json
+  - type: Examples
+    url: examples/dnb-direct-plus-generate-access-token-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-cleanse-match-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-search-companies-by-criteria-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-search-contacts-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-get-data-blocks-by-duns-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-multi-process-match-and-enrich-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-submit-batch-file-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-get-batch-file-status-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-download-batch-file-results-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-create-monitoring-registration-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-add-duns-to-registration-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-remove-duns-from-registration-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-pull-monitoring-notifications-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-get-audit-record-example.json
+- aid: dun-and-bradstreet:dun-and-bradstreet-data-file-api
+  name: Dun & Bradstreet Data File API
+  description: Asynchronous batch file submission, status, and download.
+  humanURL: https://directplus.documentation.dnb.com/
+  baseURL: https://plus.dnb.com
+  tags:
+  - Data File
+  properties:
+  - type: OpenAPI
+    url: openapi/dun-and-bradstreet-data-file-api-openapi.yml
+  - type: Documentation
+    url: https://directplus.documentation.dnb.com/
+  - type: APIReference
+    url: https://directplus.documentation.dnb.com/html/pages/APIList.html
+  - type: GettingStarted
+    url: https://directplus.documentation.dnb.com/html/pages/UsingAPIs.html
+  - type: Authentication
+    url: https://directplus.documentation.dnb.com/html/guides/Authentication.html
+  - type: ChangeLog
+    url: https://directplus.documentation.dnb.com/html/resources/ChangeHistory.html
+  - type: Support
+    url: https://directplus.documentation.dnb.com/support.html
+  - type: JSONSchema
+    url: json-schema/dnb-direct-plus-organization-schema.json
+  - type: JSONSchema
+    url: json-schema/dnb-direct-plus-match-candidate-schema.json
+  - type: JSONSchema
+    url: json-schema/dnb-direct-plus-monitoring-notification-schema.json
+  - type: JSONStructure
+    url: json-structure/dnb-direct-plus-organization-structure.json
+  - type: Examples
+    url: examples/dnb-direct-plus-generate-access-token-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-cleanse-match-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-search-companies-by-criteria-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-search-contacts-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-get-data-blocks-by-duns-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-multi-process-match-and-enrich-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-submit-batch-file-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-get-batch-file-status-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-download-batch-file-results-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-create-monitoring-registration-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-add-duns-to-registration-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-remove-duns-from-registration-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-pull-monitoring-notifications-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-get-audit-record-example.json
+- aid: dun-and-bradstreet:dun-and-bradstreet-enrich-api
+  name: Dun & Bradstreet Enrich API
+  description: Retrieve Data Blocks for a known D-U-N-S Number.
+  humanURL: https://directplus.documentation.dnb.com/
+  baseURL: https://plus.dnb.com
+  tags:
+  - Enrich
+  properties:
+  - type: OpenAPI
+    url: openapi/dun-and-bradstreet-enrich-api-openapi.yml
+  - type: Documentation
+    url: https://directplus.documentation.dnb.com/
+  - type: APIReference
+    url: https://directplus.documentation.dnb.com/html/pages/APIList.html
+  - type: GettingStarted
+    url: https://directplus.documentation.dnb.com/html/pages/UsingAPIs.html
+  - type: Authentication
+    url: https://directplus.documentation.dnb.com/html/guides/Authentication.html
+  - type: ChangeLog
+    url: https://directplus.documentation.dnb.com/html/resources/ChangeHistory.html
+  - type: Support
+    url: https://directplus.documentation.dnb.com/support.html
+  - type: JSONSchema
+    url: json-schema/dnb-direct-plus-organization-schema.json
+  - type: JSONSchema
+    url: json-schema/dnb-direct-plus-match-candidate-schema.json
+  - type: JSONSchema
+    url: json-schema/dnb-direct-plus-monitoring-notification-schema.json
+  - type: JSONStructure
+    url: json-structure/dnb-direct-plus-organization-structure.json
+  - type: Examples
+    url: examples/dnb-direct-plus-generate-access-token-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-cleanse-match-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-search-companies-by-criteria-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-search-contacts-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-get-data-blocks-by-duns-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-multi-process-match-and-enrich-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-submit-batch-file-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-get-batch-file-status-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-download-batch-file-results-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-create-monitoring-registration-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-add-duns-to-registration-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-remove-duns-from-registration-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-pull-monitoring-notifications-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-get-audit-record-example.json
+- aid: dun-and-bradstreet:dun-and-bradstreet-identity-resolution-api
+  name: Dun & Bradstreet Identity Resolution API
+  description: Match an input record to a D-U-N-S Number.
+  humanURL: https://directplus.documentation.dnb.com/
+  baseURL: https://plus.dnb.com
+  tags:
+  - Identity Resolution
+  properties:
+  - type: OpenAPI
+    url: openapi/dun-and-bradstreet-identity-resolution-api-openapi.yml
+  - type: Documentation
+    url: https://directplus.documentation.dnb.com/
+  - type: APIReference
+    url: https://directplus.documentation.dnb.com/html/pages/APIList.html
+  - type: GettingStarted
+    url: https://directplus.documentation.dnb.com/html/pages/UsingAPIs.html
+  - type: Authentication
+    url: https://directplus.documentation.dnb.com/html/guides/Authentication.html
+  - type: ChangeLog
+    url: https://directplus.documentation.dnb.com/html/resources/ChangeHistory.html
+  - type: Support
+    url: https://directplus.documentation.dnb.com/support.html
+  - type: JSONSchema
+    url: json-schema/dnb-direct-plus-organization-schema.json
+  - type: JSONSchema
+    url: json-schema/dnb-direct-plus-match-candidate-schema.json
+  - type: JSONSchema
+    url: json-schema/dnb-direct-plus-monitoring-notification-schema.json
+  - type: JSONStructure
+    url: json-structure/dnb-direct-plus-organization-structure.json
+  - type: Examples
+    url: examples/dnb-direct-plus-generate-access-token-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-cleanse-match-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-search-companies-by-criteria-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-search-contacts-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-get-data-blocks-by-duns-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-multi-process-match-and-enrich-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-submit-batch-file-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-get-batch-file-status-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-download-batch-file-results-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-create-monitoring-registration-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-add-duns-to-registration-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-remove-duns-from-registration-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-pull-monitoring-notifications-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-get-audit-record-example.json
+- aid: dun-and-bradstreet:dun-and-bradstreet-monitoring-api
+  name: Dun & Bradstreet Monitoring API
+  description: Subscribe to and consume change notifications on a portfolio.
+  humanURL: https://directplus.documentation.dnb.com/
+  baseURL: https://plus.dnb.com
+  tags:
+  - Monitoring
+  properties:
+  - type: OpenAPI
+    url: openapi/dun-and-bradstreet-monitoring-api-openapi.yml
+  - type: Documentation
+    url: https://directplus.documentation.dnb.com/
+  - type: APIReference
+    url: https://directplus.documentation.dnb.com/html/pages/APIList.html
+  - type: GettingStarted
+    url: https://directplus.documentation.dnb.com/html/pages/UsingAPIs.html
+  - type: Authentication
+    url: https://directplus.documentation.dnb.com/html/guides/Authentication.html
+  - type: ChangeLog
+    url: https://directplus.documentation.dnb.com/html/resources/ChangeHistory.html
+  - type: Support
+    url: https://directplus.documentation.dnb.com/support.html
+  - type: JSONSchema
+    url: json-schema/dnb-direct-plus-organization-schema.json
+  - type: JSONSchema
+    url: json-schema/dnb-direct-plus-match-candidate-schema.json
+  - type: JSONSchema
+    url: json-schema/dnb-direct-plus-monitoring-notification-schema.json
+  - type: JSONStructure
+    url: json-structure/dnb-direct-plus-organization-structure.json
+  - type: Examples
+    url: examples/dnb-direct-plus-generate-access-token-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-cleanse-match-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-search-companies-by-criteria-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-search-contacts-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-get-data-blocks-by-duns-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-multi-process-match-and-enrich-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-submit-batch-file-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-get-batch-file-status-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-download-batch-file-results-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-create-monitoring-registration-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-add-duns-to-registration-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-remove-duns-from-registration-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-pull-monitoring-notifications-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-get-audit-record-example.json
+- aid: dun-and-bradstreet:dun-and-bradstreet-multi-process-api
+  name: Dun & Bradstreet Multi-Process API
+  description: Combined match plus enrich in a single call.
+  humanURL: https://directplus.documentation.dnb.com/
+  baseURL: https://plus.dnb.com
+  tags:
+  - Multi-Process
+  properties:
+  - type: OpenAPI
+    url: openapi/dun-and-bradstreet-multi-process-api-openapi.yml
+  - type: Documentation
+    url: https://directplus.documentation.dnb.com/
+  - type: APIReference
+    url: https://directplus.documentation.dnb.com/html/pages/APIList.html
+  - type: GettingStarted
+    url: https://directplus.documentation.dnb.com/html/pages/UsingAPIs.html
+  - type: Authentication
+    url: https://directplus.documentation.dnb.com/html/guides/Authentication.html
+  - type: ChangeLog
+    url: https://directplus.documentation.dnb.com/html/resources/ChangeHistory.html
+  - type: Support
+    url: https://directplus.documentation.dnb.com/support.html
+  - type: JSONSchema
+    url: json-schema/dnb-direct-plus-organization-schema.json
+  - type: JSONSchema
+    url: json-schema/dnb-direct-plus-match-candidate-schema.json
+  - type: JSONSchema
+    url: json-schema/dnb-direct-plus-monitoring-notification-schema.json
+  - type: JSONStructure
+    url: json-structure/dnb-direct-plus-organization-structure.json
+  - type: Examples
+    url: examples/dnb-direct-plus-generate-access-token-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-cleanse-match-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-search-companies-by-criteria-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-search-contacts-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-get-data-blocks-by-duns-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-multi-process-match-and-enrich-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-submit-batch-file-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-get-batch-file-status-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-download-batch-file-results-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-create-monitoring-registration-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-add-duns-to-registration-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-remove-duns-from-registration-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-pull-monitoring-notifications-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-get-audit-record-example.json
+- aid: dun-and-bradstreet:dun-and-bradstreet-research-api
+  name: Dun & Bradstreet Research API
+  description: Retrieve historical responses for audit and reconciliation.
+  humanURL: https://directplus.documentation.dnb.com/
+  baseURL: https://plus.dnb.com
+  tags:
+  - Research
+  properties:
+  - type: OpenAPI
+    url: openapi/dun-and-bradstreet-research-api-openapi.yml
+  - type: Documentation
+    url: https://directplus.documentation.dnb.com/
+  - type: APIReference
+    url: https://directplus.documentation.dnb.com/html/pages/APIList.html
+  - type: GettingStarted
+    url: https://directplus.documentation.dnb.com/html/pages/UsingAPIs.html
+  - type: Authentication
+    url: https://directplus.documentation.dnb.com/html/guides/Authentication.html
+  - type: ChangeLog
+    url: https://directplus.documentation.dnb.com/html/resources/ChangeHistory.html
+  - type: Support
+    url: https://directplus.documentation.dnb.com/support.html
+  - type: JSONSchema
+    url: json-schema/dnb-direct-plus-organization-schema.json
+  - type: JSONSchema
+    url: json-schema/dnb-direct-plus-match-candidate-schema.json
+  - type: JSONSchema
+    url: json-schema/dnb-direct-plus-monitoring-notification-schema.json
+  - type: JSONStructure
+    url: json-structure/dnb-direct-plus-organization-structure.json
+  - type: Examples
+    url: examples/dnb-direct-plus-generate-access-token-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-cleanse-match-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-search-companies-by-criteria-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-search-contacts-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-get-data-blocks-by-duns-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-multi-process-match-and-enrich-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-submit-batch-file-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-get-batch-file-status-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-download-batch-file-results-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-create-monitoring-registration-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-add-duns-to-registration-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-remove-duns-from-registration-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-pull-monitoring-notifications-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-get-audit-record-example.json
+- aid: dun-and-bradstreet:dun-and-bradstreet-search-api
+  name: Dun & Bradstreet Search API
+  description: Find companies, principals, and related entities.
+  humanURL: https://directplus.documentation.dnb.com/
+  baseURL: https://plus.dnb.com
+  tags:
+  - Search
+  properties:
+  - type: OpenAPI
+    url: openapi/dun-and-bradstreet-search-api-openapi.yml
+  - type: Documentation
+    url: https://directplus.documentation.dnb.com/
+  - type: APIReference
+    url: https://directplus.documentation.dnb.com/html/pages/APIList.html
+  - type: GettingStarted
+    url: https://directplus.documentation.dnb.com/html/pages/UsingAPIs.html
+  - type: Authentication
+    url: https://directplus.documentation.dnb.com/html/guides/Authentication.html
+  - type: ChangeLog
+    url: https://directplus.documentation.dnb.com/html/resources/ChangeHistory.html
+  - type: Support
+    url: https://directplus.documentation.dnb.com/support.html
+  - type: JSONSchema
+    url: json-schema/dnb-direct-plus-organization-schema.json
+  - type: JSONSchema
+    url: json-schema/dnb-direct-plus-match-candidate-schema.json
+  - type: JSONSchema
+    url: json-schema/dnb-direct-plus-monitoring-notification-schema.json
+  - type: JSONStructure
+    url: json-structure/dnb-direct-plus-organization-structure.json
+  - type: Examples
+    url: examples/dnb-direct-plus-generate-access-token-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-cleanse-match-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-search-companies-by-criteria-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-search-contacts-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-get-data-blocks-by-duns-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-multi-process-match-and-enrich-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-submit-batch-file-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-get-batch-file-status-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-download-batch-file-results-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-create-monitoring-registration-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-add-duns-to-registration-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-remove-duns-from-registration-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-pull-monitoring-notifications-example.json
+  - type: Examples
+    url: examples/dnb-direct-plus-get-audit-record-example.json
 common:
   - type: AgenticAccess
     url: agentic-access/dun-and-bradstreet-agentic-access.yml
