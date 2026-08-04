@@ -1,0 +1,28 @@
+{
+  "provider": "dun-and-bradstreet",
+  "sources": [
+    "dun-and-bradstreet-authentication-api-openapi.yml",
+    "dun-and-bradstreet-data-file-api-openapi.yml",
+    "dun-and-bradstreet-enrich-api-openapi.yml",
+    "dun-and-bradstreet-identity-resolution-api-openapi.yml",
+    "dun-and-bradstreet-monitoring-api-openapi.yml",
+    "dun-and-bradstreet-multi-process-api-openapi.yml",
+    "dun-and-bradstreet-research-api-openapi.yml",
+    "dun-and-bradstreet-search-api-openapi.yml"
+  ],
+  "outputs": [
+    "dun-and-bradstreet-authentication-api-openapi.yml",
+    "dun-and-bradstreet-data-file-api-openapi.yml",
+    "dun-and-bradstreet-enrich-api-openapi.yml",
+    "dun-and-bradstreet-identity-resolution-api-openapi.yml",
+    "dun-and-bradstreet-monitoring-api-openapi.yml",
+    "dun-and-bradstreet-multi-process-api-openapi.yml",
+    "dun-and-bradstreet-research-api-openapi.yml",
+    "dun-and-bradstreet-search-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
