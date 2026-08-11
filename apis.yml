@@ -731,12 +731,6 @@ common:
     url: vocabulary/dun-and-bradstreet-vocabulary.yml
   - type: JSONLD
     url: json-ld/dun-and-bradstreet-context.jsonld
-  - type: X-NaftikoCapability
-    url: capabilities/identity-resolution.yaml
-  - type: X-NaftikoCapability
-    url: capabilities/master-data-sync.yaml
-  - type: X-NaftikoCapability
-    url: capabilities/third-party-risk-onboarding.yaml
   - type: FinOps
     url: finops/dun-and-bradstreet-finops.yml
   - type: Features
