@@ -29,7 +29,7 @@ image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/dun-and-br
 url: >-
   https://raw.githubusercontent.com/api-evangelist/dun-and-bradstreet/refs/heads/main/apis.yml
 created: '2026-05-23'
-modified: '2026-05-23'
+modified: '2026-08-13'
 specificationVersion: '0.20'
 type: Index
 position: Producer
@@ -48,6 +48,37 @@ tags:
   - Sales Intelligence
   - Monitoring
 apis:
+- name: D&B Risk Analytics MCP Server
+  description: >-
+    Dun & Bradstreet's remote Model Context Protocol server for D&B Risk
+    Analytics, exposing KYC/KYB onboarding, entity resolution, sanctions and
+    adverse-media screening, alert triage and risk decision documentation to
+    MCP-compatible agents over Streamable HTTP. Confirmed live: the endpoint
+    answers an unauthenticated tools/list with HTTP 401 invalid_token and
+    publishes RFC 9728 protected-resource metadata plus an RFC 8414
+    authorization server with mcp.read / mcp.write scopes. The tool list
+    itself requires an authenticated session.
+  humanURL: https://www.dnb.com/en-us/solutions/artificial-intelligence/connectors/dnb-mcp.html
+  baseURL: https://agents.riskanalytics.dnb.com
+  tags:
+    - MCP
+    - Agents
+    - Risk
+    - Compliance
+    - KYB
+  properties:
+    - type: MCPServer
+      url: mcp/dun-and-bradstreet-mcp.yml
+    - type: ToolCrosswalk
+      url: mcp/dun-and-bradstreet-tool-crosswalk.yml
+    - type: OAuthScopes
+      url: scopes/dun-and-bradstreet-scopes.yml
+    - type: Authentication
+      url: authentication/dun-and-bradstreet-authentication.yml
+    - type: WellKnown
+      url: well-known/dun-and-bradstreet-well-known.yml
+    - type: Documentation
+      url: https://www.dnb.com/en-us/solutions/artificial-intelligence/connectors.html
 - aid: dun-and-bradstreet:direct-plus-identity-resolution
   name: D&B Direct+ Identity Resolution API
   description: >-
@@ -647,6 +678,83 @@ apis:
   - type: Examples
     url: examples/dnb-direct-plus-get-audit-record-example.json
 common:
+  - type: MCPServer
+    url: mcp/dun-and-bradstreet-mcp.yml
+    name: D&B Risk Analytics + Commercial Graph MCP servers
+  - type: ToolCrosswalk
+    url: mcp/dun-and-bradstreet-tool-crosswalk.yml
+  - type: WellKnown
+    url: well-known/dun-and-bradstreet-well-known.yml
+  - type: LLMsTxt
+    url: llms/dun-and-bradstreet-llms.txt
+  - type: OAuthScopes
+    url: scopes/dun-and-bradstreet-scopes.yml
+  - type: Conventions
+    url: conventions/dun-and-bradstreet-conventions.yml
+  - type: ErrorCatalog
+    url: errors/dun-and-bradstreet-problem-types.yml
+  - type: DataModel
+    url: data-model/dun-and-bradstreet-data-model.yml
+  - type: Lifecycle
+    url: lifecycle/dun-and-bradstreet-lifecycle.yml
+  - type: StatusPage
+    url: https://status.dnb.com/
+  - type: ChangeLog
+    url: changelog/dun-and-bradstreet-changelog.yml
+  - type: Webhooks
+    url: asyncapi/dun-and-bradstreet-status-webhooks.yml
+    name: D&B Operational Status webhooks
+  - type: Conformance
+    url: conformance/dun-and-bradstreet-conformance.yml
+  - type: Compliance
+    url: https://www.dnb.com/en-us/utilities/our-security.html
+  - type: Security
+    url: https://www.dnb.com/en-us/utilities/our-security.html
+  - type: VulnerabilityDisclosure
+    url: security/dun-and-bradstreet-vulnerability-disclosure.yml
+  - type: Packages
+    url: packages/dun-and-bradstreet-packages.yml
+  - type: AgentSkill
+    url: skills/_index.yml
+    name: D&B Direct+ Agent Skills
+  - type: AgentSkill
+    url: skills/dun-and-bradstreet-resolve-and-enrich-company.md
+    name: Resolve a company to a D-U-N-S Number and enrich it
+  - type: AgentSkill
+    url: skills/dun-and-bradstreet-monitor-a-portfolio.md
+    name: Monitor a portfolio of companies for change
+  - type: AgentSkill
+    url: skills/dun-and-bradstreet-batch-match-and-enrich.md
+    name: Batch match and enrich a file of companies
+  - type: AgentSkill
+    url: skills/dun-and-bradstreet-search-and-audit.md
+    name: Search for companies and contacts, and replay a past response
+  - type: Overlay
+    url: overlays/dun-and-bradstreet-authentication-api-overlay.yaml
+    name: D&B Authentication Api Overlay
+  - type: Overlay
+    url: overlays/dun-and-bradstreet-data-file-api-overlay.yaml
+    name: D&B Data File Api Overlay
+  - type: Overlay
+    url: overlays/dun-and-bradstreet-enrich-api-overlay.yaml
+    name: D&B Enrich Api Overlay
+  - type: Overlay
+    url: overlays/dun-and-bradstreet-identity-resolution-api-overlay.yaml
+    name: D&B Identity Resolution Api Overlay
+  - type: Overlay
+    url: overlays/dun-and-bradstreet-monitoring-api-overlay.yaml
+    name: D&B Monitoring Api Overlay
+  - type: Overlay
+    url: overlays/dun-and-bradstreet-multi-process-api-overlay.yaml
+    name: D&B Multi Process Api Overlay
+  - type: Overlay
+    url: overlays/dun-and-bradstreet-research-api-overlay.yaml
+    name: D&B Research Api Overlay
+  - type: Overlay
+    url: overlays/dun-and-bradstreet-search-api-overlay.yaml
+    name: D&B Search Api Overlay
+  - type: TrustCenter
+    url: security/dun-and-bradstreet-trust-center.yml
   - type: AgenticAccess
     url: agentic-access/dun-and-bradstreet-agentic-access.yml
   - type: DomainSecurity
@@ -699,18 +807,18 @@ common:
     url: https://directplus.documentation.dnb.com/html/guides/Authentication.html
   - type: ChangeLog
     url: https://directplus.documentation.dnb.com/html/resources/ChangeHistory.html
-  - type: Signup
+  - type: SignUp
     url: https://directplus.documentation.dnb.com/registration/register
   - type: Login
     url: https://directplus.documentation.dnb.com/home
   - type: Support
     url: https://service.dnb.com/
   - type: TermsOfService
-    url: https://www.dnb.com/utility-pages/terms-of-use.html
+    url: https://www.dnb.com/en-us/utilities/terms-of-use.html
   - type: PrivacyPolicy
-    url: https://www.dnb.com/utility-pages/privacy-policy.html
+    url: https://www.dnb.com/en-us/why-dnb/data-transparency/personal-data.html
   - type: TrustCenter
-    url: https://www.dnb.com/utility-pages/privacy-policy.html
+    url: https://www.dnb.com/en-us/utilities/our-security.html
   - type: LinkedIn
     url: https://www.linkedin.com/company/dun-&-bradstreet
   - type: X
@@ -865,3 +973,9 @@ common:
 maintainers:
   - FN: Kin Lane
     email: kin@apievangelist.com
+
+x-enrichment:
+  date: '2026-08-13'
+  status: enriched
+  artifacts_added: 31
+  pass: local-v1
