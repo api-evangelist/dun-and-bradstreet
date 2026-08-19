@@ -1,0 +1,38 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "D&B Direct+ Authentication API",
+    "version": "3.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Generate Direct+ Access Token",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://plus.dnb.com/v3/token",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "basic",
+              "username": "{{username}}",
+              "password": "{{password}}"
+            }
+          },
+          "docs": "Exchange Direct+ API credentials for an OAuth 2.0 bearer access token using the client-credentials grant. The returned token is included as a Bearer authorization header on all subsequent Direct+ calls."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

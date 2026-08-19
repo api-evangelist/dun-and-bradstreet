@@ -1,0 +1,110 @@
+generated: '2026-08-13'
+method: probed
+source: live GET of /.well-known/* on every apis.yml + OpenAPI servers[] host
+description: >-
+  Well-known discovery probe across every Dun & Bradstreet host named in
+  apis.yml and in the OpenAPI servers[] blocks, plus the D&B-owned agent host
+  found during contract discovery. The Direct+ API gateway (plus.dnb.com) and
+  the corporate site (www.dnb.com) serve nothing at /.well-known/. The gated
+  Direct+ documentation portal 302s every /.well-known/ path into its Okta
+  sign-in flow, so no document is retrievable anonymously there. The real
+  well-known surface is on agents.riskanalytics.dnb.com, the D&B Risk
+  Analytics remote MCP server, which publishes RFC 9728 protected-resource
+  metadata and RFC 8414 authorization-server metadata anonymously.
+
+hosts:
+  - host: https://agents.riskanalytics.dnb.com
+    role: D&B Risk Analytics remote MCP server (agent surface)
+    documents:
+      - path: /.well-known/oauth-protected-resource
+        status: 200
+        content_type: application/json
+        file: dun-and-bradstreet-riskanalytics-oauth-protected-resource.json
+        spec: RFC 9728 OAuth 2.0 Protected Resource Metadata
+      - path: /.well-known/oauth-protected-resource/mcp
+        status: 200
+        content_type: application/json
+        file: dun-and-bradstreet-riskanalytics-oauth-protected-resource-mcp.json
+        spec: RFC 9728 (resource-scoped, advertised by the MCP 401 WWW-Authenticate header)
+      - path: /.well-known/oauth-authorization-server
+        status: 200
+        content_type: application/json
+        file: dun-and-bradstreet-riskanalytics-oauth-authorization-server.json
+        spec: RFC 8414 OAuth 2.0 Authorization Server Metadata
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+      - path: /.well-known/security.txt
+        status: 404
+
+  - host: https://plus.dnb.com
+    role: D&B Direct+ API gateway (baseURL for every apis.yml API entry)
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/oauth-protected-resource
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+    note: >-
+      Every path returns the Direct+ gateway's own JSON 404 envelope
+      (transactionDetail + error), not an HTML shell — a genuine 404, not a
+      soft-404.
+
+  - host: https://www.dnb.com
+    role: corporate website
+    documents:
+      - path: /.well-known/security.txt
+        status: 404
+      - path: /security.txt
+        status: 404
+      - path: /.well-known/openid-configuration
+        status: 404
+      - path: /.well-known/oauth-authorization-server
+        status: 404
+      - path: /.well-known/api-catalog
+        status: 404
+      - path: /.well-known/ai-plugin.json
+        status: 404
+      - path: /.well-known/agent-card.json
+        status: 404
+      - path: /.well-known/agent.json
+        status: 404
+    note: >-
+      No RFC 9116 security.txt is served, although D&B does publish a security
+      page and an incident-reporting mailbox — see
+      security/dun-and-bradstreet-vulnerability-disclosure.yml.
+
+  - host: https://directplus.documentation.dnb.com
+    role: Direct+ documentation portal (gated)
+    documents:
+      - path: /.well-known/security.txt
+        status: 302
+        redirect: https://directplus.documentation.dnb.com/oauth2/authorization/okta
+      - path: /.well-known/agent-card.json
+        status: 302
+        redirect: https://directplus.documentation.dnb.com/oauth2/authorization/okta
+    note: >-
+      Every path under this host, including every documentation guide page,
+      302s into Okta sign-in. Nothing is retrievable anonymously.
+
+absences:
+  - No security.txt (RFC 9116) on any D&B host.
+  - No /.well-known/api-catalog (RFC 9727) on any D&B host.
+  - No A2A agent card at either the canonical or the legacy path on any host.
+  - >-
+    No OIDC discovery document; the MCP authorization server advertises
+    openid/email/profile scopes but does not serve /.well-known/openid-configuration.

@@ -1,0 +1,237 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/_original/dnb-direct-plus-openapi-original.yml
+description: >-
+  Entity-relationship graph for the D&B Direct+ API, derived from the
+  components.schemas $ref graph and the id-reference fields in the harvested
+  OpenAPI. Every entity, field and relationship below resolves to a schema or
+  parameter that exists verbatim in the spec — nothing is inferred from the
+  gated documentation portal.
+
+primary_key:
+  name: duns
+  label: D-U-N-S Number
+  type: string
+  pattern: '^[0-9]{9}$'
+  description: >-
+    The nine-digit D-U-N-S Number is the join key for the entire Direct+
+    surface. It is the output of Identity Resolution, the input to Enrich,
+    Research and Monitoring membership, and the correlation key on every
+    Monitoring notification. There are no other id prefixes or opaque object
+    ids in this API — D&B's whole data model hangs off one global identifier.
+
+entities:
+  - name: Organization
+    schema: OrganizationSummary
+    description: A business entity in the D&B Data Cloud.
+    identifier: duns
+    fields: [duns, primaryName, primaryAddress, countryISOAlpha2Code, telephone, registrationNumbers]
+    returned_by: [cleanseMatch, searchCompaniesByCriteria, searchContacts, getDataBlocksByDuns, multiProcessMatchAndEnrich]
+
+  - name: Address
+    schema: Address
+    description: Structured postal address; embedded, never addressed on its own.
+    fields: [streetAddress, addressLocality, addressRegion, postalCode, addressCountry]
+
+  - name: MatchCandidate
+    schema: MatchCandidate
+    description: >-
+      One ranked candidate returned by Identity Resolution, carrying the
+      match-quality verdict alongside the organization.
+    fields:
+      - displaySequence
+      - matchQualityInformation.confidenceCode
+      - matchQualityInformation.matchGrade
+      - matchQualityInformation.matchDataProfile
+    returned_by: [cleanseMatch, multiProcessMatchAndEnrich]
+
+  - name: DataBlock
+    schema: null
+    description: >-
+      Not a declared schema — a licensed slice of the organization payload
+      selected by the blockIDs parameter. The Enrich response models the
+      block families as sub-objects (corporateLinkage, financials, principals,
+      beneficialOwnership, riskAssessment).
+    identifier: blockID
+    selected_by: [getDataBlocksByDuns, multiProcessMatchAndEnrich, createMonitoringRegistration]
+
+  - name: Contact
+    schema: 'ContactSearchResponse.searchCandidates[].contact'
+    description: A named person associated with an organization.
+    fields:
+      - fullName
+      - 'jobTitles[].title'
+    returned_by: [searchContacts]
+
+  - name: MonitoringRegistration
+    schema: MonitoringRegistrationRequest / MonitoringRegistrationResponse
+    description: >-
+      A named portfolio of D-U-N-S Numbers watched for change, with a chosen
+      delivery method.
+    identifier: registrationReference
+    fields: [registrationReference, description, blockIDs, deliveryMethod, status, createdTimestamp]
+    delivery_methods: [SFTP, API_PULL]
+    returned_by: [createMonitoringRegistration]
+
+  - name: PortfolioMembership
+    schema: PortfolioMembershipRequest / PortfolioMembershipResponse
+    description: The set of D-U-N-S Numbers inside a MonitoringRegistration.
+    fields:
+      - dunsList
+      - addedQuantity
+      - removedQuantity
+      - 'rejectedDuns[].duns'
+      - 'rejectedDuns[].reason'
+    returned_by: [addDunsToRegistration, removeDunsFromRegistration]
+
+  - name: MonitoringNotification
+    schema: 'MonitoringNotificationsResponse.notifications[]'
+    description: >-
+      A single field-level change event on a monitored organization, carrying
+      the before and after values.
+    fields: [duns, changeTimestamp, blockID, elementId, previousValue, currentValue]
+    returned_by: [pullMonitoringNotifications]
+
+  - name: BatchFile
+    schema: BatchFileSubmission / BatchSubmissionResponse / BatchStatusResponse
+    description: An asynchronous bulk match/enrich job.
+    identifier: fileId
+    fields: [fileId, processId, productId, status, submissionTimestamp, processedRecordCount, totalRecordCount]
+    status_values: [PENDING, PROCESSING, COMPLETED, FAILED]
+    returned_by: [submitBatchFile, getBatchFileStatus, downloadBatchFileResults]
+
+  - name: AuditRecord
+    schema: AuditResponse
+    description: >-
+      The verbatim response D&B previously returned for a given D-U-N-S at a
+      given timestamp — a replayable point-in-time record.
+    fields: [duns, transactionTimestamp, originalResponse]
+    returned_by: [getAuditRecord]
+
+  - name: AccessToken
+    schema: TokenRequest / TokenResponse
+    description: Bearer JWT minted by the client_credentials exchange.
+    fields: [grant_type, access_token, token_type, expirationDateTime]
+    returned_by: [generateAccessToken]
+
+  - name: TransactionDetail
+    schema: TransactionDetail
+    description: >-
+      Correlation envelope attached to every response, success or error.
+    fields: [transactionID, transactionTimestamp, inLanguage, serviceVersion]
+    embedded_in: [MatchResponse, SearchResponse, ContactSearchResponse, EnrichResponse, MultiProcessResponse, Error]
+
+relationships:
+  - from: MatchResponse
+    to: MatchCandidate
+    type: has_many
+    via: matchCandidates
+    evidence: $ref array
+  - from: MatchCandidate
+    to: Organization
+    type: has_one
+    via: organization
+    evidence: $ref OrganizationSummary
+  - from: Organization
+    to: Address
+    type: has_one
+    via: primaryAddress
+    evidence: $ref Address
+  - from: SearchResponse
+    to: Organization
+    type: has_many
+    via: 'searchCandidates[].organization'
+    evidence: $ref OrganizationSummary
+  - from: ContactSearchResponse
+    to: Contact
+    type: has_many
+    via: 'searchCandidates[].contact'
+  - from: Contact
+    to: Organization
+    type: belongs_to
+    via: 'searchCandidates[].organization'
+    evidence: $ref OrganizationSummary
+  - from: EnrichResponse
+    to: Organization
+    type: has_one
+    via: organization.duns
+    evidence: id-reference field
+  - from: EnrichResponse
+    to: DataBlock
+    type: has_many
+    via: >-
+      blockIDs (request) -> organization.{corporateLinkage, financials,
+      principals, beneficialOwnership, riskAssessment}
+  - from: MultiProcessResponse
+    to: MatchCandidate
+    type: has_many
+    via: matchCandidates
+    evidence: $ref array
+  - from: MonitoringRegistration
+    to: PortfolioMembership
+    type: has_many
+    via: registrationReference (path parameter)
+    evidence: id-reference path parameter
+  - from: PortfolioMembership
+    to: Organization
+    type: has_many
+    via: dunsList
+    evidence: id-reference field (duns pattern)
+  - from: MonitoringRegistration
+    to: MonitoringNotification
+    type: has_many
+    via: registrationReference (path parameter)
+    evidence: id-reference path parameter
+  - from: MonitoringNotification
+    to: Organization
+    type: belongs_to
+    via: duns
+    evidence: id-reference field
+  - from: MonitoringNotification
+    to: DataBlock
+    type: belongs_to
+    via: blockID
+    evidence: id-reference field
+  - from: MonitoringRegistration
+    to: DataBlock
+    type: has_many
+    via: blockIDs
+  - from: AuditRecord
+    to: Organization
+    type: belongs_to
+    via: duns
+    evidence: id-reference path parameter
+  - from: BatchFile
+    to: Organization
+    type: has_many
+    via: uploaded file rows resolved to duns
+    confidence: low
+    note: The file payload schema is binary; row shape is documented only in the gated portal.
+
+core_flow:
+  - step: resolve
+    operation: cleanseMatch
+    input: name + countryISOAlpha2Code (+ address, phone, registration number)
+    output: duns
+  - step: enrich
+    operation: getDataBlocksByDuns
+    input: duns + blockIDs
+    output: licensed Data Block payload
+  - step: watch
+    operation: createMonitoringRegistration -> addDunsToRegistration
+    input: duns
+    output: change notifications
+  - step: replay
+    operation: getAuditRecord
+    input: duns + transactionTimestamp
+    output: the exact prior response
+
+render: null
+render_note: No subway/ diagram exists in this repo yet.
+
+absences:
+  - >-
+    The Data Block catalogue (block IDs, versions, levels and the attributes
+    inside each) is the largest part of D&B's real data model and is published
+    only inside the Okta-gated documentation portal, so it cannot be modelled
+    here beyond the block families the Enrich schema names.

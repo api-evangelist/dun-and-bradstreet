@@ -1,0 +1,52 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "D&B Direct+ Authentication Enrich API",
+    "version": "3.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Enrich",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve Data Blocks For D-U-N-S",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://plus.dnb.com/v1/data/duns/:duns",
+            "params": [
+              {
+                "name": "duns",
+                "value": "",
+                "type": "path",
+                "description": "Nine-digit D-U-N-S Number."
+              },
+              {
+                "name": "blockIDs",
+                "value": "",
+                "type": "query",
+                "description": "Comma-separated list of block IDs with version (e.g. companyinfo_L2_v1,principalscontacts_L1_v2)."
+              },
+              {
+                "name": "tradeUp",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve one or more Data Blocks for a given D-U-N-S Number. The caller specifies which blocks (Company Information, Principals & Contacts, Hierarchy & Connections, Financial Strength, Risk & Compliance, Beneficial Ownership, ESG, etc.) to include via the blockIDs query parameter. Each block is independently versioned."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

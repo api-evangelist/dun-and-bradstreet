@@ -1,0 +1,118 @@
+generated: '2026-08-13'
+method: searched
+source: https://status.dnb.com/
+description: >-
+  Versioning, deprecation, availability and status posture for the D&B
+  Direct+ API. The status page is public and real. The versioning scheme is
+  derived from the OpenAPI path structure. The deprecation policy and change
+  history live inside the Okta-gated Direct+ documentation portal and could
+  not be read anonymously, so no deprecation policy is asserted.
+
+versioning:
+  scheme: uri-path
+  current: per-product
+  detail: >-
+    Direct+ versions each product independently in the path rather than
+    versioning the platform. A single integration calls /v1 (match, search,
+    data, multiProcess, file, monitoring), /v2 (audit) and /v3 (token)
+    simultaneously. There is no version header and no date-based version
+    train.
+  observed_versions:
+    v1: 12 operations
+    v2: 1 operation (getAuditRecord)
+    v3: 1 operation (generateAccessToken)
+  source: openapi/_original/dnb-direct-plus-openapi-original.yml
+  data_block_versioning: >-
+    Data Blocks carry their own version and level inside the blockIDs
+    parameter, so payload shape evolves independently of the path version.
+  docs: https://directplus.documentation.dnb.com/html/resources/ChangeHistory.html
+  docs_status: 302 -> https://directplus.documentation.dnb.com/oauth2/authorization/okta
+
+deprecation:
+  policy_url: null
+  policy_published: false
+  sunset_header: unknown
+  deprecation_header: unknown
+  note: >-
+    No deprecation or sunset policy is anonymously readable. RFC 8594
+    Sunset/Deprecation header support could not be observed on unauthenticated
+    responses. The Direct+ Change History page, which is where D&B announces
+    retirements, 302s into Okta sign-in. NOT recorded as absent — recorded as
+    unverifiable, and therefore NO Deprecation pointer is emitted in apis.yml.
+
+deprecated_operations: []
+deprecated_operations_note: >-
+  No operation in any OpenAPI in this repo carries deprecated: true.
+
+status_page:
+  url: https://status.dnb.com/
+  http_status: 200
+  title: System Status Page
+  public: true
+  subscribable: true
+  components_observed:
+    - D&B Global Products
+    - D&B North American Products
+    - D&B Norwegian Products
+    - D&B Swedish Products
+    - D&B Danish Products
+    - D&B Finnish Products
+    - D&B Swiss Products
+  external_dependencies_tracked:
+    - Amazon Web Services
+    - Azure
+    - Google Cloud
+  publishes_scheduled_maintenance: true
+  note: >-
+    The status page publishes dated scheduled-maintenance notices with
+    substantive technical detail — including field-path changes to API
+    response payloads. It is the only public, dated change surface D&B
+    operates; see changelog/dun-and-bradstreet-changelog.yml.
+  x-evidence:
+    fetched: '2026-08-13'
+    url: https://status.dnb.com/
+    http_status: 200
+    content_type: text/html
+
+sla:
+  url: null
+  uptime_target: null
+  note: >-
+    No public SLA or uptime target. Availability commitments are contractual;
+    see plans/dun-and-bradstreet-plans-pricing.yml.
+
+operational_resilience:
+  url: https://www.dnb.com/en-us/why-dnb/data-transparency/operational-resilience.html
+  http_status: 200
+  standards_named: [ISO 22301, DORA]
+  note: >-
+    D&B publishes a business-continuity / operational-resilience position
+    statement naming ISO 22301 and the EU Digital Operational Resilience Act.
+    See conformance/dun-and-bradstreet-conformance.yml.
+
+agent_surface_lifecycle:
+  - surface: D&B MCP Server (Commercial Graph / Direct+)
+    stage: preview
+    evidence: >-
+      Microsoft Power Platform lists it as "Dun and Bradstreet MCP Server
+      (Preview)".
+    source: https://learn.microsoft.com/en-us/connectors/dunandbradstreetmcps/
+  - surface: D&B Risk Analytics MCP Server
+    stage: generally available
+    evidence: Live OAuth-protected endpoint, health check returns {"status":"healthy"}.
+    source: https://agents.riskanalytics.dnb.com/
+
+corporate:
+  ownership_change:
+    event: Acquired by Clearlake Capital Group
+    completed: '2025-08'
+    consideration: approximately USD 7.7 billion including debt
+    source: https://www.dnb.com/en-us/newsroom/press-releases/dun-bradstreet-enters-a-definitive-agreement-to-be-acquired-by-clearlake-capital-group.html
+    note: >-
+      Recorded because a take-private is material lifecycle context for anyone
+      integrating; it has not changed the Direct+ API surface.
+
+absences:
+  - No public deprecation or sunset policy.
+  - No public SLA.
+  - Change history is gated.

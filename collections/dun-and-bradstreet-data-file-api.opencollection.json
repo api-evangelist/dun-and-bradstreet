@@ -1,0 +1,81 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "D&B Direct+ Authentication Data File API",
+    "version": "3.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Data File",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Submit Batch Data File",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://plus.dnb.com/v1/file",
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Submit a batch input file for asynchronous match and enrichment. Returns a fileID the caller polls until processing is complete."
+        },
+        {
+          "info": {
+            "name": "Get Batch File Status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://plus.dnb.com/v1/file/:fileId/status",
+            "params": [
+              {
+                "name": "fileId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Poll the processing status of a previously submitted batch file. Returns a state of PENDING, PROCESSING, COMPLETED, or FAILED along with progress counters."
+        },
+        {
+          "info": {
+            "name": "Download Batch File Results",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://plus.dnb.com/v1/file/:fileId/download",
+            "params": [
+              {
+                "name": "fileId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Download the matched and enriched output file once status is COMPLETED. The response is an octet-stream containing the result file in the originally requested format."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

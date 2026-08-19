@@ -1,0 +1,526 @@
+{
+  "item": [
+    {
+      "id": "b40891a7-95a0-4226-9a35-0a6f6117f0e8",
+      "name": "Monitoring",
+      "description": {
+        "content": "Subscribe to and consume change notifications on a portfolio.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "e0e734e3-9404-43ce-90bf-f96fbd84e2a7",
+          "name": "Create Monitoring Registration",
+          "request": {
+            "name": "Create Monitoring Registration",
+            "description": {
+              "content": "Register a portfolio of D-U-N-S Numbers for change monitoring. The registration declares which data blocks to monitor and how notifications should be delivered.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "monitoring",
+                "registrations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"registrationReference\": \"<string>\",\n  \"description\": \"<string>\",\n  \"blockIDs\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"deliveryMethod\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "bdfc91eb-359e-4c1a-bd14-dee98c05c29e",
+              "name": "Monitoring registration created.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "monitoring",
+                    "registrations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"registrationReference\": \"<string>\",\n  \"description\": \"<string>\",\n  \"blockIDs\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"deliveryMethod\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"registrationReference\": \"string\",\n  \"status\": \"string\",\n  \"createdTimestamp\": \"1977-07-13T11:06:06.454Z\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "13c84948-9a44-4472-8d23-d393fec05056",
+          "name": "Add D-U-N-S To Registration",
+          "request": {
+            "name": "Add D-U-N-S To Registration",
+            "description": {
+              "content": "Add one or more D-U-N-S Numbers to an existing monitoring registration's portfolio.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "monitoring",
+                "registrations",
+                ":registrationReference",
+                "duns"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "registrationReference",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dunsList\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "f802f5ab-3907-480e-b700-ef319f7866db",
+              "name": "Portfolio updated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "monitoring",
+                    "registrations",
+                    ":registrationReference",
+                    "duns"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "registrationReference",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"dunsList\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"addedQuantity\": 5389,\n  \"removedQuantity\": 2608,\n  \"rejectedDuns\": [\n    {\n      \"duns\": \"string\",\n      \"reason\": \"string\"\n    },\n    {\n      \"duns\": \"string\",\n      \"reason\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c6dc6b93-5f67-4e22-8dd4-c16788100823",
+          "name": "Remove D-U-N-S From Registration",
+          "request": {
+            "name": "Remove D-U-N-S From Registration",
+            "description": {
+              "content": "Remove one or more D-U-N-S Numbers from a monitoring registration's portfolio.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "monitoring",
+                "registrations",
+                ":registrationReference",
+                "duns"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "registrationReference",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"dunsList\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "dab69c11-74ae-444d-9d22-0a44db689378",
+              "name": "Portfolio updated.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "monitoring",
+                    "registrations",
+                    ":registrationReference",
+                    "duns"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "registrationReference",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"dunsList\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"addedQuantity\": 9013,\n  \"removedQuantity\": 5798,\n  \"rejectedDuns\": [\n    {\n      \"duns\": \"string\",\n      \"reason\": \"string\"\n    },\n    {\n      \"duns\": \"string\",\n      \"reason\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b7cb8631-41fb-419b-9606-1994f54206b5",
+          "name": "Pull Monitoring Notifications",
+          "request": {
+            "name": "Pull Monitoring Notifications",
+            "description": {
+              "content": "Pull pending change notifications for a monitoring registration. Each notification describes the D-U-N-S Number affected, the block that changed, the previous and new values, and the change timestamp.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "monitoring",
+                "registrations",
+                ":registrationReference",
+                "notifications"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "maximumQuantity",
+                  "value": "100"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "registrationReference",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "ff0f0636-c0de-4951-bf53-1472e511f379",
+              "name": "Notifications package.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "monitoring",
+                    "registrations",
+                    ":registrationReference",
+                    "notifications"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "maximumQuantity",
+                      "value": "100"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "registrationReference",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"notifications\": [\n    {\n      \"duns\": \"string\",\n      \"changeTimestamp\": \"2006-02-15T08:44:17.382Z\",\n      \"blockID\": \"string\",\n      \"elementId\": \"string\",\n      \"previousValue\": \"\",\n      \"currentValue\": \"\"\n    },\n    {\n      \"duns\": \"string\",\n      \"changeTimestamp\": \"2006-01-30T19:01:51.134Z\",\n      \"blockID\": \"string\",\n      \"elementId\": \"string\",\n      \"previousValue\": \"\",\n      \"currentValue\": \"\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://plus.dnb.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "0a4c853e-5c99-4244-a49d-d19bddc05e18",
+    "name": "D&B Direct+ Authentication Monitoring API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "D&B Direct+ is Dun & Bradstreet's RESTful API platform that exposes the D&B Data Cloud — more than 500 million companies worldwide — for identity resolution, search, enrichment, multi-process (match plus enrich), batch processing, change monitoring, and historical research. All endpoints return JSON, are versioned in the URI path, and require an OAuth 2.0 bearer token obtained from the /v3/token endpoint via client-credentials grant. This profile is an OpenAPI sketch of the public surface based on Dun & Bradstreet's published Direct+ documentation; the canonical operation definitions live behind the gated developer portal at https://directplus.documentation.dnb.com/.\n\nContact Support:\n Name: D&B Direct+ Support",
+      "type": "text/plain"
+    }
+  }
+}

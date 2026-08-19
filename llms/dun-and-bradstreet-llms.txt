@@ -1,0 +1,59 @@
+# Dun & Bradstreet (D&B)
+
+> Dun & Bradstreet (D&B) is a global provider of business data, analytics, and insights, helping organizations manage risk, drive sales and marketing, assess supplier and third-party risk, and analyze finance and credit — built on the D&B Data Cloud, covering hundreds of millions of business records worldwide.
+
+This is the root index for AI agents, LLMs, and crawlers accessing D&B websites. It links to per-locale `llms.txt` files — each a list of canonical page URLs with short descriptions — plus cross-market directories and a guide for retrieving clean page content.
+
+D&B content commonly covers: business identity, the D-U-N-S Number, business credit, risk management, compliance, supplier and third-party risk, sales and marketing intelligence, master data, and AI-ready business data.
+
+## How to use this file
+
+- Pick the `llms.txt` for your target market and language from **Site index** below.
+- Fetch that file to get canonical page URLs, each with a short description.
+- To pull clean page content, see **Retrieving page content** for Markdown content negotiation and page-structure notes.
+- Follow canonical URLs, respect robots directives, caching headers, and rate limits.
+
+## Site index — dnb.com
+
+- [English (United States)](https://www.dnb.com/en-us/llms.txt): US market pages.
+- [English (Canada)](https://www.dnb.com/en-ca/llms.txt): Canada (English) pages.
+- [French (Canada)](https://www.dnb.com/fr-ca/llms.txt): Canada (French) pages.
+- [German (Germany)](https://www.dnb.com/de-de/llms.txt): Germany pages.
+- [German (Austria)](https://www.dnb.com/de-at/llms.txt): Austria pages.
+- [German (Switzerland)](https://www.dnb.com/de-ch/llms.txt): Switzerland (German) pages.
+- [French (Switzerland)](https://www.dnb.com/fr-ch/llms.txt): Switzerland (French) pages.
+- [Italian (Switzerland)](https://www.dnb.com/it-ch/llms.txt): Switzerland (Italian) pages.
+- [Swedish (Sweden)](https://www.dnb.com/sv-se/llms.txt): Sweden pages.
+- [Danish (Denmark)](https://www.dnb.com/da-dk/llms.txt): Denmark pages.
+- [Norwegian (Norway)](https://www.dnb.com/no/llms.txt): Norway pages.
+- [Finnish (Finland)](https://www.dnb.com/fi-fi/llms.txt): Finland pages.
+- [Polish (Poland)](https://www.dnb.com/pl-pl/llms.txt): Poland pages.
+- [Latvian (Latvia)](https://www.dnb.com/lv-lv/llms.txt): Latvia pages.
+- [Estonian (Estonia)](https://www.dnb.com/et-ee/llms.txt): Estonia pages.
+- [Slovenian (Slovenia)](https://www.dnb.com/sl-si/llms.txt): Slovenia pages.
+- [Croatian (Croatia)](https://www.dnb.com/hr-hr/llms.txt): Croatia pages.
+- [Czech (Czech Republic)](https://www.dnb.com/cs-cz/llms.txt): Czech Republic pages.
+- [Hungarian (Hungary)](https://www.dnb.com/hu-hu/llms.txt): Hungary pages.
+- [Bosnian (Bosnia and Herzegovina)](https://www.dnb.com/bs-ba/llms.txt): Bosnia and Herzegovina pages.
+- [Slovak (Slovakia)](https://www.dnb.com/sk-sk/llms.txt): Slovakia pages.
+- [Serbian (Serbia)](https://www.dnb.com/sr-rs/llms.txt): Serbia pages.
+
+## Site index — dnb.co.uk
+
+- [English (United Kingdom)](https://www.dnb.co.uk/llms.txt): UK market pages.
+
+## Directories
+
+These span markets and are not locale-scoped.
+
+- [Business Directory](https://www.dnb.com/business-directory.html): Company listings and business profile information.
+- [Contact Directory](https://www.dnb.com/contact-directory.html): Professional and business contact information.
+
+## Retrieving page content
+
+D&B pages are server-side rendered (SSR): the initial HTML contains core content, metadata, navigation, footer links, images, CTAs, and structured data before client-side JavaScript runs.
+
+- **Markdown via content negotiation.** Request any page with `Accept: text/markdown` to get a clean Markdown representation better suited to retrieval, summarization, and indexing than rendered HTML. Example: `curl -H "Accept: text/markdown" https://www.dnb.com/en-us/`
+- **AEM page model.** The page source includes a `window.__AEM_PAGE_MODEL__` object mirroring the authored AEM content model — page fields (`metatitle`, `metadescription`, `pageType`, `language`, `title`, `templateName`, `lastModifiedDate`, `replicationDate`) and a component tree under `:items` / `:itemsOrder`, with authored text, headings, CTA labels/URLs, cards, tags, and media.
+- **JSON-LD.** `<script type="application/ld+json">` blocks in the head provide schema.org data (e.g., Organization, WebPage, BreadcrumbList) for additional semantic context.
+- **Precedence.** Prefer the Markdown representation when available; fall back to SSR HTML as the baseline source of truth; use `__AEM_PAGE_MODEL__` to understand component hierarchy and authored content beyond the DOM.

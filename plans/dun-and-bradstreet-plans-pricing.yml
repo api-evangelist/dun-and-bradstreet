@@ -10,6 +10,9 @@ specificationVersion: API Commons Plans 0.1
 provider: Dun & Bradstreet
 modified: '2026-05-23'
 source: https://www.dnb.com/products.html
+generated: '2026-08-13'
+method: searched
+plan_count: 2
 
 billingModel: contract
 publicPricing: false

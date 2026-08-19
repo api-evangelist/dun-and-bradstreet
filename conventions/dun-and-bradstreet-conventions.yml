@@ -1,0 +1,177 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/_original/dnb-direct-plus-openapi-original.yml + live probes of https://plus.dnb.com
+description: >-
+  Cross-cutting request/response semantics for the D&B Direct+ API. Derived
+  from the OpenAPI in this repo and from live unauthenticated responses off
+  the production gateway. The Direct+ documentation portal is gated behind
+  Okta, so anything that could not be observed or read from the spec is
+  recorded as an absence rather than guessed.
+
+base_url: https://plus.dnb.com
+
+authentication:
+  style: oauth2-client-credentials-then-bearer
+  token_operation: POST /v3/token
+  token_request_auth: HTTP Basic (consumer key as username, consumer secret as password)
+  token_request_body: '{"grant_type":"client_credentials"}'
+  token_response_fields: [access_token, token_type, expirationDateTime]
+  request_auth: 'Authorization: Bearer <access_token>'
+  alternate:
+    - name: Dplus-API-Key
+      location: header
+      used_by: D&B Commercial Graph / Direct+ MCP server
+  detail: authentication/dun-and-bradstreet-authentication.yml
+
+idempotency:
+  supported: false
+  header: null
+  note: >-
+    No Idempotency-Key header, no idempotency parameter, and no idempotency
+    contract anywhere in the OpenAPI or in any anonymously readable D&B
+    document. The write operations (createMonitoringRegistration,
+    addDunsToRegistration, removeDunsFromRegistration, submitBatchFile,
+    multiProcessMatchAndEnrich) offer no replay-safety guarantee. Because
+    idempotency is genuinely absent, NO Idempotency pointer is emitted in
+    apis.yml — emitting one would be fabrication.
+  natural_keys:
+    - >-
+      addDunsToRegistration / removeDunsFromRegistration are set operations on
+      a portfolio and are naturally idempotent in effect, but D&B does not
+      document them as such.
+
+pagination:
+  style: page-number
+  supported_on: [searchCompaniesByCriteria, searchContacts]
+  request_params:
+    - name: pageNumber
+      in: query
+      type: integer
+      operations: [searchCompaniesByCriteria]
+    - name: pageSize
+      in: query
+      type: integer
+      operations: [searchCompaniesByCriteria, searchContacts]
+  quantity_caps:
+    - name: candidateMaximumQuantity
+      in: query
+      operations: [cleanseMatch]
+      note: Caps returned match candidates rather than paging them.
+    - name: maximumQuantity
+      in: query
+      operations: [pullMonitoringNotifications]
+      note: >-
+        Monitoring notifications are drained by repeated pulls, not paged —
+        each pull returns up to maximumQuantity and removes them from the
+        queue.
+  response_fields: []
+  response_fields_note: >-
+    The Search response schemas in the harvested spec do not declare a total
+    count or next-page field. Whether the live payload carries one could not
+    be confirmed without credentials.
+  no_cursor: true
+
+filtering_and_selection:
+  field_expansion:
+    supported: true
+    mechanism: blockIDs
+    detail: >-
+      getDataBlocksByDuns takes a required blockIDs query parameter naming
+      which Data Blocks (and which version/level of each) to return. This is
+      D&B's equivalent of field expansion: the response shape is chosen by the
+      caller and constrained by the customer's contract entitlement.
+  tradeUp:
+    supported: true
+    operations: [getDataBlocksByDuns]
+    detail: >-
+      tradeUp shifts the response from the requested entity to its
+      headquarters/parent record.
+  sparse_fields: false
+
+request_tracing:
+  correlation_fields:
+    - name: transactionDetail.transactionID
+      location: response body
+      scope: every response, success and error
+    - name: x-request-id
+      location: response header
+      scope: observed on error responses
+    - name: x-request-status
+      location: response header
+      values_observed: [failure]
+  client_supplied_id:
+    supported: false
+    note: >-
+      No client-supplied request-id header is documented; correlation ids are
+      server-assigned only.
+  customer_reference:
+    supported: true
+    detail: >-
+      Monitoring registrations carry a customer-chosen
+      registrationReference used as the path segment on every subsequent
+      portfolio and notification call.
+
+versioning:
+  scheme: uri-path
+  detail: >-
+    The version segment is per-product, not global — a single Direct+
+    integration simultaneously calls /v1 (match, search, data, multiProcess,
+    file, monitoring), /v2 (audit) and /v3 (token). There is no global API
+    version and no version header.
+  versions_in_use:
+    v1: [cleanseMatch, searchCompaniesByCriteria, searchContacts, getDataBlocksByDuns, multiProcessMatchAndEnrich, submitBatchFile, getBatchFileStatus, downloadBatchFileResults, createMonitoringRegistration, addDunsToRegistration, removeDunsFromRegistration, pullMonitoringNotifications]
+    v2: [getAuditRecord]
+    v3: [generateAccessToken]
+  data_block_versioning: >-
+    Data Blocks carry their own version and level identifiers inside the
+    blockIDs parameter, so payload shape is versioned independently of the
+    path.
+  detail_artifact: lifecycle/dun-and-bradstreet-lifecycle.yml
+
+error_envelope:
+  format: proprietary (not RFC 9457)
+  shape: '{transactionDetail:{...}, error:{errorCode, errorMessage, errorDetails[]}}'
+  detail: errors/dun-and-bradstreet-problem-types.yml
+
+rate_limit_signaling:
+  headers_published: []
+  headers_note: >-
+    No X-RateLimit-* or RateLimit-* headers are documented and none were
+    observed on anonymous responses. Retry-After on 429 is the only signal
+    recorded.
+  exhaustion_status: [429, 403]
+  detail: rate-limits/dun-and-bradstreet-rate-limits.yml
+
+content:
+  request_content_types: [application/json, multipart/form-data]
+  response_content_type: application/json
+  multipart_operations: [submitBatchFile]
+
+async_patterns:
+  batch:
+    pattern: submit-then-poll
+    steps: [submitBatchFile (202), getBatchFileStatus, downloadBatchFileResults]
+  monitoring:
+    pattern: register-then-pull
+    steps: [createMonitoringRegistration, addDunsToRegistration, pullMonitoringNotifications]
+    push: false
+    push_note: >-
+      Monitoring is pull-only. No webhook callback surface is documented, which
+      is why this repo carries no asyncapi/ artifact and no Webhooks pointer.
+
+cross_links:
+  authentication: authentication/dun-and-bradstreet-authentication.yml
+  errors: errors/dun-and-bradstreet-problem-types.yml
+  lifecycle: lifecycle/dun-and-bradstreet-lifecycle.yml
+  rate_limits: rate-limits/dun-and-bradstreet-rate-limits.yml
+  data_model: data-model/dun-and-bradstreet-data-model.yml
+
+absences:
+  - No idempotency contract.
+  - No cursor pagination and no declared total/next-page response fields.
+  - No published rate-limit response headers.
+  - No client-supplied correlation id.
+  - No webhook / push delivery for Monitoring.
+  - >-
+    The conventions guide that would confirm all of the above lives behind the
+    Okta gate on directplus.documentation.dnb.com.

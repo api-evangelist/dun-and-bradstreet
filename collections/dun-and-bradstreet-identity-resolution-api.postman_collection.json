@@ -1,0 +1,388 @@
+{
+  "item": [
+    {
+      "id": "752fdadd-47ad-4206-88dc-9d14c2e10320",
+      "name": "Identity Resolution",
+      "description": {
+        "content": "Match an input record to a D-U-N-S Number.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "c07404ca-3067-4ce3-8981-b1579d94312a",
+          "name": "Match Candidate To D-U-N-S Number",
+          "request": {
+            "name": "Match Candidate To D-U-N-S Number",
+            "description": {
+              "content": "Submit a candidate business record (name, address, registration number, phone, email) and receive a ranked list of D-U-N-S Number matches with match-grade, confidence-code, and quality indicators suitable for auto-acceptance or manual review.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "match",
+                "cleanseMatch"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "name",
+                  "value": "<string>",
+                  "description": "(Required) Business name as supplied by the caller."
+                },
+                {
+                  "disabled": false,
+                  "key": "countryISOAlpha2Code",
+                  "value": "<string>",
+                  "description": "(Required) ISO 3166-1 alpha-2 country code."
+                },
+                {
+                  "disabled": false,
+                  "key": "streetAddressLine1",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "addressLocality",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "addressRegion",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "postalCode",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "telephoneNumber",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "registrationNumber",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "candidateMaximumQuantity",
+                  "value": "9"
+                },
+                {
+                  "disabled": false,
+                  "key": "confidenceLowerLevelThresholdValue",
+                  "value": "<integer>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "5fb9315a-bcef-442b-8d30-aea2c90d4f63",
+              "name": "Ranked match candidates returned.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "match",
+                    "cleanseMatch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "countryISOAlpha2Code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "streetAddressLine1",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "addressLocality",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "addressRegion",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "postalCode",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "telephoneNumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "registrationNumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "candidateMaximumQuantity",
+                      "value": "9"
+                    },
+                    {
+                      "key": "confidenceLowerLevelThresholdValue",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionDetail\": {\n    \"transactionID\": \"string\",\n    \"transactionTimestamp\": \"1979-11-25T22:11:19.637Z\",\n    \"inLanguage\": \"string\",\n    \"serviceVersion\": \"string\"\n  },\n  \"inquiryDetail\": {},\n  \"matchCandidates\": [\n    {\n      \"displaySequence\": 3558,\n      \"matchQualityInformation\": {\n        \"confidenceCode\": 1219,\n        \"matchGrade\": \"string\",\n        \"matchDataProfile\": \"string\"\n      },\n      \"organization\": {\n        \"duns\": \"567639624\",\n        \"primaryName\": \"string\",\n        \"primaryAddress\": {\n          \"streetAddress\": {\n            \"line1\": \"string\",\n            \"line2\": \"string\"\n          },\n          \"addressLocality\": {\n            \"name\": \"string\"\n          },\n          \"addressRegion\": {\n            \"name\": \"string\",\n            \"abbreviatedName\": \"string\"\n          },\n          \"postalCode\": \"string\",\n          \"addressCountry\": {\n            \"isoAlpha2Code\": \"string\"\n          }\n        },\n        \"countryISOAlpha2Code\": \"string\",\n        \"telephone\": [\n          {\n            \"telephoneNumber\": \"string\"\n          },\n          {\n            \"telephoneNumber\": \"string\"\n          }\n        ],\n        \"registrationNumbers\": [\n          {\n            \"registrationNumber\": \"string\",\n            \"typeDescription\": \"string\"\n          },\n          {\n            \"registrationNumber\": \"string\",\n            \"typeDescription\": \"string\"\n          }\n        ]\n      }\n    },\n    {\n      \"displaySequence\": 3632,\n      \"matchQualityInformation\": {\n        \"confidenceCode\": 5440,\n        \"matchGrade\": \"string\",\n        \"matchDataProfile\": \"string\"\n      },\n      \"organization\": {\n        \"duns\": \"135160916\",\n        \"primaryName\": \"string\",\n        \"primaryAddress\": {\n          \"streetAddress\": {\n            \"line1\": \"string\",\n            \"line2\": \"string\"\n          },\n          \"addressLocality\": {\n            \"name\": \"string\"\n          },\n          \"addressRegion\": {\n            \"name\": \"string\",\n            \"abbreviatedName\": \"string\"\n          },\n          \"postalCode\": \"string\",\n          \"addressCountry\": {\n            \"isoAlpha2Code\": \"string\"\n          }\n        },\n        \"countryISOAlpha2Code\": \"string\",\n        \"telephone\": [\n          {\n            \"telephoneNumber\": \"string\"\n          },\n          {\n            \"telephoneNumber\": \"string\"\n          }\n        ],\n        \"registrationNumbers\": [\n          {\n            \"registrationNumber\": \"string\",\n            \"typeDescription\": \"string\"\n          },\n          {\n            \"registrationNumber\": \"string\",\n            \"typeDescription\": \"string\"\n          }\n        ]\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "30d6c4dd-dd2a-4243-a45a-6f47aaa9a694",
+              "name": "Missing or invalid bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "match",
+                    "cleanseMatch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "countryISOAlpha2Code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "streetAddressLine1",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "addressLocality",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "addressRegion",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "postalCode",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "telephoneNumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "registrationNumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "candidateMaximumQuantity",
+                      "value": "9"
+                    },
+                    {
+                      "key": "confidenceLowerLevelThresholdValue",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionDetail\": {\n    \"transactionID\": \"string\",\n    \"transactionTimestamp\": \"1947-01-04T07:14:53.169Z\",\n    \"inLanguage\": \"string\",\n    \"serviceVersion\": \"string\"\n  },\n  \"error\": {\n    \"errorMessage\": \"string\",\n    \"errorCode\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "09d487df-a3e7-4aa3-99bf-bf2b920b8619",
+              "name": "Resource not found for the supplied identifier.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "match",
+                    "cleanseMatch"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "name",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "countryISOAlpha2Code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "streetAddressLine1",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "addressLocality",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "addressRegion",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "postalCode",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "telephoneNumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "registrationNumber",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "candidateMaximumQuantity",
+                      "value": "9"
+                    },
+                    {
+                      "key": "confidenceLowerLevelThresholdValue",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionDetail\": {\n    \"transactionID\": \"string\",\n    \"transactionTimestamp\": \"1969-10-17T11:17:20.720Z\",\n    \"inLanguage\": \"string\",\n    \"serviceVersion\": \"string\"\n  },\n  \"error\": {\n    \"errorMessage\": \"string\",\n    \"errorCode\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://plus.dnb.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "f46ffe69-b79e-4eec-b7ae-86c9550dc1c7",
+    "name": "D&B Direct+ Authentication Identity Resolution API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "D&B Direct+ is Dun & Bradstreet's RESTful API platform that exposes the D&B Data Cloud — more than 500 million companies worldwide — for identity resolution, search, enrichment, multi-process (match plus enrich), batch processing, change monitoring, and historical research. All endpoints return JSON, are versioned in the URI path, and require an OAuth 2.0 bearer token obtained from the /v3/token endpoint via client-credentials grant. This profile is an OpenAPI sketch of the public surface based on Dun & Bradstreet's published Direct+ documentation; the canonical operation definitions live behind the gated developer portal at https://directplus.documentation.dnb.com/.\n\nContact Support:\n Name: D&B Direct+ Support",
+      "type": "text/plain"
+    }
+  }
+}

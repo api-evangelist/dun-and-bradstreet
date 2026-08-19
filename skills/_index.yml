@@ -1,0 +1,50 @@
+generated: '2026-08-13'
+method: generated
+source: openapi/_original/dnb-direct-plus-openapi-original.yml
+description: >-
+  Packaged Agent Skills for the D&B Direct+ API. Every step in every skill is
+  grounded in an operationId that exists verbatim in the OpenAPI in this repo
+  — the ids were greped out of the spec, not written from memory. The skills
+  mirror the arazzo/ workflow set and carry the runtime rules captured in
+  conventions/, errors/ and rate-limits/.
+provider_published: false
+provider_published_note: >-
+  No AGENTS.md, skills/ directory or provider-authored agent instructions were
+  found on any D&B host or in the (empty) D&B GitHub organization.
+
+skills:
+  - file: dun-and-bradstreet-resolve-and-enrich-company.md
+    name: Resolve a company to a D-U-N-S Number and enrich it
+    api: openapi/dun-and-bradstreet-identity-resolution-api-openapi.yml
+    operations: [generateAccessToken, cleanseMatch, getDataBlocksByDuns]
+    arazzo: arazzo/dun-and-bradstreet-cleanse-match-and-enrich-workflow.yml
+
+  - file: dun-and-bradstreet-monitor-a-portfolio.md
+    name: Monitor a portfolio of companies for change
+    api: openapi/dun-and-bradstreet-monitoring-api-openapi.yml
+    operations:
+      - generateAccessToken
+      - createMonitoringRegistration
+      - addDunsToRegistration
+      - removeDunsFromRegistration
+      - pullMonitoringNotifications
+    arazzo: arazzo/dun-and-bradstreet-register-and-pull-notifications-workflow.yml
+
+  - file: dun-and-bradstreet-batch-match-and-enrich.md
+    name: Batch match and enrich a file of companies
+    api: openapi/dun-and-bradstreet-data-file-api-openapi.yml
+    operations: [generateAccessToken, submitBatchFile, getBatchFileStatus, downloadBatchFileResults]
+    arazzo: arazzo/dun-and-bradstreet-batch-match-enrich-file-workflow.yml
+
+  - file: dun-and-bradstreet-search-and-audit.md
+    name: Search for companies and contacts, and replay a past response
+    api: openapi/dun-and-bradstreet-search-api-openapi.yml
+    operations: [generateAccessToken, searchCompaniesByCriteria, searchContacts, getAuditRecord]
+    arazzo: arazzo/dun-and-bradstreet-criteria-search-and-get-company-workflow.yml
+
+coverage:
+  operations_total: 14
+  operations_covered: 14
+  note: >-
+    multiProcessMatchAndEnrich is referenced from the resolve-and-enrich skill
+    as the single-round-trip shortcut rather than given its own skill.

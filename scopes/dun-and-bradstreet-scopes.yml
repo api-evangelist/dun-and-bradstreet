@@ -1,0 +1,77 @@
+generated: '2026-08-13'
+method: probed
+source: https://agents.riskanalytics.dnb.com/.well-known/oauth-authorization-server
+description: >-
+  OAuth scope surface for Dun & Bradstreet. The Direct+ REST OpenAPI declares
+  no oauth2 securityScheme (it models the token exchange as an explicit
+  operation plus http basic/bearer), so derive-oauth-scopes.py finds nothing
+  there. The real scope surface is published by the D&B Risk Analytics remote
+  MCP server, which serves RFC 8414 authorization-server metadata anonymously.
+  Every scope below was read verbatim from that document.
+
+schemes:
+  - name: D&B Risk Analytics MCP authorization server
+    source: https://agents.riskanalytics.dnb.com/.well-known/oauth-authorization-server
+    issuer: https://agents.riskanalytics.dnb.com
+    protected_resource: https://agents.riskanalytics.dnb.com/mcp
+    flows:
+      - flow: authorizationCode
+        authorizationUrl: https://agents.riskanalytics.dnb.com/authorize
+        tokenUrl: https://agents.riskanalytics.dnb.com/token
+        pkce: [S256, plain]
+      - flow: clientCredentials
+        tokenUrl: https://agents.riskanalytics.dnb.com/token
+    refresh_token: true
+    token_endpoint_auth_methods: [client_secret_basic, client_secret_post]
+
+scopes:
+  - scope: mcp.read
+    description: >-
+      Read access to the D&B Risk Analytics MCP surface. Description is
+      inferred from the scope name; D&B publishes no scope reference page.
+    flows: [authorizationCode, clientCredentials]
+    sources: [https://agents.riskanalytics.dnb.com/.well-known/oauth-authorization-server]
+  - scope: mcp.write
+    description: >-
+      Write access to the D&B Risk Analytics MCP surface. Description is
+      inferred from the scope name; D&B publishes no scope reference page.
+    flows: [authorizationCode, clientCredentials]
+    sources: [https://agents.riskanalytics.dnb.com/.well-known/oauth-authorization-server]
+  - scope: offline_access
+    description: Issue a refresh token so the client can reconnect without re-authorizing.
+    flows: [authorizationCode]
+    sources: [https://agents.riskanalytics.dnb.com/.well-known/oauth-authorization-server]
+  - scope: openid
+    description: OpenID Connect authentication (standard OIDC scope).
+    flows: [authorizationCode]
+    sources: [https://agents.riskanalytics.dnb.com/.well-known/oauth-authorization-server]
+  - scope: email
+    description: Release the authenticated user's email address (standard OIDC scope).
+    flows: [authorizationCode]
+    sources: [https://agents.riskanalytics.dnb.com/.well-known/oauth-authorization-server]
+  - scope: profile
+    description: Release the authenticated user's profile claims (standard OIDC scope).
+    flows: [authorizationCode]
+    sources: [https://agents.riskanalytics.dnb.com/.well-known/oauth-authorization-server]
+
+other_credentials:
+  - name: Direct+ client_credentials token exchange
+    scopes: none
+    note: >-
+      POST https://plus.dnb.com/v3/token with grant_type=client_credentials
+      and HTTP Basic (consumer key : consumer secret) returns a bearer JWT.
+      The exchange carries NO scope parameter — Direct+ entitlement is
+      contract-driven (which Data Blocks a customer licensed), not
+      scope-driven. See authentication/dun-and-bradstreet-authentication.yml.
+  - name: Dplus-API-Key
+    scopes: none
+    note: >-
+      The Commercial Graph / Direct+ MCP server authenticates with a single
+      API key header and exposes no scope surface.
+
+absences:
+  - No scope reference / permissions page published by D&B.
+  - >-
+    The scopes_supported list advertises openid/email/profile but the host
+    serves no /.well-known/openid-configuration (404).
+  - The Direct+ REST API has no OAuth scope model at all.

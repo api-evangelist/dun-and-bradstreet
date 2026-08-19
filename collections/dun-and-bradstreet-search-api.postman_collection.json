@@ -1,0 +1,341 @@
+{
+  "item": [
+    {
+      "id": "cb3942c9-60cf-4a58-ac08-c7c10174fbd6",
+      "name": "Search",
+      "description": {
+        "content": "Find companies, principals, and related entities.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "7341746e-d60b-4aaa-9d64-d3c55c55b716",
+          "name": "Search Companies By Criteria",
+          "request": {
+            "name": "Search Companies By Criteria",
+            "description": {
+              "content": "Find companies matching free-form criteria such as name, address, registration number, industry, or contact. Returns a paginated list of candidate records intended for browse-and-pick workflows rather than authoritative match.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "search",
+                "criteria"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "searchTerm",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "countryISOAlpha2Code",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "pageNumber",
+                  "value": "1"
+                },
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "50"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "0a400ed7-90fc-4a64-92a2-a40843f0fce1",
+              "name": "Search results.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "search",
+                    "criteria"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "searchTerm",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "countryISOAlpha2Code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageNumber",
+                      "value": "1"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "50"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionDetail\": {\n    \"transactionID\": \"string\",\n    \"transactionTimestamp\": \"1995-07-11T11:31:26.306Z\",\n    \"inLanguage\": \"string\",\n    \"serviceVersion\": \"string\"\n  },\n  \"candidatesReturnedQuantity\": 1866,\n  \"candidatesMatchedQuantity\": 9021,\n  \"searchCandidates\": [\n    {\n      \"organization\": {\n        \"duns\": \"489406901\",\n        \"primaryName\": \"string\",\n        \"primaryAddress\": {\n          \"streetAddress\": {\n            \"line1\": \"string\",\n            \"line2\": \"string\"\n          },\n          \"addressLocality\": {\n            \"name\": \"string\"\n          },\n          \"addressRegion\": {\n            \"name\": \"string\",\n            \"abbreviatedName\": \"string\"\n          },\n          \"postalCode\": \"string\",\n          \"addressCountry\": {\n            \"isoAlpha2Code\": \"string\"\n          }\n        },\n        \"countryISOAlpha2Code\": \"string\",\n        \"telephone\": [\n          {\n            \"telephoneNumber\": \"string\"\n          },\n          {\n            \"telephoneNumber\": \"string\"\n          }\n        ],\n        \"registrationNumbers\": [\n          {\n            \"registrationNumber\": \"string\",\n            \"typeDescription\": \"string\"\n          },\n          {\n            \"registrationNumber\": \"string\",\n            \"typeDescription\": \"string\"\n          }\n        ]\n      }\n    },\n    {\n      \"organization\": {\n        \"duns\": \"857022259\",\n        \"primaryName\": \"string\",\n        \"primaryAddress\": {\n          \"streetAddress\": {\n            \"line1\": \"string\",\n            \"line2\": \"string\"\n          },\n          \"addressLocality\": {\n            \"name\": \"string\"\n          },\n          \"addressRegion\": {\n            \"name\": \"string\",\n            \"abbreviatedName\": \"string\"\n          },\n          \"postalCode\": \"string\",\n          \"addressCountry\": {\n            \"isoAlpha2Code\": \"string\"\n          }\n        },\n        \"countryISOAlpha2Code\": \"string\",\n        \"telephone\": [\n          {\n            \"telephoneNumber\": \"string\"\n          },\n          {\n            \"telephoneNumber\": \"string\"\n          }\n        ],\n        \"registrationNumbers\": [\n          {\n            \"registrationNumber\": \"string\",\n            \"typeDescription\": \"string\"\n          },\n          {\n            \"registrationNumber\": \"string\",\n            \"typeDescription\": \"string\"\n          }\n        ]\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ea7170d0-7e06-461a-9f51-296395b3cf9f",
+              "name": "Missing or invalid bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "search",
+                    "criteria"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "searchTerm",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "countryISOAlpha2Code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageNumber",
+                      "value": "1"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "50"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionDetail\": {\n    \"transactionID\": \"string\",\n    \"transactionTimestamp\": \"1949-03-24T01:05:26.739Z\",\n    \"inLanguage\": \"string\",\n    \"serviceVersion\": \"string\"\n  },\n  \"error\": {\n    \"errorMessage\": \"string\",\n    \"errorCode\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "07d67892-2bf4-4265-bc64-3b7842cefb54",
+          "name": "Search Contacts By Criteria",
+          "request": {
+            "name": "Search Contacts By Criteria",
+            "description": {
+              "content": "Find named principals or contacts (executives, beneficial owners, decision-makers) matching the supplied criteria, returning a paginated candidate list.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "search",
+                "contact"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "searchTerm",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "countryISOAlpha2Code",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "50"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "89cbd771-d64e-4376-83c7-cd0c33e0f6b1",
+              "name": "Contact search results.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "search",
+                    "contact"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "searchTerm",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "countryISOAlpha2Code",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "50"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionDetail\": {\n    \"transactionID\": \"string\",\n    \"transactionTimestamp\": \"1970-04-11T15:25:25.895Z\",\n    \"inLanguage\": \"string\",\n    \"serviceVersion\": \"string\"\n  },\n  \"candidatesReturnedQuantity\": 2254,\n  \"searchCandidates\": [\n    {\n      \"contact\": {\n        \"fullName\": \"string\",\n        \"jobTitles\": [\n          {\n            \"title\": \"string\"\n          },\n          {\n            \"title\": \"string\"\n          }\n        ]\n      },\n      \"organization\": {\n        \"duns\": \"510297924\",\n        \"primaryName\": \"string\",\n        \"primaryAddress\": {\n          \"streetAddress\": {\n            \"line1\": \"string\",\n            \"line2\": \"string\"\n          },\n          \"addressLocality\": {\n            \"name\": \"string\"\n          },\n          \"addressRegion\": {\n            \"name\": \"string\",\n            \"abbreviatedName\": \"string\"\n          },\n          \"postalCode\": \"string\",\n          \"addressCountry\": {\n            \"isoAlpha2Code\": \"string\"\n          }\n        },\n        \"countryISOAlpha2Code\": \"string\",\n        \"telephone\": [\n          {\n            \"telephoneNumber\": \"string\"\n          },\n          {\n            \"telephoneNumber\": \"string\"\n          }\n        ],\n        \"registrationNumbers\": [\n          {\n            \"registrationNumber\": \"string\",\n            \"typeDescription\": \"string\"\n          },\n          {\n            \"registrationNumber\": \"string\",\n            \"typeDescription\": \"string\"\n          }\n        ]\n      }\n    },\n    {\n      \"contact\": {\n        \"fullName\": \"string\",\n        \"jobTitles\": [\n          {\n            \"title\": \"string\"\n          },\n          {\n            \"title\": \"string\"\n          }\n        ]\n      },\n      \"organization\": {\n        \"duns\": \"668582551\",\n        \"primaryName\": \"string\",\n        \"primaryAddress\": {\n          \"streetAddress\": {\n            \"line1\": \"string\",\n            \"line2\": \"string\"\n          },\n          \"addressLocality\": {\n            \"name\": \"string\"\n          },\n          \"addressRegion\": {\n            \"name\": \"string\",\n            \"abbreviatedName\": \"string\"\n          },\n          \"postalCode\": \"string\",\n          \"addressCountry\": {\n            \"isoAlpha2Code\": \"string\"\n          }\n        },\n        \"countryISOAlpha2Code\": \"string\",\n        \"telephone\": [\n          {\n            \"telephoneNumber\": \"string\"\n          },\n          {\n            \"telephoneNumber\": \"string\"\n          }\n        ],\n        \"registrationNumbers\": [\n          {\n            \"registrationNumber\": \"string\",\n            \"typeDescription\": \"string\"\n          },\n          {\n            \"registrationNumber\": \"string\",\n            \"typeDescription\": \"string\"\n          }\n        ]\n      }\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://plus.dnb.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "721335d9-e63a-4b5c-a8a0-78b6638a2c75",
+    "name": "D&B Direct+ Authentication Search API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "D&B Direct+ is Dun & Bradstreet's RESTful API platform that exposes the D&B Data Cloud — more than 500 million companies worldwide — for identity resolution, search, enrichment, multi-process (match plus enrich), batch processing, change monitoring, and historical research. All endpoints return JSON, are versioned in the URI path, and require an OAuth 2.0 bearer token obtained from the /v3/token endpoint via client-credentials grant. This profile is an OpenAPI sketch of the public surface based on Dun & Bradstreet's published Direct+ documentation; the canonical operation definitions live behind the gated developer portal at https://directplus.documentation.dnb.com/.\n\nContact Support:\n Name: D&B Direct+ Support",
+      "type": "text/plain"
+    }
+  }
+}

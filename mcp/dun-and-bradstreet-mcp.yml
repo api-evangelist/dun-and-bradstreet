@@ -1,0 +1,159 @@
+generated: '2026-08-13'
+method: searched
+status: published
+source: https://www.dnb.com/en-us/solutions/artificial-intelligence/connectors.html
+description: >-
+  Dun & Bradstreet ships production Model Context Protocol servers as part of
+  the D&B.AI suite. Two distinct servers were confirmed. The D&B Risk
+  Analytics server is a remote, OAuth-protected Streamable HTTP endpoint on a
+  D&B-owned host and was probed live. The D&B Commercial Graph / Direct+ MCP
+  server is distributed through enterprise marketplaces (Microsoft Power
+  Platform, IBM watsonx Orchestrate, Databricks, Amazon QuickSight, Snowflake
+  Cortex) and authenticates with a single Direct+ API key; D&B does not
+  publish its endpoint URL on the open web — access is granted through a "Get
+  Access" request form. A probe of the Direct+ gateway found /v1/mcp answering
+  401 while a control path (/v1/zzzznotreal) answers 404, which establishes
+  that /v1/mcp is a real, auth-gated route rather than a guess.
+
+deployment:
+  mode: remote
+  endpoint: https://agents.riskanalytics.dnb.com/mcp
+  auth: oauth
+  verified: probed
+  note: >-
+    endpoint is the D&B Risk Analytics server, confirmed live. The second
+    (Commercial Graph / Direct+) server is also remote but D&B publishes no
+    endpoint URL for it; the marketplace connectors broker the connection and
+    the Direct+ gateway route /v1/mcp answers 401 (control path answers 404).
+    No stdio package, npx command or npm/PyPI distribution was found for
+    either server, so mode is remote — not both.
+
+servers:
+  - name: D&B Risk Analytics MCP Server
+    transport: http
+    subtype: streamable-http
+    url: https://agents.riskanalytics.dnb.com/mcp
+    status: published
+    auth:
+      type: oauth
+      flow: authorization_code, client_credentials
+      authorization_endpoint: https://agents.riskanalytics.dnb.com/authorize
+      token_endpoint: https://agents.riskanalytics.dnb.com/token
+      pkce: [S256, plain]
+      scopes: [mcp.read, mcp.write, offline_access, openid, email, profile]
+      discovery:
+        - /.well-known/oauth-protected-resource (RFC 9728)
+        - /.well-known/oauth-protected-resource/mcp (RFC 9728, resource-scoped)
+        - /.well-known/oauth-authorization-server (RFC 8414)
+    capabilities_documented:
+      - KYC / KYB onboarding
+      - entity resolution
+      - sanctions and adverse-media screening
+      - alert triage
+      - risk decision documentation
+    tools: []
+    tools_note: >-
+      tools/list is auth-gated. An anonymous POST of
+      {"jsonrpc":"2.0","id":1,"method":"tools/list"} returns HTTP 401 with
+      WWW-Authenticate: Bearer error="invalid_token",
+      error_description="Authentication required",
+      resource_metadata="https://agents.riskanalytics.dnb.com/.well-known/oauth-protected-resource/mcp".
+      A session-less POST without the OAuth challenge returns HTTP 400
+      {"detail":"Missing mcp-session-id header."}. Both are correct MCP
+      server behaviour. D&B publishes no tool list on the open web, so the
+      real tool names and inputSchemas require authenticated introspection.
+      NOTHING IS INVENTED HERE — the tools[] array is deliberately empty.
+    x-evidence:
+      fetched: '2026-08-13'
+      url: https://agents.riskanalytics.dnb.com/mcp
+      http_status: 401
+      health_check: https://agents.riskanalytics.dnb.com/ -> 200 {"status":"healthy"}
+      listing: https://mcpservers.org/remote-mcp-servers/dnb-risk-analytics
+
+  - name: D&B MCP Server (Commercial Graph / Direct+)
+    transport: http
+    status: published
+    url: null
+    url_note: >-
+      D&B does not publish the endpoint URL. The product page
+      (https://www.dnb.com/en-us/solutions/artificial-intelligence/connectors/dnb-mcp.html)
+      is a "Get Access" request form. No endpoint is asserted here.
+    auth:
+      type: api-key
+      parameter: Dplus-API-Key
+      location: header
+      source: https://learn.microsoft.com/en-us/connectors/dunandbradstreetmcps/
+      note: >-
+        Documented verbatim by the Microsoft Power Platform certified
+        connector as the single required securestring connection parameter:
+        "Dplus-API-Key — The Dplus-API-Key for this api". "Dplus" is D&B's own
+        shorthand for Direct+, which ties this server to the Direct+ platform
+        already catalogued in this repo.
+    probe:
+      url: https://plus.dnb.com/v1/mcp
+      http_status: 401
+      control_url: https://plus.dnb.com/v1/zzzznotreal
+      control_http_status: 404
+      interpretation: >-
+        /v1/mcp is a real route on the Direct+ gateway that requires
+        authentication; the control path proves the gateway 404s unknown
+        routes, so the 401 is not a blanket response. This is evidence of an
+        MCP route on the Direct+ host, NOT a published endpoint URL — D&B has
+        not documented it, so it is not written into deployment.endpoint.
+    datasets_documented:
+      - Financial Strength Insights
+      - Third Party Risk Insights
+      - Ownership Insights
+      - Inquiry Insights
+      - Principals and Contacts
+      - Payment Insights
+      - Sales & Marketing Insights
+      - Shipping Insights
+      - Entity Scoring & Matching (NextGen/MDM)
+    tools: []
+    tools_note: >-
+      The Microsoft connector exposes exactly one Power Platform action,
+      "InvokeServer" (operation ID InvokeServer), which is the generic MCP
+      passthrough — it is not a D&B tool name. No per-tool manifest is
+      published anywhere on the open web. tools[] left empty by design.
+    throttling:
+      scope: per Power Platform connection
+      calls: 100
+      window_seconds: 60
+      source: https://learn.microsoft.com/en-us/connectors/dunandbradstreetmcps/
+      note: >-
+        This is the Microsoft connector's throttle, not a D&B-published API
+        limit. See rate-limits/dun-and-bradstreet-rate-limits.yml.
+
+distribution:
+  - channel: Microsoft Power Platform / Copilot Studio / Logic Apps / Power Apps
+    name: Dun and Bradstreet MCP Server (Preview)
+    url: https://learn.microsoft.com/en-us/connectors/dunandbradstreetmcps/
+    publisher: Dun & Bradstreet, Inc.
+    contact: microsoftleads@dnb.com
+  - channel: IBM watsonx Orchestrate Agent Catalog
+    name: Dun & Bradstreet Commercial Graph
+    url: https://www.ibm.com/new/announcements/dun-bradstreet-commercial-graph-is-now-available-in-watsonx-orchestrate-agent-catalog-via-mcp-server
+  - channel: Anthropic Claude connector directory
+    name: Claude MCP Connector for D&B Risk Analytics
+    url: https://www.dnb.com/en-us/newsroom/press-releases/dnb-brings-risk-compliance-workloads-to-anthropic-claude.html
+  - channel: Databricks Marketplace
+    name: D&B Commercial Graph (delivered via MCP servers)
+  - channel: Amazon QuickSight
+    name: D&B Commercial Graph MCP connector
+  - channel: Cursor
+    name: Cursor Plugin for D&B Risk Analytics
+  - channel: OpenAI ChatGPT
+    name: ChatGPT Connector for D&B Finance Analytics
+
+related:
+  openapi: openapi/_original/dnb-direct-plus-openapi-original.yml
+  crosswalk: mcp/dun-and-bradstreet-tool-crosswalk.yml
+  well_known: well-known/dun-and-bradstreet-well-known.yml
+  scopes: scopes/dun-and-bradstreet-scopes.yml
+
+absences:
+  - No stdio / npx / npm / PyPI MCP package published by D&B.
+  - No public tools/list manifest for either server.
+  - No published endpoint URL for the Commercial Graph / Direct+ MCP server.
+  - No A2A agent card on agents.riskanalytics.dnb.com or any other D&B host.

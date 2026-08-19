@@ -1,0 +1,107 @@
+generated: '2026-08-13'
+method: searched
+probe: true
+source: https://www.dnb.com/en-us/utilities/our-security.html
+url: https://www.dnb.com/en-us/utilities/our-security.html
+description: >-
+  Dun & Bradstreet publishes its security and compliance posture across a
+  small set of public pages rather than a hosted trust-center product. There
+  is no trust.dnb.com or security.dnb.com — both fail to resolve. The pages
+  below are real, public and D&B-authored, and every certification recorded
+  here is quoted from them.
+
+pages:
+  - name: Our Security
+    url: https://www.dnb.com/en-us/utilities/our-security.html
+    http_status: 200
+    role: primary security posture page
+  - name: Our Approach to Operational Resilience
+    url: https://www.dnb.com/en-us/why-dnb/data-transparency/operational-resilience.html
+    http_status: 200
+    role: business continuity, DORA, ICT risk
+  - name: Data Compliance at Dun & Bradstreet
+    url: https://www.dnb.com/en-us/why-dnb/data-transparency/data-compliance.html
+    http_status: 200
+  - name: Our Data Transparency Commitment
+    url: https://www.dnb.com/en-us/why-dnb/data-transparency.html
+    http_status: 200
+  - name: ISO Certifications
+    url: https://www.dnb.com/en-us/utilities/ISO-certifications.html
+    http_status: 200
+  - name: Global Compliance & Ethics contacts
+    url: https://www.dnb.com/en-us/why-dnb/data-transparency/contacts.html
+    http_status: 200
+  - name: ICT Risk and Digital Operational Resilience Position Statement (PDF)
+    url: https://www.dnb.com/content/dam/web/company/about/content/irdor/DnB_ICT-Risk-and-Digital-Operational-Resilience-Position-Statement.pdf
+  - name: Incident and Breach Response Policy Statement (PDF)
+    url: https://www.dnb.com/content/dam/web/company/about/content/ibrp/DnB_Tier-1-CP-21-Incident-and-Breach-Response-Policy-Statement.pdf
+    http_status: 200
+
+certifications:
+  - SOC 2 Type 2
+  - SOC 3
+  - ISO/IEC 27001:2022
+  - ISO/IEC 27701
+  - ISO 22301
+  - PCI DSS
+  - SIG
+  - HIPAA
+  - GDPR
+
+certification_detail:
+  - name: SOC 2 Type 2
+    cadence: annual
+    quote: >-
+      "independent auditor certify a SOC2 Type 2 attestation annually,
+      demonstrating operational effectiveness of controls (available under
+      mutual NDA)"
+    report_availability: under mutual NDA
+  - name: ISO/IEC 27001:2022
+    cadence: annual
+    scope: multiple locations
+    quote: >-
+      "D&B also annually certifies to the ISO/IEC 27001:2022 Information
+      Security Management Systems (ISMS) standard at multiple locations"
+  - name: ISO/IEC 27701
+    scope: markets where ISO 27001 is certified
+    quote: >-
+      "In markets in which they are certified as compliant with ISO 27001
+      (Information Security Management Systems), they also hold an ISO 27701
+      certification (Privacy Information Management Systems)"
+  - name: PCI DSS
+    cadence: annual
+    quote: '"D&B annually undergoes PCI and SIG assessments"'
+  - name: SIG
+    cadence: annual
+    quote: '"D&B annually undergoes PCI and SIG assessments"'
+
+regulatory:
+  - name: DORA (EU Digital Operational Resilience Act)
+  - name: FTC Consent Order
+  - name: GDPR
+
+partner_requirements:
+  url: https://www.dnb.com.hk/alliance-data-security-requirement
+  note: >-
+    D&B requires partners to maintain compliance with ISO 27001:2022 control
+    requirements and to supply risk assessment and treatment reports within
+    10 business days of a written request.
+
+hosted_trust_center:
+  exists: false
+  probed:
+    - {host: trust.dnb.com, result: does not resolve}
+    - {host: security.dnb.com, result: does not resolve}
+
+evidence:
+  - source: https://www.dnb.com/en-us/utilities/our-security.html
+    keywords: [soc2, iso/iec 27001, trust centre, gdpr]
+    http_status: 200
+  - source: https://www.dnb.com/en-us/why-dnb/data-transparency/operational-resilience.html
+    keywords: [soc 2 type 2, iso 27001, iso 27701, iso 22301, pci, hipaa, dora]
+    http_status: 200
+
+absences:
+  - No hosted trust center (no trust.dnb.com / Vanta / Drata style portal).
+  - No downloadable attestation reports; SOC 2 is NDA-gated.
+  - No certification scoped specifically to the Direct+ API.

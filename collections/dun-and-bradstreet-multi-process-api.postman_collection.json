@@ -1,0 +1,193 @@
+{
+  "item": [
+    {
+      "id": "a6e07895-f8d1-4a2c-a901-15834c1dee8e",
+      "name": "Multi-Process",
+      "description": {
+        "content": "Combined match plus enrich in a single call.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "a4d7c429-34e4-4e8d-998a-a7e9041d11b7",
+          "name": "Match Plus Enrich In One Call",
+          "request": {
+            "name": "Match Plus Enrich In One Call",
+            "description": {
+              "content": "Combine Identity Resolution and Enrich in a single request: supply a candidate input record and the desired data blocks; Direct+ returns the resolved D-U-N-S match together with all requested enrichment payloads.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "multiProcess"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"inquiryDetail\": {\n    \"name\": \"<string>\",\n    \"countryISOAlpha2Code\": \"<string>\",\n    \"address\": {\n      \"streetAddress\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\"\n      },\n      \"addressLocality\": {\n        \"name\": \"<string>\"\n      },\n      \"addressRegion\": {\n        \"name\": \"<string>\",\n        \"abbreviatedName\": \"<string>\"\n      },\n      \"postalCode\": \"<string>\",\n      \"addressCountry\": {\n        \"isoAlpha2Code\": \"<string>\"\n      }\n    }\n  },\n  \"blockIDs\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "1221e839-a9d8-46e3-b9da-21cefb709154",
+              "name": "Resolved match plus enrichment payloads.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "multiProcess"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"inquiryDetail\": {\n    \"name\": \"<string>\",\n    \"countryISOAlpha2Code\": \"<string>\",\n    \"address\": {\n      \"streetAddress\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\"\n      },\n      \"addressLocality\": {\n        \"name\": \"<string>\"\n      },\n      \"addressRegion\": {\n        \"name\": \"<string>\",\n        \"abbreviatedName\": \"<string>\"\n      },\n      \"postalCode\": \"<string>\",\n      \"addressCountry\": {\n        \"isoAlpha2Code\": \"<string>\"\n      }\n    }\n  },\n  \"blockIDs\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionDetail\": {\n    \"transactionID\": \"string\",\n    \"transactionTimestamp\": \"2019-08-19T10:39:19.780Z\",\n    \"inLanguage\": \"string\",\n    \"serviceVersion\": \"string\"\n  },\n  \"matchCandidates\": [\n    {\n      \"displaySequence\": 1297,\n      \"matchQualityInformation\": {\n        \"confidenceCode\": 4770,\n        \"matchGrade\": \"string\",\n        \"matchDataProfile\": \"string\"\n      },\n      \"organization\": {\n        \"duns\": \"229523795\",\n        \"primaryName\": \"string\",\n        \"primaryAddress\": {\n          \"streetAddress\": {\n            \"line1\": \"<string>\",\n            \"line2\": \"<string>\"\n          },\n          \"addressLocality\": {\n            \"name\": \"<string>\"\n          },\n          \"addressRegion\": {\n            \"name\": \"<string>\",\n            \"abbreviatedName\": \"<string>\"\n          },\n          \"postalCode\": \"<string>\",\n          \"addressCountry\": {\n            \"isoAlpha2Code\": \"<string>\"\n          }\n        },\n        \"countryISOAlpha2Code\": \"string\",\n        \"telephone\": [\n          {\n            \"telephoneNumber\": \"string\"\n          },\n          {\n            \"telephoneNumber\": \"string\"\n          }\n        ],\n        \"registrationNumbers\": [\n          {\n            \"registrationNumber\": \"string\",\n            \"typeDescription\": \"string\"\n          },\n          {\n            \"registrationNumber\": \"string\",\n            \"typeDescription\": \"string\"\n          }\n        ]\n      }\n    },\n    {\n      \"displaySequence\": 9472,\n      \"matchQualityInformation\": {\n        \"confidenceCode\": 2665,\n        \"matchGrade\": \"string\",\n        \"matchDataProfile\": \"string\"\n      },\n      \"organization\": {\n        \"duns\": \"106015627\",\n        \"primaryName\": \"string\",\n        \"primaryAddress\": {\n          \"streetAddress\": {\n            \"line1\": \"<string>\",\n            \"line2\": \"<string>\"\n          },\n          \"addressLocality\": {\n            \"name\": \"<string>\"\n          },\n          \"addressRegion\": {\n            \"name\": \"<string>\",\n            \"abbreviatedName\": \"<string>\"\n          },\n          \"postalCode\": \"<string>\",\n          \"addressCountry\": {\n            \"isoAlpha2Code\": \"<string>\"\n          }\n        },\n        \"countryISOAlpha2Code\": \"string\",\n        \"telephone\": [\n          {\n            \"telephoneNumber\": \"string\"\n          },\n          {\n            \"telephoneNumber\": \"string\"\n          }\n        ],\n        \"registrationNumbers\": [\n          {\n            \"registrationNumber\": \"string\",\n            \"typeDescription\": \"string\"\n          },\n          {\n            \"registrationNumber\": \"string\",\n            \"typeDescription\": \"string\"\n          }\n        ]\n      }\n    }\n  ],\n  \"organization\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2624f0f4-f05d-4b40-bea0-c192d3176f29",
+              "name": "Missing or invalid bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "multiProcess"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"inquiryDetail\": {\n    \"name\": \"<string>\",\n    \"countryISOAlpha2Code\": \"<string>\",\n    \"address\": {\n      \"streetAddress\": {\n        \"line1\": \"<string>\",\n        \"line2\": \"<string>\"\n      },\n      \"addressLocality\": {\n        \"name\": \"<string>\"\n      },\n      \"addressRegion\": {\n        \"name\": \"<string>\",\n        \"abbreviatedName\": \"<string>\"\n      },\n      \"postalCode\": \"<string>\",\n      \"addressCountry\": {\n        \"isoAlpha2Code\": \"<string>\"\n      }\n    }\n  },\n  \"blockIDs\": [\n    \"<string>\",\n    \"<string>\"\n  ]\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionDetail\": {\n    \"transactionID\": \"string\",\n    \"transactionTimestamp\": \"1965-11-20T20:05:19.931Z\",\n    \"inLanguage\": \"string\",\n    \"serviceVersion\": \"string\"\n  },\n  \"error\": {\n    \"errorMessage\": \"string\",\n    \"errorCode\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://plus.dnb.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "a16df321-e8df-458f-ba2e-9f2ac7d96414",
+    "name": "D&B Direct+ Authentication Multi-Process API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "D&B Direct+ is Dun & Bradstreet's RESTful API platform that exposes the D&B Data Cloud — more than 500 million companies worldwide — for identity resolution, search, enrichment, multi-process (match plus enrich), batch processing, change monitoring, and historical research. All endpoints return JSON, are versioned in the URI path, and require an OAuth 2.0 bearer token obtained from the /v3/token endpoint via client-credentials grant. This profile is an OpenAPI sketch of the public surface based on Dun & Bradstreet's published Direct+ documentation; the canonical operation definitions live behind the gated developer portal at https://directplus.documentation.dnb.com/.\n\nContact Support:\n Name: D&B Direct+ Support",
+      "type": "text/plain"
+    }
+  }
+}

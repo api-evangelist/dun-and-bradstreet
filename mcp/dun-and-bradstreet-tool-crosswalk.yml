@@ -1,0 +1,142 @@
+generated: '2026-08-13'
+method: derived
+source: mcp/dun-and-bradstreet-mcp.yml + openapi/_original/dnb-direct-plus-openapi-original.yml
+description: >-
+  Crosswalk between Dun & Bradstreet's agent-facing MCP surface and the
+  machine-readable Direct+ REST contract in this repo. D&B ships two MCP
+  servers but publishes no tools/list manifest for either — the Risk Analytics
+  server's tools/list is OAuth-gated (probed 401) and the Commercial Graph /
+  Direct+ server is distributed only through marketplace connectors whose
+  single exposed action is a generic MCP passthrough (InvokeServer). Because
+  no real tool NAMES exist on the open web, this crosswalk deliberately
+  contains ZERO tool rows: fabricating tool names in order to bind them to
+  operationIds would be inventing the exact thing the crosswalk is supposed to
+  measure. What IS recorded is the D&B-published dataset surface, which
+  capability it corresponds to on the REST side, and the full rest_only[] list
+  — the honest measurement of where the two surfaces are known to diverge.
+
+surfaces:
+  openapi:
+    file: openapi/_original/dnb-direct-plus-openapi-original.yml
+    servers: [https://plus.dnb.com]
+    operations: 14
+    gated: false
+    note: >-
+      The spec is in this repo; the Direct+ reference documentation that
+      backs it (directplus.documentation.dnb.com) 302s every page into Okta
+      sign-in, so it is not anonymously readable.
+  graphql:
+    endpoint: null
+    note: No GraphQL surface. POST https://plus.dnb.com/graphql returns 404.
+  mcp:
+    - url: https://agents.riskanalytics.dnb.com/mcp
+      gated: true
+      gate: OAuth 2.0 (RFC 9728 / RFC 8414 discovery served anonymously; tools/list returns 401 invalid_token)
+    - url: null
+      name: D&B MCP Server (Commercial Graph / Direct+)
+      gated: true
+      gate: Dplus-API-Key; endpoint URL unpublished, access via request form
+
+crosswalk: []
+crosswalk_note: >-
+  Empty by design. See description — no MCP tool names are published, so
+  there is nothing real to bind. This is a measured absence, not an omission.
+
+mcp_only: []
+mcp_only_note: >-
+  The Risk Analytics server's documented capabilities (KYC/KYB onboarding,
+  sanctions and adverse-media screening, alert triage, risk decision
+  documentation) have no counterpart operation anywhere in the Direct+
+  OpenAPI in this repo, and D&B publishes no REST contract for D&B Risk
+  Analytics at all. They are therefore MCP-only capabilities in practice —
+  but they are described in marketing prose, not named as tools, so they are
+  recorded here as a note rather than as fabricated mcp_only[] rows.
+
+dataset_to_rest:
+  - dataset: Financial Strength Insights
+    rest: [getDataBlocksByDuns]
+    binding: rest
+    confidence: medium
+    note: >-
+      Direct+ delivers every Data Block through the single blockIDs query
+      parameter on getDataBlocksByDuns; the dataset name is a block family,
+      not an operation. Confidence is medium because the block ID strings are
+      only enumerated in the gated documentation portal.
+  - dataset: Third Party Risk Insights
+    rest: [getDataBlocksByDuns]
+    binding: rest
+    confidence: medium
+  - dataset: Ownership Insights
+    rest: [getDataBlocksByDuns]
+    binding: rest
+    confidence: medium
+  - dataset: Inquiry Insights
+    rest: [getDataBlocksByDuns]
+    binding: rest
+    confidence: medium
+  - dataset: Principals and Contacts
+    rest: [getDataBlocksByDuns, searchContacts]
+    binding: rest
+    confidence: medium
+  - dataset: Payment Insights
+    rest: [getDataBlocksByDuns]
+    binding: rest
+    confidence: medium
+  - dataset: Sales & Marketing Insights
+    rest: [getDataBlocksByDuns, searchCompaniesByCriteria]
+    binding: rest
+    confidence: low
+  - dataset: Shipping Insights
+    rest: [getDataBlocksByDuns]
+    binding: rest
+    confidence: low
+  - dataset: Entity Scoring & Matching (NextGen/MDM)
+    rest: [cleanseMatch, multiProcessMatchAndEnrich]
+    binding: rest
+    confidence: medium
+    note: >-
+      Match/entity resolution is the one dataset family with dedicated REST
+      operations rather than a Data Block parameter.
+
+rest_only:
+  - capability: Authentication
+    operations: [generateAccessToken]
+    reason: >-
+      Token minting is a client concern; the MCP servers handle their own
+      auth (OAuth on Risk Analytics, Dplus-API-Key on Commercial Graph).
+  - capability: Batch / Data File
+    operations: [submitBatchFile, getBatchFileStatus, downloadBatchFileResults]
+    reason: >-
+      Asynchronous multi-megabyte file workflows; no marketplace listing
+      describes a batch tool.
+  - capability: Monitoring
+    operations:
+      - createMonitoringRegistration
+      - addDunsToRegistration
+      - removeDunsFromRegistration
+      - pullMonitoringNotifications
+    reason: >-
+      Stateful portfolio registration and long-poll notification retrieval;
+      no MCP tool is documented for it.
+  - capability: Research / audit
+    operations: [getAuditRecord]
+    reason: No MCP tool documented.
+  - capability: Search
+    operations: [searchCompaniesByCriteria, searchContacts]
+    reason: >-
+      Partially reachable through the Sales & Marketing / Principals dataset
+      families, but no named tool binds to these operationIds.
+
+coverage:
+  tools_named: 0
+  tools_bound: 0
+  mcp_only: 0
+  rest_operations_total: 14
+  rest_operations_with_a_tool: 0
+  datasets_published: 9
+  datasets_bound_to_rest: 9
+  gated_surfaces: 2
+  note: >-
+    tools_named is 0 because D&B publishes no tool manifest, not because the
+    servers have no tools. Re-run this crosswalk with an authenticated
+    tools/list to populate crosswalk[] with real inputSchemas.

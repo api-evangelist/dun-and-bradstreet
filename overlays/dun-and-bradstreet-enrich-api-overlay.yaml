@@ -1,0 +1,50 @@
+# OpenAPI Overlay 1.0.0 - API Evangelist enhancements. Never mutate the original spec.
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for D&B Direct+ Authentication Enrich API
+  version: 1.0.0
+extends: openapi/dun-and-bradstreet-enrich-api-openapi.yml
+x-generated: '2026-08-13'
+x-method: generated
+x-source: openapi/dun-and-bradstreet-enrich-api-openapi.yml
+actions:
+- target: $.info
+  description: API Evangelist provenance and artifact cross-links for this Direct+ surface.
+  update:
+    x-apievangelist-provider: dun-and-bradstreet
+    x-apievangelist-source: openapi/_original/dnb-direct-plus-openapi-original.yml
+    x-apievangelist-artifacts:
+      authentication: authentication/dun-and-bradstreet-authentication.yml
+      conventions: conventions/dun-and-bradstreet-conventions.yml
+      errors: errors/dun-and-bradstreet-problem-types.yml
+      data-model: data-model/dun-and-bradstreet-data-model.yml
+      lifecycle: lifecycle/dun-and-bradstreet-lifecycle.yml
+      rate-limits: rate-limits/dun-and-bradstreet-rate-limits.yml
+      mcp: mcp/dun-and-bradstreet-mcp.yml
+- target: $.info
+  description: 'Record the observed error envelope: Direct+ does not use RFC 9457 problem+json.'
+  update:
+    x-error-envelope:
+      format: proprietary
+      shape: '{transactionDetail,error:{errorCode,errorMessage,errorDetails[]}}'
+      catalog: errors/dun-and-bradstreet-problem-types.yml
+      rfc9457: false
+- target: $.info
+  description: Record that Direct+ publishes no idempotency contract, so agent retries are not replay-safe.
+  update:
+    x-idempotency:
+      supported: false
+      header: null
+      source: conventions/dun-and-bradstreet-conventions.yml
+- target: $.servers[0]
+  description: Confirm the production host against a live probe rather than the docs.
+  update:
+    x-verified:
+      probed: '2026-08-13'
+      http_status_on_unauthenticated_call: 401
+      note: plus.dnb.com answers 401 on real routes and 404 on unknown routes.
+- target: $.paths['/v1/data/duns/{duns}'].get
+  description: Bind getDataBlocksByDuns to the derived artifacts that describe its runtime semantics.
+  update:
+    x-agentic-access: agentic-access/dun-and-bradstreet-agentic-access.yml
+    x-errors: errors/dun-and-bradstreet-problem-types.yml

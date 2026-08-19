@@ -1,0 +1,116 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "D&B Direct+ Authentication Monitoring API",
+    "version": "3.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Monitoring",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create Monitoring Registration",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://plus.dnb.com/v1/monitoring/registrations",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Register a portfolio of D-U-N-S Numbers for change monitoring. The registration declares which data blocks to monitor and how notifications should be delivered."
+        },
+        {
+          "info": {
+            "name": "Add D-U-N-S To Registration",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://plus.dnb.com/v1/monitoring/registrations/:registrationReference/duns",
+            "params": [
+              {
+                "name": "registrationReference",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Add one or more D-U-N-S Numbers to an existing monitoring registration's portfolio."
+        },
+        {
+          "info": {
+            "name": "Remove D-U-N-S From Registration",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://plus.dnb.com/v1/monitoring/registrations/:registrationReference/duns",
+            "params": [
+              {
+                "name": "registrationReference",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            },
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Remove one or more D-U-N-S Numbers from a monitoring registration's portfolio."
+        },
+        {
+          "info": {
+            "name": "Pull Monitoring Notifications",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://plus.dnb.com/v1/monitoring/registrations/:registrationReference/notifications",
+            "params": [
+              {
+                "name": "registrationReference",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "maximumQuantity",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Pull pending change notifications for a monitoring registration. Each notification describes the D-U-N-S Number affected, the block that changed, the previous and new values, and the change timestamp."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

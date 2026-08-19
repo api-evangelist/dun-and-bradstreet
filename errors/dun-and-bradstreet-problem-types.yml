@@ -1,0 +1,119 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/_original/dnb-direct-plus-openapi-original.yml + live unauthenticated probes of https://plus.dnb.com
+format: proprietary
+format_note: >-
+  D&B Direct+ does NOT use RFC 9457 / RFC 7807 problem+json. Every error is
+  returned as application/json with a proprietary two-part envelope: a
+  transactionDetail object (correlation) and an error object (errorCode +
+  errorMessage + optional errorDetails[]). The envelope shape below was
+  confirmed against live unauthenticated responses from plus.dnb.com, not
+  only from the spec.
+
+envelope:
+  content_type: application/json
+  schema: openapi/_original/dnb-direct-plus-openapi-original.yml#/components/schemas/Error
+  shape:
+    transactionDetail:
+      transactionID: string — server-assigned correlation id, echoed on success and failure
+      transactionTimestamp: date-time
+      inLanguage: string (e.g. en-US)
+      serviceVersion: string, may be null
+    error:
+      errorCode: string — zero-padded five-digit D&B error code (e.g. "00004")
+      errorMessage: string — human-readable message
+      errorDetails: array of objects, optional
+  example_observed:
+    request: GET https://plus.dnb.com/v1/match/cleanseMatch?name=Acme&countryISOAlpha2Code=US
+    http_status: 401
+    body: |
+      {
+        "transactionDetail": {
+          "transactionID": "6b37ae26-...",
+          "transactionTimestamp": "2026-08-14T02:28:58.626Z",
+          "inLanguage": "en-US",
+          "serviceVersion": null
+        },
+        "error": {
+          "errorMessage": "You are not currently authorised to access this product. Please contact your D&B account representative",
+          "errorCode": "00004"
+        }
+      }
+
+response_headers:
+  - name: x-request-id
+    description: >-
+      Gateway-assigned request identifier, distinct from
+      transactionDetail.transactionID. Present on error responses.
+  - name: x-request-status
+    description: >-
+      Observed with the value "failure" on error responses. Quote this and
+      x-request-id when opening a support case.
+
+error_codes:
+  - code: '00004'
+    status: 401
+    message: >-
+      You are not currently authorised to access this product. Please contact
+      your D&B account representative
+    meaning: >-
+      No valid bearer token, or the authenticated customer's contract does not
+      entitle them to the requested product / Data Block.
+    remediation: >-
+      Mint a token at POST /v3/token; if the token is valid, the failure is an
+      entitlement gap — contact the D&B account representative rather than
+      retrying.
+    method: probed
+    observed_at: https://plus.dnb.com/v1/match/cleanseMatch
+  - code: '00037'
+    status: 404
+    message: Not Found
+    meaning: The requested path or resource does not exist on the Direct+ gateway.
+    remediation: Check the path and API version segment (/v1, /v2, /v3 differ per product).
+    method: probed
+    observed_at: https://plus.dnb.com/v1/zzzznotreal
+
+problems:
+  - status: 401
+    title: Unauthorized
+    description: Missing, expired or unentitled bearer token.
+    source_operations:
+      - openapi/_original/dnb-direct-plus-openapi-original.yml#generateAccessToken
+      - openapi/_original/dnb-direct-plus-openapi-original.yml#cleanseMatch
+      - openapi/_original/dnb-direct-plus-openapi-original.yml#searchCompaniesByCriteria
+      - openapi/_original/dnb-direct-plus-openapi-original.yml#getDataBlocksByDuns
+      - openapi/_original/dnb-direct-plus-openapi-original.yml#multiProcessMatchAndEnrich
+      - openapi/_original/dnb-direct-plus-openapi-original.yml#submitBatchFile
+  - status: 404
+    title: Not Found
+    description: >-
+      No record for the supplied D-U-N-S Number, fileId or path.
+    source_operations:
+      - openapi/_original/dnb-direct-plus-openapi-original.yml#cleanseMatch
+      - openapi/_original/dnb-direct-plus-openapi-original.yml#getDataBlocksByDuns
+      - openapi/_original/dnb-direct-plus-openapi-original.yml#getBatchFileStatus
+      - openapi/_original/dnb-direct-plus-openapi-original.yml#downloadBatchFileResults
+      - openapi/_original/dnb-direct-plus-openapi-original.yml#getAuditRecord
+  - status: 429
+    title: Too Many Requests
+    description: >-
+      Rate limit or contracted quota exceeded. Not declared in the OpenAPI;
+      documented in rate-limits/dun-and-bradstreet-rate-limits.yml as
+      returning Retry-After.
+    source: rate-limits/dun-and-bradstreet-rate-limits.yml
+  - status: 403
+    title: Forbidden
+    description: >-
+      Subscription does not authorize the requested Data Block, or the monthly
+      entitlement is exhausted. Not declared in the OpenAPI.
+    source: rate-limits/dun-and-bradstreet-rate-limits.yml
+
+absences:
+  - >-
+    No public error-code reference. The full D&B error-code registry lives in
+    the Direct+ documentation portal, which 302s every page into Okta
+    sign-in — only the two codes above could be observed anonymously.
+  - No RFC 9457 problem+json support.
+  - >-
+    429 and 403 are not declared in any OpenAPI response block even though the
+    gateway returns them.

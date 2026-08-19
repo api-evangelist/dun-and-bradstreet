@@ -1,0 +1,206 @@
+generated: '2026-08-13'
+method: searched
+source: >-
+  https://www.dnb.com/en-us/utilities/our-security.html +
+  https://www.dnb.com/en-us/why-dnb/data-transparency/operational-resilience.html +
+  https://agents.riskanalytics.dnb.com/.well-known/oauth-authorization-server +
+  openapi/_original/dnb-direct-plus-openapi-original.yml
+description: >-
+  Cross-cutting standards conformance for Dun & Bradstreet, split into two
+  layers: technical standards asserted against the machine-readable contracts
+  in this repo and the live probes behind them, and the published corporate
+  certification program. Each entry carries the evidence it rests on. A false
+  `conforms` is as much a finding as a true one.
+
+standards:
+  - id: oauth2
+    conforms: true
+    evidence: >-
+      Direct+ mints bearer tokens through a client_credentials exchange at
+      POST /v3/token (grant_type enum is client_credentials, HTTP Basic on the
+      token request). Separately, the D&B Risk Analytics MCP server runs a
+      full OAuth 2.0 authorization server with authorization_code and
+      client_credentials grants and refresh tokens.
+    caveat: >-
+      The Direct+ OpenAPI models the exchange as an explicit operation plus
+      http basic/bearer securitySchemes rather than declaring an oauth2
+      securityScheme, so a spec-only reader sees no OAuth.
+
+  - id: oauth2-pkce
+    conforms: true
+    evidence: >-
+      code_challenge_methods_supported = ["S256","plain"] in the MCP
+      authorization-server metadata.
+    caveat: >-
+      Advertising "plain" alongside S256 is weaker than current best practice
+      (RFC 9700 / OAuth 2.1 require S256).
+
+  - id: rfc8414-oauth-authorization-server-metadata
+    conforms: true
+    evidence: >-
+      https://agents.riskanalytics.dnb.com/.well-known/oauth-authorization-server
+      returns 200 with issuer, authorization_endpoint, token_endpoint,
+      response_types_supported, grant_types_supported,
+      code_challenge_methods_supported, token_endpoint_auth_methods_supported
+      and scopes_supported.
+    scope: D&B Risk Analytics MCP server only
+
+  - id: rfc9728-oauth-protected-resource-metadata
+    conforms: true
+    evidence: >-
+      /.well-known/oauth-protected-resource and the resource-scoped
+      /.well-known/oauth-protected-resource/mcp both return 200, and the 401
+      on POST /mcp carries a WWW-Authenticate: Bearer header with
+      resource_metadata pointing at the scoped document — the full RFC 9728
+      discovery loop.
+    scope: D&B Risk Analytics MCP server only
+
+  - id: oidc
+    conforms: false
+    evidence: >-
+      The MCP authorization server advertises openid, email and profile in
+      scopes_supported but serves no /.well-known/openid-configuration (404),
+      so it is not an OIDC provider by the discovery test.
+
+  - id: mcp
+    conforms: true
+    evidence: >-
+      https://agents.riskanalytics.dnb.com/mcp implements Streamable HTTP MCP
+      — a session-less POST returns 400 {"detail":"Missing mcp-session-id
+      header."} and an unauthenticated tools/list returns 401 invalid_token
+      with RFC 9728 resource metadata. Both are correct MCP behaviour.
+      Additionally D&B ships a certified Microsoft Power Platform MCP
+      connector.
+    detail: mcp/dun-and-bradstreet-mcp.yml
+
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: >-
+      Errors are application/json with a proprietary
+      {transactionDetail, error:{errorCode, errorMessage}} envelope, observed
+      live on 401 and 404. No application/problem+json anywhere.
+    detail: errors/dun-and-bradstreet-problem-types.yml
+
+  - id: idempotency
+    conforms: false
+    evidence: >-
+      No Idempotency-Key header or equivalent in any OpenAPI in this repo and
+      none documented anywhere anonymously readable.
+    detail: conventions/dun-and-bradstreet-conventions.yml
+
+  - id: pagination
+    conforms: partial
+    evidence: >-
+      pageNumber/pageSize on searchCompaniesByCriteria, pageSize on
+      searchContacts. No cursor, and no next-page or total field declared in
+      the response schemas.
+
+  - id: rfc8594-sunset-header
+    conforms: unknown
+    evidence: >-
+      Could not be observed on unauthenticated responses; the deprecation
+      policy is behind the Okta gate.
+
+  - id: rfc9116-security-txt
+    conforms: false
+    evidence: /.well-known/security.txt returns 404 on every D&B host probed.
+
+  - id: rfc9727-api-catalog
+    conforms: false
+    evidence: /.well-known/api-catalog returns 404 on every D&B host probed.
+
+  - id: a2a
+    conforms: false
+    evidence: >-
+      No agent card at /.well-known/agent-card.json or the legacy
+      /.well-known/agent.json on plus.dnb.com, www.dnb.com or
+      agents.riskanalytics.dnb.com.
+
+  - id: llms-txt
+    conforms: true
+    evidence: >-
+      https://www.dnb.com/llms.txt returns 200 text/plain with a conformant
+      llms.txt — H1, blockquote summary, and structured link sections
+      indexing 23 per-locale llms.txt files.
+    detail: llms/dun-and-bradstreet-llms.txt
+    caveat: >-
+      The file instructs agents to use Accept: text/markdown content
+      negotiation, but an anonymous request with that header to
+      https://www.dnb.com/en-us/ returned HTTP 403 from a Cloudflare bot
+      challenge. The stated agent contract and the deployed edge behaviour
+      disagree.
+
+  - id: openapi-3
+    conforms: true
+    evidence: >-
+      OpenAPI 3.0.3 documents in this repo, harvested from the Direct+ surface.
+
+  - id: json-schema
+    conforms: true
+    evidence: json-schema/ carries three D&B Direct+ schemas.
+
+  - id: fhir
+    conforms: false
+  - id: fapi
+    conforms: false
+  - id: scim
+    conforms: false
+  - id: odata
+    conforms: false
+  - id: psd2
+    conforms: false
+  - id: json-api
+    conforms: false
+
+certifications:
+  published: true
+  source: https://www.dnb.com/en-us/utilities/our-security.html
+  program:
+    - name: SOC 2 Type 2
+      status: attested annually
+      evidence: >-
+        "independent auditor certify a SOC2 Type 2 attestation annually,
+        demonstrating operational effectiveness of controls (available under
+        mutual NDA)"
+      report_availability: under mutual NDA
+    - name: SOC 3
+      status: referenced
+      evidence: >-
+        Named in D&B's data-transparency material alongside SOC 2 Type 2.
+    - name: ISO/IEC 27001:2022
+      status: certified annually, multiple locations
+      evidence: >-
+        "D&B also annually certifies to the ISO/IEC 27001:2022 Information
+        Security Management Systems (ISMS) standard at multiple locations"
+    - name: ISO/IEC 27701
+      status: certified where ISO 27001 is certified
+      evidence: >-
+        "In markets in which they are certified as compliant with ISO 27001
+        ... they also hold an ISO 27701 certification (Privacy Information
+        Management Systems)"
+    - name: PCI DSS
+      status: assessed annually
+      evidence: '"D&B annually undergoes PCI and SIG assessments"'
+    - name: SIG (Standardized Information Gathering)
+      status: assessed annually
+      evidence: '"D&B annually undergoes PCI and SIG assessments"'
+    - name: ISO 22301
+      status: referenced (business continuity)
+      source: https://www.dnb.com/en-us/why-dnb/data-transparency/operational-resilience.html
+    - name: HIPAA
+      status: referenced
+      source: https://www.dnb.com/en-us/why-dnb/data-transparency/operational-resilience.html
+  regulatory_frameworks:
+    - name: DORA (EU Digital Operational Resilience Act)
+      source: https://www.dnb.com/en-us/why-dnb/data-transparency/operational-resilience.html
+    - name: GDPR
+      source: https://www.dnb.com/en-us/why-dnb/data-transparency/data-compliance.html
+    - name: FTC Consent Order
+      source: https://www.dnb.com/en-us/why-dnb/data-transparency/operational-resilience.html
+  detail: security/dun-and-bradstreet-trust-center.yml
+
+absences:
+  - >-
+    No certification is scoped to the Direct+ API specifically; the program is
+    corporate.
+  - No public attestation reports — SOC 2 is NDA-gated.

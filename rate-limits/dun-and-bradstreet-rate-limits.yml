@@ -12,6 +12,9 @@ specificationVersion: API Commons Rate Limits 0.1
 provider: Dun & Bradstreet
 modified: '2026-05-23'
 source: https://directplus.documentation.dnb.com/
+generated: '2026-08-13'
+method: searched
+limit_count: 0
 
 publishedPublicly: false
 documentedTo: subscribers
@@ -66,6 +69,30 @@ retryGuidance: >-
   Use exponential backoff honoring Retry-After; if 403 references quota,
   contact D&B account management rather than retrying.
 
+responseHeaders:
+  observed: []
+  observedNote: >-
+    No X-RateLimit-* or RateLimit-* headers were present on live
+    unauthenticated responses from https://plus.dnb.com (probed 2026-08-13).
+    The only headers the gateway returns on an error are x-request-id and
+    x-request-status. Retry-After on 429 is documented, not observed — a 429
+    could not be provoked anonymously.
+  documented: [Retry-After]
+
+thirdPartyPublishedLimits:
+  - surface: D&B MCP Server via Microsoft Power Platform connector
+    scope: per Power Platform connection
+    limit: 100
+    window: 60 seconds
+    source: https://learn.microsoft.com/en-us/connectors/dunandbradstreetmcps/
+    method: searched
+    note: >-
+      The one concrete, publicly documented D&B throughput number found
+      anywhere. It is Microsoft's connector throttle rather than a D&B API
+      limit, and it is recorded here as third-party evidence — it does not
+      count toward limit_count.
+
 absences:
   - No public numeric rate-limit table; documentation portal is gated.
   - No public best-practices retry page; guidance is in the gated portal.
+  - No rate-limit response headers published or observed.

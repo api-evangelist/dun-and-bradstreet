@@ -1,0 +1,155 @@
+generated: '2026-08-13'
+method: searched
+source: https://status.dnb.com/pages/62b1a852dc9f2012ebbcef23/rss
+description: >-
+  Dated change surface for Dun & Bradstreet. The canonical Direct+ Change
+  History page is inside the Okta-gated documentation portal and returns a
+  302 to sign-in, so it could not be read. What IS public and dated is the
+  D&B Operational Status Dashboard and its RSS feed, which carries not only
+  incidents but substantive product-change notices — including breaking
+  field-path changes to API response payloads. That is the record captured
+  here. Entries are transcribed from the feed and from the status page's
+  Scheduled Maintenance panel; nothing is summarised into a claim D&B did not
+  make.
+
+scheme: none
+scheme_note: >-
+  D&B publishes no semantic version for the Direct+ platform. Change is
+  announced per product and per path version (see
+  lifecycle/dun-and-bradstreet-lifecycle.yml).
+current_version: null
+
+sources:
+  - name: D&B Operational Status Dashboard
+    url: https://status.dnb.com/
+    http_status: 200
+    public: true
+  - name: Status RSS feed
+    url: https://status.dnb.com/pages/62b1a852dc9f2012ebbcef23/rss
+    http_status: 200
+    content_type: application/rss+xml
+    public: true
+    platform: status.io
+  - name: Direct+ Change History (canonical API changelog)
+    url: https://directplus.documentation.dnb.com/html/resources/ChangeHistory.html
+    http_status: 302
+    redirect: https://directplus.documentation.dnb.com/oauth2/authorization/okta
+    public: false
+
+entries:
+  - date: '2026-08-30'
+    type: planned-maintenance
+    title: Direct+ Multi and HVM Planned Maintenance — Software Platform Upgrade
+    window_utc: 2026-08-30 03:00 - 11:00 UTC
+    products: [D&B Direct Plus]
+    breaking: false
+    outage: true
+    highlights:
+      - Multi Process API migrating to an optimized software platform; ~8 hour outage.
+      - Affects Match (match), Match & Append (extmatch) and High Volume Match (hvmatch).
+      - All Multi Process transactions during the window return 500 or 504.
+      - No impact to other Direct+ APIs.
+    source: https://status.dnb.com/
+
+  - date: '2026-08-22'
+    type: planned-maintenance
+    title: Consumer Intelligence API SE, InfoTorg Person & InfoTorg Person SPAR API technical maintenance
+    window_utc: 2026-08-22 05:00 - 10:00 UTC
+    products: [Consumer Intelligence API SE, InfoTorg Person, InfoTorg Person SPAR API]
+    breaking: false
+    outage: true
+    source: https://status.dnb.com/
+
+  - date: '2026-08-22'
+    type: release
+    title: D&B Receivables Intelligence powered by FIS GETPAID Release 2026.3.1
+    window_utc: 2026-08-22 05:00 - 15:00 UTC
+    breaking: false
+    highlights:
+      - Minor improvements; no new feature functionality.
+      - TEST 2026-08-22, PROD 2026-09-12.
+    source: https://status.dnb.com/
+
+  - date: '2026-08-15'
+    type: planned-maintenance
+    title: SaaS application maintenance — Windows patching, PROD and TEST, August 2026
+    window_utc: 2026-08-15 20:00 - 2026-08-16 13:00 UTC
+    breaking: false
+    source: https://status.dnb.com/
+
+  - date: '2026-08-04'
+    type: incident
+    title: Service disruption — Direct+, Finance Analytics, OnBoard, Dunslink
+    resolved: '2026-08-04'
+    duration: 'investigating 17:23 UTC, resolved 17:51 UTC'
+    breaking: false
+    highlights:
+      - >-
+        The only Direct+ incident in the public feed window. D&B stated a
+        post-incident review would follow.
+    source: https://status.dnb.com/pages/62b1a852dc9f2012ebbcef23/rss
+
+  - date: '2026-07-30'
+    type: breaking-change-notice
+    title: EU B2B Gateway updates (CCDP) — Q3, effective 2026-09-11
+    window_utc: 2026-07-30 00:01 - 2026-09-18 00:01 UTC
+    products: [Comprehensive Customised Data Product (CCDP), EU B2B Gateway]
+    breaking: true
+    highlights:
+      - >-
+        UK and Ireland — the financial item "minority interest" moves from
+        long-term liability to equity. The JSON path changes from
+        .../Liabilities/NonCurrentLiabilities/MinorityInterest to
+        .../Liabilities/Equity/MinorityInterest.
+      - >-
+        Total Long Term Liabilities and Total Liability decrease by the value
+        of minority interests; Net Worth, Total Equity and Tangible Net Worth
+        increase by it.
+      - >-
+        Ratio values change — ShareholdersReturn, FixedAssetsToNetWorth,
+        CurrentLiabilitiesToNetWorth.
+      - >-
+        UK — Companies House moves from batch files to an API, changing
+        RecordPayload/PublicFilings/MortgagesandCharges/... content:
+        ChargeHoldersInformationEntry/Name and AdditionalDetailsEntry/DetailText
+        change from upper case to mixed case; ChargeAmount loses decimal
+        places; ChargeAmount/ISOCurrencyCode will remain empty.
+      - Customers monitoring UK/IE businesses should expect more monitoring notifications.
+    breaking_note: >-
+      This is a payload-shape change to a delivered data product. It is
+      announced on the status page rather than in a developer changelog,
+      which is the notable finding: D&B's only public breaking-change channel
+      is its operational status dashboard.
+    source: https://status.dnb.com/
+
+  - date: '2026-07-24'
+    type: planned-maintenance
+    title: D&B Connect planned maintenance
+    breaking: false
+    source: https://status.dnb.com/pages/62b1a852dc9f2012ebbcef23/rss
+
+  - date: '2026-07-10'
+    type: platform-migration
+    title: D&B Finance Analytics transitioning to Google Cloud hosting platform
+    breaking: false
+    highlights:
+      - Multi-month migration; announced 2025-05-08, still active in the feed.
+    source: https://status.dnb.com/pages/62b1a852dc9f2012ebbcef23/rss
+
+window:
+  from: '2026-06-22'
+  to: '2026-09-18'
+  note: >-
+    Recent window only — the RSS feed carries roughly the last two months and
+    the status page carries forward-dated scheduled maintenance. This is not a
+    full history.
+
+subscription_channels: [email, rss, webhook, slack, microsoft-teams]
+subscription_note: >-
+  See asyncapi/dun-and-bradstreet-status-webhooks.yml — the status dashboard
+  will POST a JSON payload to a subscriber-supplied URL on every update.
+
+absences:
+  - The canonical Direct+ API change history is gated behind Okta.
+  - No developer-facing changelog with per-operation or per-schema diffs.
+  - No versioned release notes for the Direct+ REST API.

@@ -1,18 +1,141 @@
-generated: '2026-07-11'
-method: derived
-source: openapi/dnb-direct-plus-openapi-original.yml
+generated: '2026-08-13'
+method: searched
+source: >-
+  openapi/_original/dnb-direct-plus-openapi-original.yml +
+  https://agents.riskanalytics.dnb.com/.well-known/oauth-authorization-server +
+  https://learn.microsoft.com/en-us/connectors/dunandbradstreetmcps/ +
+  live probes of https://plus.dnb.com
+docs: https://directplus.documentation.dnb.com/html/guides/Authentication.html
+docs_status: 302 (redirects to https://directplus.documentation.dnb.com/oauth2/authorization/okta)
+description: >-
+  Dun & Bradstreet runs three distinct authentication models across three
+  surfaces, and they do not share credentials. The Direct+ REST API uses an
+  OAuth 2.0 client_credentials exchange that returns a bearer JWT. The
+  Commercial Graph / Direct+ MCP server uses a single Dplus-API-Key header.
+  The Risk Analytics MCP server runs a full OAuth 2.0 authorization server
+  with PKCE, refresh tokens and scopes. This file supersedes the earlier
+  derived version, which saw only the two http securitySchemes in the spec.
+
 summary:
-  types:
-  - http
+  types: [http, oauth2, apiKey]
+  api_key_in: [header]
+  oauth2_flows: [clientCredentials, authorizationCode]
+  http_schemes: [basic, bearer]
+  surfaces: 3
+
 schemes:
-- name: bearerAuth
-  type: http
-  scheme: bearer
-  bearerFormat: JWT
-  sources:
-  - openapi/dnb-direct-plus-openapi-original.yml
-- name: basicAuth
-  type: http
-  scheme: basic
-  sources:
-  - openapi/dnb-direct-plus-openapi-original.yml
+  - name: bearerAuth
+    type: http
+    scheme: bearer
+    bearerFormat: JWT
+    surface: D&B Direct+ REST API
+    host: https://plus.dnb.com
+    in: header
+    parameter: Authorization
+    sources:
+      - openapi/_original/dnb-direct-plus-openapi-original.yml
+    applies_to: every Direct+ operation except generateAccessToken
+    obtained_by: POST /v3/token
+    note: >-
+      An anonymous call to a real operation returns HTTP 401 with errorCode
+      "00004" — "You are not currently authorised to access this product.
+      Please contact your D&B account representative". The same 401 covers
+      both a missing token and a valid token without contract entitlement,
+      so an agent cannot distinguish auth failure from entitlement failure
+      from the status code alone.
+
+  - name: basicAuth
+    type: http
+    scheme: basic
+    surface: D&B Direct+ token exchange
+    host: https://plus.dnb.com
+    in: header
+    parameter: Authorization
+    sources:
+      - openapi/_original/dnb-direct-plus-openapi-original.yml
+    applies_to: [generateAccessToken]
+    credentials: consumer key as username, consumer secret as password
+    note: >-
+      Used only on POST /v3/token, whose body is
+      {"grant_type":"client_credentials"}. This is an OAuth 2.0
+      client_credentials grant modelled as an ordinary operation rather than
+      declared as an oauth2 securityScheme, which is why a spec-only reader
+      sees "http basic" instead of OAuth.
+
+  - name: Dplus-API-Key
+    type: apiKey
+    in: header
+    parameter: Dplus-API-Key
+    surface: D&B MCP Server (Commercial Graph / Direct+)
+    sources:
+      - https://learn.microsoft.com/en-us/connectors/dunandbradstreetmcps/
+    note: >-
+      Documented verbatim by the certified Microsoft Power Platform connector
+      as the single required securestring connection parameter. "Dplus" is
+      D&B's shorthand for Direct+.
+
+  - name: riskAnalyticsOAuth
+    type: oauth2
+    surface: D&B Risk Analytics remote MCP server
+    host: https://agents.riskanalytics.dnb.com
+    sources:
+      - https://agents.riskanalytics.dnb.com/.well-known/oauth-authorization-server
+    issuer: https://agents.riskanalytics.dnb.com
+    flows:
+      - flow: authorizationCode
+        authorizationUrl: https://agents.riskanalytics.dnb.com/authorize
+        tokenUrl: https://agents.riskanalytics.dnb.com/token
+        scopes: [mcp.read, mcp.write, offline_access, openid, email, profile]
+      - flow: clientCredentials
+        tokenUrl: https://agents.riskanalytics.dnb.com/token
+        scopes: [mcp.read, mcp.write]
+    pkce: [S256, plain]
+    token_endpoint_auth_methods: [client_secret_basic, client_secret_post]
+    refresh_tokens: true
+    discovery:
+      - {path: /.well-known/oauth-authorization-server, status: 200, spec: RFC 8414}
+      - {path: /.well-known/oauth-protected-resource, status: 200, spec: RFC 9728}
+      - {path: /.well-known/oauth-protected-resource/mcp, status: 200, spec: RFC 9728}
+      - {path: /.well-known/openid-configuration, status: 404}
+    challenge: >-
+      An unauthenticated POST to /mcp returns 401 with
+      WWW-Authenticate: Bearer error="invalid_token",
+      error_description="Authentication required.",
+      resource_metadata="https://agents.riskanalytics.dnb.com/.well-known/oauth-protected-resource/mcp"
+    detail: scopes/dun-and-bradstreet-scopes.yml
+
+token_lifecycle:
+  direct_plus:
+    endpoint: POST https://plus.dnb.com/v3/token
+    grant: client_credentials
+    response_fields: [access_token, token_type, expirationDateTime]
+    expiry_field: expirationDateTime
+    refresh: re-run the client_credentials exchange (no refresh token)
+    revocation_endpoint: null
+    introspection_endpoint: null
+  risk_analytics_mcp:
+    refresh: refresh_token grant supported (offline_access scope)
+    revocation_endpoint: null
+    introspection_endpoint: null
+
+onboarding:
+  self_serve: true
+  registration: https://directplus.documentation.dnb.com/registration/register
+  login: https://directplus.documentation.dnb.com/home
+  note: >-
+    Registration is self-serve but the documentation portal behind it, and
+    every credential-provisioning page, sits behind Okta sign-in. API access
+    itself is contract-gated — see plans/dun-and-bradstreet-plans-pricing.yml.
+
+mtls: false
+openid_connect: false
+openid_connect_note: >-
+  openid/email/profile appear in the MCP authorization server's
+  scopes_supported, but no OIDC discovery document is served, so D&B is not an
+  OIDC provider by the discovery test.
+
+absences:
+  - The Direct+ authentication guide is behind the Okta gate.
+  - No token revocation or introspection endpoint on any surface.
+  - No scope model on the Direct+ REST API — entitlement is contractual.
+  - No mutual TLS option documented.

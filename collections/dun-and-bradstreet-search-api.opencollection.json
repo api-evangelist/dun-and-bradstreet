@@ -1,0 +1,87 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "D&B Direct+ Authentication Search API",
+    "version": "3.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Search",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search Companies By Criteria",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://plus.dnb.com/v1/search/criteria",
+            "params": [
+              {
+                "name": "searchTerm",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "countryISOAlpha2Code",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pageNumber",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Find companies matching free-form criteria such as name, address, registration number, industry, or contact. Returns a paginated list of candidate records intended for browse-and-pick workflows rather than authoritative match."
+        },
+        {
+          "info": {
+            "name": "Search Contacts By Criteria",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://plus.dnb.com/v1/search/contact",
+            "params": [
+              {
+                "name": "searchTerm",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "countryISOAlpha2Code",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Find named principals or contacts (executives, beneficial owners, decision-makers) matching the supplied criteria, returning a paginated candidate list."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

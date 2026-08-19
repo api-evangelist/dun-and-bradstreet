@@ -1,0 +1,45 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "D&B Direct+ Authentication Research API",
+    "version": "3.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Research",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve Historical Audit Record",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://plus.dnb.com/v2/audit/duns/:duns",
+            "params": [
+              {
+                "name": "duns",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "transactionTimestamp",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Retrieve a historical Direct+ response previously returned for a D-U-N-S Number, supporting audit, dispute, and reconciliation use cases."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

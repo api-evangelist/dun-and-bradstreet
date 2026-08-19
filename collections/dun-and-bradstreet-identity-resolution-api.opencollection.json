@@ -1,0 +1,87 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "D&B Direct+ Authentication Identity Resolution API",
+    "version": "3.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Identity Resolution",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Match Candidate To D-U-N-S Number",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://plus.dnb.com/v1/match/cleanseMatch",
+            "params": [
+              {
+                "name": "name",
+                "value": "",
+                "type": "query",
+                "description": "Business name as supplied by the caller."
+              },
+              {
+                "name": "countryISOAlpha2Code",
+                "value": "",
+                "type": "query",
+                "description": "ISO 3166-1 alpha-2 country code."
+              },
+              {
+                "name": "streetAddressLine1",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "addressLocality",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "addressRegion",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "postalCode",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "telephoneNumber",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "registrationNumber",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "candidateMaximumQuantity",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "confidenceLowerLevelThresholdValue",
+                "value": "",
+                "type": "query"
+              }
+            ],
+            "auth": {
+              "type": "bearer",
+              "token": "{{bearerToken}}"
+            }
+          },
+          "docs": "Submit a candidate business record (name, address, registration number, phone, email) and receive a ranked list of D-U-N-S Number matches with match-grade, confidence-code, and quality indicators suitable for auto-acceptance or manual review."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

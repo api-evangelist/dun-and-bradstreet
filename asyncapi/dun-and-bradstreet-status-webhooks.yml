@@ -1,0 +1,90 @@
+generated: '2026-08-13'
+method: searched
+source: https://status.dnb.com/
+spec_type: none
+description: >-
+  Event and push surface for Dun & Bradstreet. Read this scoping note before
+  using this artifact: the ONLY webhook Dun & Bradstreet advertises publicly
+  is on its Operational Status Dashboard, which POSTs a JSON payload to a
+  subscriber-supplied URL on every status update. The Direct+ DATA API has no
+  webhook surface at all — Monitoring, which is the natural place for one, is
+  strictly pull-based. This file records what exists and, just as
+  deliberately, what does not.
+
+asyncapi_spec: null
+asyncapi_note: >-
+  D&B publishes no AsyncAPI document. /asyncapi.yaml and /asyncapi.json were
+  not found on any D&B host, the GitHub organization
+  (github.com/Dun-and-Bradstreet) has zero public repositories, and no event
+  catalogue exists on the open web.
+
+webhooks:
+  - name: Operational status update
+    surface: D&B Operational Status Dashboard
+    url: https://status.dnb.com/
+    direction: outbound (D&B -> subscriber)
+    transport: HTTP POST
+    payload: JSON
+    payload_schema: null
+    payload_schema_note: >-
+      D&B publishes no schema for the payload. The subscription form states
+      only "Each status update will POST a JSON payload to this URL". No
+      schema is invented here.
+    trigger: any status update — incident opened/updated/resolved, scheduled maintenance posted
+    subscription: self-service, per subscriber URL, managed with an email address
+    auth: none documented
+    signature_verification: none documented
+    scope:
+      components:
+        - D&B Global Products
+        - D&B North American Products
+        - D&B Norwegian Products
+        - D&B Swedish Products
+        - D&B Danish Products
+        - D&B Finnish Products
+        - D&B Swiss Products
+      locations_seen:
+        - D&B Direct Plus
+        - EU B2B Gateway
+        - Receivables Intelligence - GETPAID
+        - Consumer Intelligence API SE / InfoTorg
+    platform: status.io
+    x-evidence:
+      fetched: '2026-08-13'
+      url: https://status.dnb.com/
+      http_status: 200
+
+other_push_channels:
+  - channel: rss
+    url: https://status.dnb.com/pages/62b1a852dc9f2012ebbcef23/rss
+    http_status: 200
+    content_type: application/rss+xml
+    note: >-
+      Machine-readable and anonymous. The most agent-consumable D&B change
+      feed that exists.
+  - channel: slack
+    note: Subscriber supplies a Slack channel ID.
+  - channel: microsoft-teams
+    note: Subscriber supplies a Teams incoming webhook.
+  - channel: email
+    note: Standard status subscription.
+
+data_api_event_surface:
+  webhooks: false
+  streaming: false
+  sse: false
+  pattern: pull
+  detail: >-
+    Direct+ Monitoring delivers change notifications by registration plus
+    repeated GET of
+    /v1/monitoring/registrations/{registrationReference}/notifications
+    (operationId pullMonitoringNotifications), draining a server-side queue.
+    The registration's deliveryMethod enum is [SFTP, API_PULL] — file drop or
+    poll. There is no HTTP callback option, so an agent cannot be woken by a
+    D&B data change; it must poll.
+  source: openapi/_original/dnb-direct-plus-openapi-original.yml
+
+absences:
+  - No AsyncAPI document.
+  - No webhook, SSE or streaming surface on the Direct+ data API.
+  - No published payload schema or signature scheme for the status webhook.

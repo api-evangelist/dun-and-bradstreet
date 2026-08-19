@@ -1,0 +1,287 @@
+{
+  "item": [
+    {
+      "id": "e6bfcdc8-9dd4-46a6-930d-d1edf16ef5c6",
+      "name": "Enrich",
+      "description": {
+        "content": "Retrieve Data Blocks for a known D-U-N-S Number.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "184e4fab-bb28-4a3d-bea3-c3a8d1e9af7a",
+          "name": "Retrieve Data Blocks For D-U-N-S",
+          "request": {
+            "name": "Retrieve Data Blocks For D-U-N-S",
+            "description": {
+              "content": "Retrieve one or more Data Blocks for a given D-U-N-S Number. The caller specifies which blocks (Company Information, Principals & Contacts, Hierarchy & Connections, Financial Strength, Risk & Compliance, Beneficial Ownership, ESG, etc.) to include via the blockIDs query parameter. Each block is independently versioned.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "data",
+                "duns",
+                ":duns"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "blockIDs",
+                  "value": "<string>",
+                  "description": "(Required) Comma-separated list of block IDs with version (e.g. companyinfo_L2_v1,principalscontacts_L1_v2)."
+                },
+                {
+                  "disabled": false,
+                  "key": "tradeUp",
+                  "value": "<string>"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "duns",
+                  "description": "(Required) Nine-digit D-U-N-S Number."
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{bearerToken}}"
+                }
+              ]
+            }
+          },
+          "response": [
+            {
+              "id": "15f5cf24-875b-4002-92ff-e94e8f3775db",
+              "name": "Requested data blocks for the D-U-N-S Number.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "data",
+                    "duns",
+                    ":duns"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "blockIDs",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "tradeUp",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "duns",
+                      "description": "(Required) Nine-digit D-U-N-S Number."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionDetail\": {\n    \"transactionID\": \"string\",\n    \"transactionTimestamp\": \"2015-01-15T08:23:26.625Z\",\n    \"inLanguage\": \"string\",\n    \"serviceVersion\": \"string\"\n  },\n  \"inquiryDetail\": {},\n  \"organization\": {\n    \"duns\": \"string\",\n    \"primaryName\": \"string\",\n    \"primaryAddress\": {\n      \"streetAddress\": {\n        \"line1\": \"string\",\n        \"line2\": \"string\"\n      },\n      \"addressLocality\": {\n        \"name\": \"string\"\n      },\n      \"addressRegion\": {\n        \"name\": \"string\",\n        \"abbreviatedName\": \"string\"\n      },\n      \"postalCode\": \"string\",\n      \"addressCountry\": {\n        \"isoAlpha2Code\": \"string\"\n      }\n    },\n    \"corporateLinkage\": {},\n    \"beneficialOwnership\": {},\n    \"riskAssessment\": {}\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "25ed300c-2aa2-41b0-bcbf-9ae678a8958c",
+              "name": "Missing or invalid bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "data",
+                    "duns",
+                    ":duns"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "blockIDs",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "tradeUp",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "duns",
+                      "description": "(Required) Nine-digit D-U-N-S Number."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionDetail\": {\n    \"transactionID\": \"string\",\n    \"transactionTimestamp\": \"2021-02-24T02:44:50.792Z\",\n    \"inLanguage\": \"string\",\n    \"serviceVersion\": \"string\"\n  },\n  \"error\": {\n    \"errorMessage\": \"string\",\n    \"errorCode\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "83451761-b829-49c5-87b5-d88659c4c103",
+              "name": "Resource not found for the supplied identifier.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "data",
+                    "duns",
+                    ":duns"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "blockIDs",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "tradeUp",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "duns",
+                      "description": "(Required) Nine-digit D-U-N-S Number."
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"transactionDetail\": {\n    \"transactionID\": \"string\",\n    \"transactionTimestamp\": \"2004-01-27T11:51:03.877Z\",\n    \"inLanguage\": \"string\",\n    \"serviceVersion\": \"string\"\n  },\n  \"error\": {\n    \"errorMessage\": \"string\",\n    \"errorCode\": \"string\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://plus.dnb.com",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "cf42a3b2-5e4b-4780-a4ef-4de699c1f423",
+    "name": "D&B Direct+ Authentication Enrich API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "D&B Direct+ is Dun & Bradstreet's RESTful API platform that exposes the D&B Data Cloud — more than 500 million companies worldwide — for identity resolution, search, enrichment, multi-process (match plus enrich), batch processing, change monitoring, and historical research. All endpoints return JSON, are versioned in the URI path, and require an OAuth 2.0 bearer token obtained from the /v3/token endpoint via client-credentials grant. This profile is an OpenAPI sketch of the public surface based on Dun & Bradstreet's published Direct+ documentation; the canonical operation definitions live behind the gated developer portal at https://directplus.documentation.dnb.com/.\n\nContact Support:\n Name: D&B Direct+ Support",
+      "type": "text/plain"
+    }
+  }
+}
