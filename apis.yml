@@ -191,6 +191,12 @@ apis:
   tags:
   - Monitoring
   - Change Notifications
+  - Event
+  - Portfolio
+  - Master Data
+  tags_raw:
+  - Monitoring
+  - Change Notifications
   - Events
   - Portfolio
   - Master Data
