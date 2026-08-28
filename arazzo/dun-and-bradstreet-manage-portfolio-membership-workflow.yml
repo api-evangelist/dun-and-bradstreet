@@ -11,8 +11,11 @@ info:
     executed without opening the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: dnbDirectPlusApi
-  url: ../openapi/dnb-direct-plus-openapi-original.yml
+- name: identityResolutionApi
+  url: ../openapi/dun-and-bradstreet-identity-resolution-api-openapi.yml
+  type: openapi
+- name: monitoringApi
+  url: ../openapi/dun-and-bradstreet-monitoring-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: manage-portfolio-membership

@@ -11,8 +11,8 @@ info:
     description.
   version: 1.0.0
 sourceDescriptions:
-- name: dnbDirectPlusApi
-  url: ../openapi/dnb-direct-plus-openapi-original.yml
+- name: monitoringApi
+  url: ../openapi/dun-and-bradstreet-monitoring-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: register-and-pull-notifications

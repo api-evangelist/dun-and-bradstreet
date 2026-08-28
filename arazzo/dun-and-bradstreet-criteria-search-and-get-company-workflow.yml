@@ -10,8 +10,11 @@ info:
     be read and executed without opening the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: dnbDirectPlusApi
-  url: ../openapi/dnb-direct-plus-openapi-original.yml
+- name: enrichApi
+  url: ../openapi/dun-and-bradstreet-enrich-api-openapi.yml
+  type: openapi
+- name: searchApi
+  url: ../openapi/dun-and-bradstreet-search-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: criteria-search-and-get-company

@@ -10,8 +10,8 @@ info:
     executed without opening the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: dnbDirectPlusApi
-  url: ../openapi/dnb-direct-plus-openapi-original.yml
+- name: dataFileApi
+  url: ../openapi/dun-and-bradstreet-data-file-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: batch-match-enrich-file

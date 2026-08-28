@@ -11,8 +11,11 @@ info:
     and executed without opening the underlying OpenAPI description.
   version: 1.0.0
 sourceDescriptions:
-- name: dnbDirectPlusApi
-  url: ../openapi/dnb-direct-plus-openapi-original.yml
+- name: authenticationApi
+  url: ../openapi/dun-and-bradstreet-authentication-api-openapi.yml
+  type: openapi
+- name: multiProcessApi
+  url: ../openapi/dun-and-bradstreet-multi-process-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: match-plus-enrich

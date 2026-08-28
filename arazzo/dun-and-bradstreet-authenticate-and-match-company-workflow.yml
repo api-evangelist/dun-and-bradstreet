@@ -12,8 +12,14 @@ info:
     description.
   version: 1.0.0
 sourceDescriptions:
-- name: dnbDirectPlusApi
-  url: ../openapi/dnb-direct-plus-openapi-original.yml
+- name: authenticationApi
+  url: ../openapi/dun-and-bradstreet-authentication-api-openapi.yml
+  type: openapi
+- name: enrichApi
+  url: ../openapi/dun-and-bradstreet-enrich-api-openapi.yml
+  type: openapi
+- name: identityResolutionApi
+  url: ../openapi/dun-and-bradstreet-identity-resolution-api-openapi.yml
   type: openapi
 workflows:
 - workflowId: authenticate-and-match-company
