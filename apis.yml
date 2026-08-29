@@ -696,6 +696,9 @@ apis:
   - type: Examples
     url: examples/dnb-direct-plus-get-audit-record-example.json
 common:
+  - type: CapabilityMap
+    url: capabilities/dun-and-bradstreet-capability-edges.yml
+    name: Dun & Bradstreet Business Capability Map
   - type: MCPServer
     url: mcp/dun-and-bradstreet-mcp.yml
     name: D&B Risk Analytics + Commercial Graph MCP servers
