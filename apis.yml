@@ -12,6 +12,18 @@ description: >-
   enrich, monitor, and stream company data programmatically using OAuth 2.0
   access tokens. D&B was taken private by Clearlake Capital in August 2025 for
   approximately $7.7 billion (including debt).
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: self-serve
