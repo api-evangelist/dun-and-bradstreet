@@ -44,7 +44,7 @@ created: '2026-05-23'
 modified: '2026-08-13'
 specificationVersion: '0.23'
 type: Index
-position: Producer
+position: Producing
 access: 3rd-Party
 tags:
   - Business Data
