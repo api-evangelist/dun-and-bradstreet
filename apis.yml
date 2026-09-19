@@ -145,6 +145,15 @@ apis:
   - Enrichment
   - Data Blocks
   - Company Data
+  - Financial
+  - Risk
+  - Compliance
+  - Beneficial Ownership
+  - ESG
+  tags_raw:
+  - Enrichment
+  - Data Blocks
+  - Company Data
   - Financials
   - Risk
   - Compliance
