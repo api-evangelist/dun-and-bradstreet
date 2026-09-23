@@ -1,14 +1,7 @@
 {
   "provider": "dun-and-bradstreet",
   "sources": [
-    "dun-and-bradstreet-authentication-api-openapi.yml",
-    "dun-and-bradstreet-data-file-api-openapi.yml",
-    "dun-and-bradstreet-enrich-api-openapi.yml",
-    "dun-and-bradstreet-identity-resolution-api-openapi.yml",
-    "dun-and-bradstreet-monitoring-api-openapi.yml",
-    "dun-and-bradstreet-multi-process-api-openapi.yml",
-    "dun-and-bradstreet-research-api-openapi.yml",
-    "dun-and-bradstreet-search-api-openapi.yml"
+    "_original/dnb-direct-plus-openapi-original.yml"
   ],
   "outputs": [
     "dun-and-bradstreet-authentication-api-openapi.yml",
@@ -23,6 +16,19 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "dnb-direct-plus-openapi-original.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "dun-and-bradstreet-authentication-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "dun-and-bradstreet-data-file-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "dun-and-bradstreet-enrich-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "dun-and-bradstreet-identity-resolution-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "dun-and-bradstreet-monitoring-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "dun-and-bradstreet-multi-process-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "dun-and-bradstreet-research-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "dun-and-bradstreet-search-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: D&B Direct+ Authentication Search API
-  description: D&B Direct+ is Dun & Bradstreet's RESTful API platform that exposes the D&B Data Cloud — more than 500 million companies worldwide — for identity resolution, search, enrichment, multi-process (match plus enrich), batch processing, change monitoring, and historical research. All endpoints return JSON, are versioned in the URI path, and require an OAuth 2.0 bearer token obtained from the /v3/token endpoint via client-credentials grant. This profile is an OpenAPI sketch of the public surface based on Dun & Bradstreet's published Direct+ documentation; the canonical operation definitions live behind the gated developer portal at https://directplus.documentation.dnb.com/.
+  title: D&B Direct+ Search API
+  description: D&B Direct+ is Dun & Bradstreet's RESTful API platform that exposes the D&B Data Cloud — more than 500 million companies worldwide — for identity resolution, search, enrichment, multi-process (match plus enrich), batch processing, change monitoring, and historical research.
   version: '3.0'
   contact:
     name: D&B Direct+ Support
@@ -91,6 +91,22 @@ paths:
                 $ref: '#/components/schemas/ContactSearchResponse'
 components:
   schemas:
+    Error:
+      type: object
+      properties:
+        transactionDetail:
+          $ref: '#/components/schemas/TransactionDetail'
+        error:
+          type: object
+          properties:
+            errorMessage:
+              type: string
+            errorCode:
+              type: string
+            errorDetails:
+              type: array
+              items:
+                type: object
     OrganizationSummary:
       type: object
       properties:
@@ -135,48 +151,18 @@ components:
             properties:
               organization:
                 $ref: '#/components/schemas/OrganizationSummary'
-    Error:
+    TransactionDetail:
       type: object
       properties:
-        transactionDetail:
-          $ref: '#/components/schemas/TransactionDetail'
-        error:
-          type: object
-          properties:
-            errorMessage:
-              type: string
-            errorCode:
-              type: string
-            errorDetails:
-              type: array
-              items:
-                type: object
-    ContactSearchResponse:
-      type: object
-      properties:
-        transactionDetail:
-          $ref: '#/components/schemas/TransactionDetail'
-        candidatesReturnedQuantity:
-          type: integer
-        searchCandidates:
-          type: array
-          items:
-            type: object
-            properties:
-              contact:
-                type: object
-                properties:
-                  fullName:
-                    type: string
-                  jobTitles:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        title:
-                          type: string
-              organization:
-                $ref: '#/components/schemas/OrganizationSummary'
+        transactionID:
+          type: string
+        transactionTimestamp:
+          type: string
+          format: date-time
+        inLanguage:
+          type: string
+        serviceVersion:
+          type: string
     Address:
       type: object
       properties:
@@ -206,18 +192,32 @@ components:
           properties:
             isoAlpha2Code:
               type: string
-    TransactionDetail:
+    ContactSearchResponse:
       type: object
       properties:
-        transactionID:
-          type: string
-        transactionTimestamp:
-          type: string
-          format: date-time
-        inLanguage:
-          type: string
-        serviceVersion:
-          type: string
+        transactionDetail:
+          $ref: '#/components/schemas/TransactionDetail'
+        candidatesReturnedQuantity:
+          type: integer
+        searchCandidates:
+          type: array
+          items:
+            type: object
+            properties:
+              contact:
+                type: object
+                properties:
+                  fullName:
+                    type: string
+                  jobTitles:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+              organization:
+                $ref: '#/components/schemas/OrganizationSummary'
   responses:
     Unauthorized:
       description: Missing or invalid bearer token.

@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: D&B Direct+ Authentication API
-  description: D&B Direct+ is Dun & Bradstreet's RESTful API platform that exposes the D&B Data Cloud — more than 500 million companies worldwide — for identity resolution, search, enrichment, multi-process (match plus enrich), batch processing, change monitoring, and historical research. All endpoints return JSON, are versioned in the URI path, and require an OAuth 2.0 bearer token obtained from the /v3/token endpoint via client-credentials grant. This profile is an OpenAPI sketch of the public surface based on Dun & Bradstreet's published Direct+ documentation; the canonical operation definitions live behind the gated developer portal at https://directplus.documentation.dnb.com/.
+  description: D&B Direct+ is Dun & Bradstreet's RESTful API platform that exposes the D&B Data Cloud — more than 500 million companies worldwide — for identity resolution, search, enrichment, multi-process (match plus enrich), batch processing, change monitoring, and historical research.
   version: '3.0'
   contact:
     name: D&B Direct+ Support
@@ -43,26 +43,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    TokenResponse:
-      type: object
-      properties:
-        access_token:
-          type: string
-        token_type:
-          type: string
-          example: Bearer
-        expirationDateTime:
-          type: string
-          format: date-time
-    TokenRequest:
-      type: object
-      required:
-      - grant_type
-      properties:
-        grant_type:
-          type: string
-          enum:
-          - client_credentials
     Error:
       type: object
       properties:
@@ -79,6 +59,15 @@ components:
               type: array
               items:
                 type: object
+    TokenRequest:
+      type: object
+      required:
+      - grant_type
+      properties:
+        grant_type:
+          type: string
+          enum:
+          - client_credentials
     TransactionDetail:
       type: object
       properties:
@@ -91,6 +80,17 @@ components:
           type: string
         serviceVersion:
           type: string
+    TokenResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+        token_type:
+          type: string
+          example: Bearer
+        expirationDateTime:
+          type: string
+          format: date-time
   responses:
     Unauthorized:
       description: Missing or invalid bearer token.

@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: D&B Direct+ Authentication Monitoring API
-  description: D&B Direct+ is Dun & Bradstreet's RESTful API platform that exposes the D&B Data Cloud — more than 500 million companies worldwide — for identity resolution, search, enrichment, multi-process (match plus enrich), batch processing, change monitoring, and historical research. All endpoints return JSON, are versioned in the URI path, and require an OAuth 2.0 bearer token obtained from the /v3/token endpoint via client-credentials grant. This profile is an OpenAPI sketch of the public surface based on Dun & Bradstreet's published Direct+ documentation; the canonical operation definitions live behind the gated developer portal at https://directplus.documentation.dnb.com/.
+  title: D&B Direct+ Monitoring API
+  description: D&B Direct+ is Dun & Bradstreet's RESTful API platform that exposes the D&B Data Cloud — more than 500 million companies worldwide — for identity resolution, search, enrichment, multi-process (match plus enrich), batch processing, change monitoring, and historical research.
   version: '3.0'
   contact:
     name: D&B Direct+ Support
@@ -124,22 +124,6 @@ paths:
                 $ref: '#/components/schemas/MonitoringNotificationsResponse'
 components:
   schemas:
-    PortfolioMembershipResponse:
-      type: object
-      properties:
-        addedQuantity:
-          type: integer
-        removedQuantity:
-          type: integer
-        rejectedDuns:
-          type: array
-          items:
-            type: object
-            properties:
-              duns:
-                type: string
-              reason:
-                type: string
     MonitoringNotificationsResponse:
       type: object
       properties:
@@ -159,16 +143,6 @@ components:
                 type: string
               previousValue: {}
               currentValue: {}
-    PortfolioMembershipRequest:
-      type: object
-      required:
-      - dunsList
-      properties:
-        dunsList:
-          type: array
-          items:
-            type: string
-            pattern: ^[0-9]{9}$
     MonitoringRegistrationRequest:
       type: object
       required:
@@ -197,6 +171,32 @@ components:
         createdTimestamp:
           type: string
           format: date-time
+    PortfolioMembershipResponse:
+      type: object
+      properties:
+        addedQuantity:
+          type: integer
+        removedQuantity:
+          type: integer
+        rejectedDuns:
+          type: array
+          items:
+            type: object
+            properties:
+              duns:
+                type: string
+              reason:
+                type: string
+    PortfolioMembershipRequest:
+      type: object
+      required:
+      - dunsList
+      properties:
+        dunsList:
+          type: array
+          items:
+            type: string
+            pattern: ^[0-9]{9}$
   securitySchemes:
     bearerAuth:
       type: http
