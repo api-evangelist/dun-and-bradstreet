@@ -58,23 +58,61 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    NotFound:
+      description: Resource not found for the supplied identifier.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    Error:
+    Address:
       type: object
       properties:
-        transactionDetail:
-          $ref: '#/components/schemas/TransactionDetail'
-        error:
+        streetAddress:
           type: object
           properties:
-            errorMessage:
+            line1:
               type: string
-            errorCode:
+            line2:
               type: string
-            errorDetails:
-              type: array
-              items:
-                type: object
+        addressLocality:
+          type: object
+          properties:
+            name:
+              type: string
+        addressRegion:
+          type: object
+          properties:
+            name:
+              type: string
+            abbreviatedName:
+              type: string
+        postalCode:
+          type: string
+        addressCountry:
+          type: object
+          properties:
+            isoAlpha2Code:
+              type: string
+    TransactionDetail:
+      type: object
+      properties:
+        transactionID:
+          type: string
+        transactionTimestamp:
+          type: string
+          format: date-time
+        inLanguage:
+          type: string
+        serviceVersion:
+          type: string
     EnrichResponse:
       type: object
       properties:
@@ -109,60 +147,22 @@ components:
               type: object
             riskAssessment:
               type: object
-    TransactionDetail:
+    Error:
       type: object
       properties:
-        transactionID:
-          type: string
-        transactionTimestamp:
-          type: string
-          format: date-time
-        inLanguage:
-          type: string
-        serviceVersion:
-          type: string
-    Address:
-      type: object
-      properties:
-        streetAddress:
+        transactionDetail:
+          $ref: '#/components/schemas/TransactionDetail'
+        error:
           type: object
           properties:
-            line1:
+            errorMessage:
               type: string
-            line2:
+            errorCode:
               type: string
-        addressLocality:
-          type: object
-          properties:
-            name:
-              type: string
-        addressRegion:
-          type: object
-          properties:
-            name:
-              type: string
-            abbreviatedName:
-              type: string
-        postalCode:
-          type: string
-        addressCountry:
-          type: object
-          properties:
-            isoAlpha2Code:
-              type: string
-  responses:
-    NotFound:
-      description: Resource not found for the supplied identifier.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid bearer token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+            errorDetails:
+              type: array
+              items:
+                type: object
   securitySchemes:
     bearerAuth:
       type: http

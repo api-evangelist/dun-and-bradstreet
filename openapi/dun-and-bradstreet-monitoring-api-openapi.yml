@@ -143,6 +143,42 @@ components:
                 type: string
               previousValue: {}
               currentValue: {}
+    PortfolioMembershipRequest:
+      type: object
+      required:
+      - dunsList
+      properties:
+        dunsList:
+          type: array
+          items:
+            type: string
+            pattern: ^[0-9]{9}$
+    PortfolioMembershipResponse:
+      type: object
+      properties:
+        addedQuantity:
+          type: integer
+        removedQuantity:
+          type: integer
+        rejectedDuns:
+          type: array
+          items:
+            type: object
+            properties:
+              duns:
+                type: string
+              reason:
+                type: string
+    MonitoringRegistrationResponse:
+      type: object
+      properties:
+        registrationReference:
+          type: string
+        status:
+          type: string
+        createdTimestamp:
+          type: string
+          format: date-time
     MonitoringRegistrationRequest:
       type: object
       required:
@@ -161,42 +197,6 @@ components:
           enum:
           - SFTP
           - API_PULL
-    MonitoringRegistrationResponse:
-      type: object
-      properties:
-        registrationReference:
-          type: string
-        status:
-          type: string
-        createdTimestamp:
-          type: string
-          format: date-time
-    PortfolioMembershipResponse:
-      type: object
-      properties:
-        addedQuantity:
-          type: integer
-        removedQuantity:
-          type: integer
-        rejectedDuns:
-          type: array
-          items:
-            type: object
-            properties:
-              duns:
-                type: string
-              reason:
-                type: string
-    PortfolioMembershipRequest:
-      type: object
-      required:
-      - dunsList
-      properties:
-        dunsList:
-          type: array
-          items:
-            type: string
-            pattern: ^[0-9]{9}$
   securitySchemes:
     bearerAuth:
       type: http

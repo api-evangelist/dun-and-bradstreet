@@ -91,23 +91,20 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    NotFound:
+      description: Resource not found for the supplied identifier.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
-    Error:
-      type: object
-      properties:
-        transactionDetail:
-          $ref: '#/components/schemas/TransactionDetail'
-        error:
-          type: object
-          properties:
-            errorMessage:
-              type: string
-            errorCode:
-              type: string
-            errorDetails:
-              type: array
-              items:
-                type: object
     BatchSubmissionResponse:
       type: object
       properties:
@@ -120,29 +117,6 @@ components:
           type: string
           enum:
           - PENDING
-    TransactionDetail:
-      type: object
-      properties:
-        transactionID:
-          type: string
-        transactionTimestamp:
-          type: string
-          format: date-time
-        inLanguage:
-          type: string
-        serviceVersion:
-          type: string
-    BatchFileSubmission:
-      type: object
-      properties:
-        file:
-          type: string
-          format: binary
-        processId:
-          type: string
-          description: Direct+ process identifier (match, enrich, etc).
-        productId:
-          type: string
     BatchStatusResponse:
       type: object
       properties:
@@ -159,19 +133,45 @@ components:
           type: integer
         totalRecordCount:
           type: integer
-  responses:
-    NotFound:
-      description: Resource not found for the supplied identifier.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid bearer token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    TransactionDetail:
+      type: object
+      properties:
+        transactionID:
+          type: string
+        transactionTimestamp:
+          type: string
+          format: date-time
+        inLanguage:
+          type: string
+        serviceVersion:
+          type: string
+    Error:
+      type: object
+      properties:
+        transactionDetail:
+          $ref: '#/components/schemas/TransactionDetail'
+        error:
+          type: object
+          properties:
+            errorMessage:
+              type: string
+            errorCode:
+              type: string
+            errorDetails:
+              type: array
+              items:
+                type: object
+    BatchFileSubmission:
+      type: object
+      properties:
+        file:
+          type: string
+          format: binary
+        processId:
+          type: string
+          description: Direct+ process identifier (match, enrich, etc).
+        productId:
+          type: string
   securitySchemes:
     bearerAuth:
       type: http

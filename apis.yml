@@ -51,6 +51,19 @@ tags:
   - Company Data
   - D-U-N-S Number
   - Credit
+  - Risk Management
+  - Master Data
+  - Data Enrichment
+  - Identity Resolution
+  - Compliance
+  - Supply Chain
+  - Sales Intelligence
+  - Monitoring
+tags_raw:
+  - Business Data
+  - Company Data
+  - D-U-N-S Number
+  - Credit
   - Risk
   - Master Data
   - Data Enrichment
@@ -73,6 +86,12 @@ apis:
   humanURL: https://www.dnb.com/en-us/solutions/artificial-intelligence/connectors/dnb-mcp.html
   baseURL: https://agents.riskanalytics.dnb.com
   tags:
+    - MCP
+    - Agents
+    - Risk Management
+    - Compliance
+    - KYB
+  tags_raw:
     - MCP
     - Agents
     - Risk
@@ -145,8 +164,8 @@ apis:
   - Enrichment
   - Data Blocks
   - Company Data
-  - Financial
-  - Risk
+  - Finance
+  - Risk Management
   - Compliance
   - Beneficial Ownership
   - ESG
@@ -159,6 +178,7 @@ apis:
   - Compliance
   - Beneficial Ownership
   - ESG
+  - Financial
   properties:
   - type: Documentation
     url: https://directplus.documentation.dnb.com/html/guides/EnrichmentGuide.html

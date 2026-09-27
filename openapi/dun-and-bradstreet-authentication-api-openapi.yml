@@ -43,6 +43,38 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    TokenRequest:
+      type: object
+      required:
+      - grant_type
+      properties:
+        grant_type:
+          type: string
+          enum:
+          - client_credentials
+    TokenResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+        token_type:
+          type: string
+          example: Bearer
+        expirationDateTime:
+          type: string
+          format: date-time
+    TransactionDetail:
+      type: object
+      properties:
+        transactionID:
+          type: string
+        transactionTimestamp:
+          type: string
+          format: date-time
+        inLanguage:
+          type: string
+        serviceVersion:
+          type: string
     Error:
       type: object
       properties:
@@ -59,38 +91,6 @@ components:
               type: array
               items:
                 type: object
-    TokenRequest:
-      type: object
-      required:
-      - grant_type
-      properties:
-        grant_type:
-          type: string
-          enum:
-          - client_credentials
-    TransactionDetail:
-      type: object
-      properties:
-        transactionID:
-          type: string
-        transactionTimestamp:
-          type: string
-          format: date-time
-        inLanguage:
-          type: string
-        serviceVersion:
-          type: string
-    TokenResponse:
-      type: object
-      properties:
-        access_token:
-          type: string
-        token_type:
-          type: string
-          example: Bearer
-        expirationDateTime:
-          type: string
-          format: date-time
   responses:
     Unauthorized:
       description: Missing or invalid bearer token.
