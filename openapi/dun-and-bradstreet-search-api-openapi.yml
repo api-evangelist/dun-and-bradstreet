@@ -91,34 +91,60 @@ paths:
                 $ref: '#/components/schemas/ContactSearchResponse'
 components:
   schemas:
-    OrganizationSummary:
+    Error:
       type: object
       properties:
-        duns:
-          type: string
-          pattern: ^[0-9]{9}$
-        primaryName:
-          type: string
-        primaryAddress:
-          $ref: '#/components/schemas/Address'
-        countryISOAlpha2Code:
-          type: string
-        telephone:
+        transactionDetail:
+          $ref: '#/components/schemas/TransactionDetail'
+        error:
+          type: object
+          properties:
+            errorMessage:
+              type: string
+            errorCode:
+              type: string
+            errorDetails:
+              type: array
+              items:
+                type: object
+    ContactSearchResponse:
+      type: object
+      properties:
+        transactionDetail:
+          $ref: '#/components/schemas/TransactionDetail'
+        candidatesReturnedQuantity:
+          type: integer
+        searchCandidates:
           type: array
           items:
             type: object
             properties:
-              telephoneNumber:
-                type: string
-        registrationNumbers:
-          type: array
-          items:
-            type: object
-            properties:
-              registrationNumber:
-                type: string
-              typeDescription:
-                type: string
+              contact:
+                type: object
+                properties:
+                  fullName:
+                    type: string
+                  jobTitles:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        title:
+                          type: string
+              organization:
+                $ref: '#/components/schemas/OrganizationSummary'
+    TransactionDetail:
+      type: object
+      properties:
+        transactionID:
+          type: string
+        transactionTimestamp:
+          type: string
+          format: date-time
+        inLanguage:
+          type: string
+        serviceVersion:
+          type: string
     Address:
       type: object
       properties:
@@ -148,44 +174,34 @@ components:
           properties:
             isoAlpha2Code:
               type: string
-    TransactionDetail:
+    OrganizationSummary:
       type: object
       properties:
-        transactionID:
+        duns:
           type: string
-        transactionTimestamp:
+          pattern: ^[0-9]{9}$
+        primaryName:
           type: string
-          format: date-time
-        inLanguage:
+        primaryAddress:
+          $ref: '#/components/schemas/Address'
+        countryISOAlpha2Code:
           type: string
-        serviceVersion:
-          type: string
-    ContactSearchResponse:
-      type: object
-      properties:
-        transactionDetail:
-          $ref: '#/components/schemas/TransactionDetail'
-        candidatesReturnedQuantity:
-          type: integer
-        searchCandidates:
+        telephone:
           type: array
           items:
             type: object
             properties:
-              contact:
-                type: object
-                properties:
-                  fullName:
-                    type: string
-                  jobTitles:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        title:
-                          type: string
-              organization:
-                $ref: '#/components/schemas/OrganizationSummary'
+              telephoneNumber:
+                type: string
+        registrationNumbers:
+          type: array
+          items:
+            type: object
+            properties:
+              registrationNumber:
+                type: string
+              typeDescription:
+                type: string
     SearchResponse:
       type: object
       properties:
@@ -202,22 +218,6 @@ components:
             properties:
               organization:
                 $ref: '#/components/schemas/OrganizationSummary'
-    Error:
-      type: object
-      properties:
-        transactionDetail:
-          $ref: '#/components/schemas/TransactionDetail'
-        error:
-          type: object
-          properties:
-            errorMessage:
-              type: string
-            errorCode:
-              type: string
-            errorDetails:
-              type: array
-              items:
-                type: object
   responses:
     Unauthorized:
       description: Missing or invalid bearer token.

@@ -124,35 +124,6 @@ paths:
                 $ref: '#/components/schemas/MonitoringNotificationsResponse'
 components:
   schemas:
-    MonitoringNotificationsResponse:
-      type: object
-      properties:
-        notifications:
-          type: array
-          items:
-            type: object
-            properties:
-              duns:
-                type: string
-              changeTimestamp:
-                type: string
-                format: date-time
-              blockID:
-                type: string
-              elementId:
-                type: string
-              previousValue: {}
-              currentValue: {}
-    PortfolioMembershipRequest:
-      type: object
-      required:
-      - dunsList
-      properties:
-        dunsList:
-          type: array
-          items:
-            type: string
-            pattern: ^[0-9]{9}$
     PortfolioMembershipResponse:
       type: object
       properties:
@@ -197,6 +168,35 @@ components:
           enum:
           - SFTP
           - API_PULL
+    PortfolioMembershipRequest:
+      type: object
+      required:
+      - dunsList
+      properties:
+        dunsList:
+          type: array
+          items:
+            type: string
+            pattern: ^[0-9]{9}$
+    MonitoringNotificationsResponse:
+      type: object
+      properties:
+        notifications:
+          type: array
+          items:
+            type: object
+            properties:
+              duns:
+                type: string
+              changeTimestamp:
+                type: string
+                format: date-time
+              blockID:
+                type: string
+              elementId:
+                type: string
+              previousValue: {}
+              currentValue: {}
   securitySchemes:
     bearerAuth:
       type: http

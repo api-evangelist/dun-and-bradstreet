@@ -43,15 +43,22 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    TokenRequest:
+    Error:
       type: object
-      required:
-      - grant_type
       properties:
-        grant_type:
-          type: string
-          enum:
-          - client_credentials
+        transactionDetail:
+          $ref: '#/components/schemas/TransactionDetail'
+        error:
+          type: object
+          properties:
+            errorMessage:
+              type: string
+            errorCode:
+              type: string
+            errorDetails:
+              type: array
+              items:
+                type: object
     TokenResponse:
       type: object
       properties:
@@ -75,22 +82,15 @@ components:
           type: string
         serviceVersion:
           type: string
-    Error:
+    TokenRequest:
       type: object
+      required:
+      - grant_type
       properties:
-        transactionDetail:
-          $ref: '#/components/schemas/TransactionDetail'
-        error:
-          type: object
-          properties:
-            errorMessage:
-              type: string
-            errorCode:
-              type: string
-            errorDetails:
-              type: array
-              items:
-                type: object
+        grant_type:
+          type: string
+          enum:
+          - client_credentials
   responses:
     Unauthorized:
       description: Missing or invalid bearer token.

@@ -69,6 +69,16 @@ components:
           type: string
         serviceVersion:
           type: string
+    AuditResponse:
+      type: object
+      properties:
+        duns:
+          type: string
+        transactionTimestamp:
+          type: string
+          format: date-time
+        originalResponse:
+          type: object
     Error:
       type: object
       properties:
@@ -85,16 +95,6 @@ components:
               type: array
               items:
                 type: object
-    AuditResponse:
-      type: object
-      properties:
-        duns:
-          type: string
-        transactionTimestamp:
-          type: string
-          format: date-time
-        originalResponse:
-          type: object
   securitySchemes:
     bearerAuth:
       type: http

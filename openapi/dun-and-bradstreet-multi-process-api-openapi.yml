@@ -43,69 +43,34 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    MatchCandidate:
+    Error:
       type: object
       properties:
-        displaySequence:
-          type: integer
-        matchQualityInformation:
+        transactionDetail:
+          $ref: '#/components/schemas/TransactionDetail'
+        error:
           type: object
           properties:
-            confidenceCode:
-              type: integer
-            matchGrade:
+            errorMessage:
               type: string
-            matchDataProfile:
+            errorCode:
               type: string
-        organization:
-          $ref: '#/components/schemas/OrganizationSummary'
-    MultiProcessRequest:
-      type: object
-      required:
-      - inquiryDetail
-      - blockIDs
-      properties:
-        inquiryDetail:
-          type: object
-          properties:
-            name:
-              type: string
-            countryISOAlpha2Code:
-              type: string
-            address:
-              $ref: '#/components/schemas/Address'
-        blockIDs:
-          type: array
-          items:
-            type: string
-    OrganizationSummary:
+            errorDetails:
+              type: array
+              items:
+                type: object
+    TransactionDetail:
       type: object
       properties:
-        duns:
+        transactionID:
           type: string
-          pattern: ^[0-9]{9}$
-        primaryName:
+        transactionTimestamp:
           type: string
-        primaryAddress:
-          $ref: '#/components/schemas/Address'
-        countryISOAlpha2Code:
+          format: date-time
+        inLanguage:
           type: string
-        telephone:
-          type: array
-          items:
-            type: object
-            properties:
-              telephoneNumber:
-                type: string
-        registrationNumbers:
-          type: array
-          items:
-            type: object
-            properties:
-              registrationNumber:
-                type: string
-              typeDescription:
-                type: string
+        serviceVersion:
+          type: string
     Address:
       type: object
       properties:
@@ -135,18 +100,25 @@ components:
           properties:
             isoAlpha2Code:
               type: string
-    TransactionDetail:
+    MultiProcessRequest:
       type: object
+      required:
+      - inquiryDetail
+      - blockIDs
       properties:
-        transactionID:
-          type: string
-        transactionTimestamp:
-          type: string
-          format: date-time
-        inLanguage:
-          type: string
-        serviceVersion:
-          type: string
+        inquiryDetail:
+          type: object
+          properties:
+            name:
+              type: string
+            countryISOAlpha2Code:
+              type: string
+            address:
+              $ref: '#/components/schemas/Address'
+        blockIDs:
+          type: array
+          items:
+            type: string
     MultiProcessResponse:
       type: object
       properties:
@@ -159,22 +131,50 @@ components:
         organization:
           type: object
           description: Resolved enrichment payload for the top-ranked match.
-    Error:
+    OrganizationSummary:
       type: object
       properties:
-        transactionDetail:
-          $ref: '#/components/schemas/TransactionDetail'
-        error:
+        duns:
+          type: string
+          pattern: ^[0-9]{9}$
+        primaryName:
+          type: string
+        primaryAddress:
+          $ref: '#/components/schemas/Address'
+        countryISOAlpha2Code:
+          type: string
+        telephone:
+          type: array
+          items:
+            type: object
+            properties:
+              telephoneNumber:
+                type: string
+        registrationNumbers:
+          type: array
+          items:
+            type: object
+            properties:
+              registrationNumber:
+                type: string
+              typeDescription:
+                type: string
+    MatchCandidate:
+      type: object
+      properties:
+        displaySequence:
+          type: integer
+        matchQualityInformation:
           type: object
           properties:
-            errorMessage:
+            confidenceCode:
+              type: integer
+            matchGrade:
               type: string
-            errorCode:
+            matchDataProfile:
               type: string
-            errorDetails:
-              type: array
-              items:
-                type: object
+        organization:
+          $ref: '#/components/schemas/OrganizationSummary'
   responses:
     Unauthorized:
       description: Missing or invalid bearer token.

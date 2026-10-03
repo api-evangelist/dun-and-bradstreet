@@ -105,46 +105,6 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
   schemas:
-    BatchSubmissionResponse:
-      type: object
-      properties:
-        fileId:
-          type: string
-        submissionTimestamp:
-          type: string
-          format: date-time
-        status:
-          type: string
-          enum:
-          - PENDING
-    BatchStatusResponse:
-      type: object
-      properties:
-        fileId:
-          type: string
-        status:
-          type: string
-          enum:
-          - PENDING
-          - PROCESSING
-          - COMPLETED
-          - FAILED
-        processedRecordCount:
-          type: integer
-        totalRecordCount:
-          type: integer
-    TransactionDetail:
-      type: object
-      properties:
-        transactionID:
-          type: string
-        transactionTimestamp:
-          type: string
-          format: date-time
-        inLanguage:
-          type: string
-        serviceVersion:
-          type: string
     Error:
       type: object
       properties:
@@ -161,6 +121,46 @@ components:
               type: array
               items:
                 type: object
+    TransactionDetail:
+      type: object
+      properties:
+        transactionID:
+          type: string
+        transactionTimestamp:
+          type: string
+          format: date-time
+        inLanguage:
+          type: string
+        serviceVersion:
+          type: string
+    BatchStatusResponse:
+      type: object
+      properties:
+        fileId:
+          type: string
+        status:
+          type: string
+          enum:
+          - PENDING
+          - PROCESSING
+          - COMPLETED
+          - FAILED
+        processedRecordCount:
+          type: integer
+        totalRecordCount:
+          type: integer
+    BatchSubmissionResponse:
+      type: object
+      properties:
+        fileId:
+          type: string
+        submissionTimestamp:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+          - PENDING
     BatchFileSubmission:
       type: object
       properties:
