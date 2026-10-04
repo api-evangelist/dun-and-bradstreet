@@ -90,19 +90,6 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    NotFound:
-      description: Resource not found for the supplied identifier.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid bearer token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   schemas:
     Error:
       type: object
@@ -120,17 +107,22 @@ components:
               type: array
               items:
                 type: object
-    MatchResponse:
+    MatchCandidate:
       type: object
       properties:
-        transactionDetail:
-          $ref: '#/components/schemas/TransactionDetail'
-        inquiryDetail:
+        displaySequence:
+          type: integer
+        matchQualityInformation:
           type: object
-        matchCandidates:
-          type: array
-          items:
-            $ref: '#/components/schemas/MatchCandidate'
+          properties:
+            confidenceCode:
+              type: integer
+            matchGrade:
+              type: string
+            matchDataProfile:
+              type: string
+        organization:
+          $ref: '#/components/schemas/OrganizationSummary'
     TransactionDetail:
       type: object
       properties:
@@ -143,6 +135,45 @@ components:
           type: string
         serviceVersion:
           type: string
+    OrganizationSummary:
+      type: object
+      properties:
+        duns:
+          type: string
+          pattern: ^[0-9]{9}$
+        primaryName:
+          type: string
+        primaryAddress:
+          $ref: '#/components/schemas/Address'
+        countryISOAlpha2Code:
+          type: string
+        telephone:
+          type: array
+          items:
+            type: object
+            properties:
+              telephoneNumber:
+                type: string
+        registrationNumbers:
+          type: array
+          items:
+            type: object
+            properties:
+              registrationNumber:
+                type: string
+              typeDescription:
+                type: string
+    MatchResponse:
+      type: object
+      properties:
+        transactionDetail:
+          $ref: '#/components/schemas/TransactionDetail'
+        inquiryDetail:
+          type: object
+        matchCandidates:
+          type: array
+          items:
+            $ref: '#/components/schemas/MatchCandidate'
     Address:
       type: object
       properties:
@@ -172,50 +203,19 @@ components:
           properties:
             isoAlpha2Code:
               type: string
-    OrganizationSummary:
-      type: object
-      properties:
-        duns:
-          type: string
-          pattern: ^[0-9]{9}$
-        primaryName:
-          type: string
-        primaryAddress:
-          $ref: '#/components/schemas/Address'
-        countryISOAlpha2Code:
-          type: string
-        telephone:
-          type: array
-          items:
-            type: object
-            properties:
-              telephoneNumber:
-                type: string
-        registrationNumbers:
-          type: array
-          items:
-            type: object
-            properties:
-              registrationNumber:
-                type: string
-              typeDescription:
-                type: string
-    MatchCandidate:
-      type: object
-      properties:
-        displaySequence:
-          type: integer
-        matchQualityInformation:
-          type: object
-          properties:
-            confidenceCode:
-              type: integer
-            matchGrade:
-              type: string
-            matchDataProfile:
-              type: string
-        organization:
-          $ref: '#/components/schemas/OrganizationSummary'
+  responses:
+    Unauthorized:
+      description: Missing or invalid bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found for the supplied identifier.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

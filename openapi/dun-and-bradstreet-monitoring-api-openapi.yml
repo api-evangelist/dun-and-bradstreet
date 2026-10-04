@@ -124,60 +124,6 @@ paths:
                 $ref: '#/components/schemas/MonitoringNotificationsResponse'
 components:
   schemas:
-    PortfolioMembershipResponse:
-      type: object
-      properties:
-        addedQuantity:
-          type: integer
-        removedQuantity:
-          type: integer
-        rejectedDuns:
-          type: array
-          items:
-            type: object
-            properties:
-              duns:
-                type: string
-              reason:
-                type: string
-    MonitoringRegistrationResponse:
-      type: object
-      properties:
-        registrationReference:
-          type: string
-        status:
-          type: string
-        createdTimestamp:
-          type: string
-          format: date-time
-    MonitoringRegistrationRequest:
-      type: object
-      required:
-      - registrationReference
-      properties:
-        registrationReference:
-          type: string
-        description:
-          type: string
-        blockIDs:
-          type: array
-          items:
-            type: string
-        deliveryMethod:
-          type: string
-          enum:
-          - SFTP
-          - API_PULL
-    PortfolioMembershipRequest:
-      type: object
-      required:
-      - dunsList
-      properties:
-        dunsList:
-          type: array
-          items:
-            type: string
-            pattern: ^[0-9]{9}$
     MonitoringNotificationsResponse:
       type: object
       properties:
@@ -197,6 +143,60 @@ components:
                 type: string
               previousValue: {}
               currentValue: {}
+    MonitoringRegistrationRequest:
+      type: object
+      required:
+      - registrationReference
+      properties:
+        registrationReference:
+          type: string
+        description:
+          type: string
+        blockIDs:
+          type: array
+          items:
+            type: string
+        deliveryMethod:
+          type: string
+          enum:
+          - SFTP
+          - API_PULL
+    PortfolioMembershipResponse:
+      type: object
+      properties:
+        addedQuantity:
+          type: integer
+        removedQuantity:
+          type: integer
+        rejectedDuns:
+          type: array
+          items:
+            type: object
+            properties:
+              duns:
+                type: string
+              reason:
+                type: string
+    PortfolioMembershipRequest:
+      type: object
+      required:
+      - dunsList
+      properties:
+        dunsList:
+          type: array
+          items:
+            type: string
+            pattern: ^[0-9]{9}$
+    MonitoringRegistrationResponse:
+      type: object
+      properties:
+        registrationReference:
+          type: string
+        status:
+          type: string
+        createdTimestamp:
+          type: string
+          format: date-time
   securitySchemes:
     bearerAuth:
       type: http

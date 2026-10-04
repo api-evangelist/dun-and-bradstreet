@@ -59,17 +59,15 @@ components:
               type: array
               items:
                 type: object
-    TokenResponse:
+    TokenRequest:
       type: object
+      required:
+      - grant_type
       properties:
-        access_token:
+        grant_type:
           type: string
-        token_type:
-          type: string
-          example: Bearer
-        expirationDateTime:
-          type: string
-          format: date-time
+          enum:
+          - client_credentials
     TransactionDetail:
       type: object
       properties:
@@ -82,15 +80,17 @@ components:
           type: string
         serviceVersion:
           type: string
-    TokenRequest:
+    TokenResponse:
       type: object
-      required:
-      - grant_type
       properties:
-        grant_type:
+        access_token:
           type: string
-          enum:
-          - client_credentials
+        token_type:
+          type: string
+          example: Bearer
+        expirationDateTime:
+          type: string
+          format: date-time
   responses:
     Unauthorized:
       description: Missing or invalid bearer token.
