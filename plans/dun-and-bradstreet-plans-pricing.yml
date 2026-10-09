@@ -83,3 +83,21 @@ absences:
   - No published self-service / credit-card tier for Direct+.
   - No free developer trial tier listed publicly; sandbox access is provisioned through sales.
   - No published list-price catalog of Data Blocks; entitlement is contract-driven.
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models: []
+  units: []
+  plans:
+  - name: D&B Direct+ Subscription
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
+  - name: Get a D-U-N-S Number
+    access: other
+    model: unstated
+    model_how: derived
+    units: []
+    periods: []
