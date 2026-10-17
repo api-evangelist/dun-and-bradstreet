@@ -59,6 +59,35 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    Address:
+      type: object
+      properties:
+        streetAddress:
+          type: object
+          properties:
+            line1:
+              type: string
+            line2:
+              type: string
+        addressLocality:
+          type: object
+          properties:
+            name:
+              type: string
+        addressRegion:
+          type: object
+          properties:
+            name:
+              type: string
+            abbreviatedName:
+              type: string
+        postalCode:
+          type: string
+        addressCountry:
+          type: object
+          properties:
+            isoAlpha2Code:
+              type: string
     Error:
       type: object
       properties:
@@ -75,18 +104,6 @@ components:
               type: array
               items:
                 type: object
-    TransactionDetail:
-      type: object
-      properties:
-        transactionID:
-          type: string
-        transactionTimestamp:
-          type: string
-          format: date-time
-        inLanguage:
-          type: string
-        serviceVersion:
-          type: string
     EnrichResponse:
       type: object
       properties:
@@ -121,44 +138,27 @@ components:
               type: object
             riskAssessment:
               type: object
-    Address:
+    TransactionDetail:
       type: object
       properties:
-        streetAddress:
-          type: object
-          properties:
-            line1:
-              type: string
-            line2:
-              type: string
-        addressLocality:
-          type: object
-          properties:
-            name:
-              type: string
-        addressRegion:
-          type: object
-          properties:
-            name:
-              type: string
-            abbreviatedName:
-              type: string
-        postalCode:
+        transactionID:
           type: string
-        addressCountry:
-          type: object
-          properties:
-            isoAlpha2Code:
-              type: string
+        transactionTimestamp:
+          type: string
+          format: date-time
+        inLanguage:
+          type: string
+        serviceVersion:
+          type: string
   responses:
-    Unauthorized:
-      description: Missing or invalid bearer token.
+    NotFound:
+      description: Resource not found for the supplied identifier.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found for the supplied identifier.
+    Unauthorized:
+      description: Missing or invalid bearer token.
       content:
         application/json:
           schema:

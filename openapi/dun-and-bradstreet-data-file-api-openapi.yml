@@ -92,57 +92,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    BatchFileSubmission:
-      type: object
-      properties:
-        file:
-          type: string
-          format: binary
-        processId:
-          type: string
-          description: Direct+ process identifier (match, enrich, etc).
-        productId:
-          type: string
-    Error:
-      type: object
-      properties:
-        transactionDetail:
-          $ref: '#/components/schemas/TransactionDetail'
-        error:
-          type: object
-          properties:
-            errorMessage:
-              type: string
-            errorCode:
-              type: string
-            errorDetails:
-              type: array
-              items:
-                type: object
-    TransactionDetail:
-      type: object
-      properties:
-        transactionID:
-          type: string
-        transactionTimestamp:
-          type: string
-          format: date-time
-        inLanguage:
-          type: string
-        serviceVersion:
-          type: string
-    BatchSubmissionResponse:
-      type: object
-      properties:
-        fileId:
-          type: string
-        submissionTimestamp:
-          type: string
-          format: date-time
-        status:
-          type: string
-          enum:
-          - PENDING
     BatchStatusResponse:
       type: object
       properties:
@@ -159,15 +108,66 @@ components:
           type: integer
         totalRecordCount:
           type: integer
+    BatchSubmissionResponse:
+      type: object
+      properties:
+        fileId:
+          type: string
+        submissionTimestamp:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+          - PENDING
+    Error:
+      type: object
+      properties:
+        transactionDetail:
+          $ref: '#/components/schemas/TransactionDetail'
+        error:
+          type: object
+          properties:
+            errorMessage:
+              type: string
+            errorCode:
+              type: string
+            errorDetails:
+              type: array
+              items:
+                type: object
+    BatchFileSubmission:
+      type: object
+      properties:
+        file:
+          type: string
+          format: binary
+        processId:
+          type: string
+          description: Direct+ process identifier (match, enrich, etc).
+        productId:
+          type: string
+    TransactionDetail:
+      type: object
+      properties:
+        transactionID:
+          type: string
+        transactionTimestamp:
+          type: string
+          format: date-time
+        inLanguage:
+          type: string
+        serviceVersion:
+          type: string
   responses:
-    Unauthorized:
-      description: Missing or invalid bearer token.
+    NotFound:
+      description: Resource not found for the supplied identifier.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found for the supplied identifier.
+    Unauthorized:
+      description: Missing or invalid bearer token.
       content:
         application/json:
           schema:

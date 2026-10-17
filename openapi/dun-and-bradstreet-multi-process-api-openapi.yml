@@ -43,97 +43,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    MultiProcessRequest:
-      type: object
-      required:
-      - inquiryDetail
-      - blockIDs
-      properties:
-        inquiryDetail:
-          type: object
-          properties:
-            name:
-              type: string
-            countryISOAlpha2Code:
-              type: string
-            address:
-              $ref: '#/components/schemas/Address'
-        blockIDs:
-          type: array
-          items:
-            type: string
-    Error:
-      type: object
-      properties:
-        transactionDetail:
-          $ref: '#/components/schemas/TransactionDetail'
-        error:
-          type: object
-          properties:
-            errorMessage:
-              type: string
-            errorCode:
-              type: string
-            errorDetails:
-              type: array
-              items:
-                type: object
-    MatchCandidate:
-      type: object
-      properties:
-        displaySequence:
-          type: integer
-        matchQualityInformation:
-          type: object
-          properties:
-            confidenceCode:
-              type: integer
-            matchGrade:
-              type: string
-            matchDataProfile:
-              type: string
-        organization:
-          $ref: '#/components/schemas/OrganizationSummary'
-    TransactionDetail:
-      type: object
-      properties:
-        transactionID:
-          type: string
-        transactionTimestamp:
-          type: string
-          format: date-time
-        inLanguage:
-          type: string
-        serviceVersion:
-          type: string
-    OrganizationSummary:
-      type: object
-      properties:
-        duns:
-          type: string
-          pattern: ^[0-9]{9}$
-        primaryName:
-          type: string
-        primaryAddress:
-          $ref: '#/components/schemas/Address'
-        countryISOAlpha2Code:
-          type: string
-        telephone:
-          type: array
-          items:
-            type: object
-            properties:
-              telephoneNumber:
-                type: string
-        registrationNumbers:
-          type: array
-          items:
-            type: object
-            properties:
-              registrationNumber:
-                type: string
-              typeDescription:
-                type: string
     Address:
       type: object
       properties:
@@ -163,6 +72,85 @@ components:
           properties:
             isoAlpha2Code:
               type: string
+    MultiProcessRequest:
+      type: object
+      required:
+      - inquiryDetail
+      - blockIDs
+      properties:
+        inquiryDetail:
+          type: object
+          properties:
+            name:
+              type: string
+            countryISOAlpha2Code:
+              type: string
+            address:
+              $ref: '#/components/schemas/Address'
+        blockIDs:
+          type: array
+          items:
+            type: string
+    MatchCandidate:
+      type: object
+      properties:
+        displaySequence:
+          type: integer
+        matchQualityInformation:
+          type: object
+          properties:
+            confidenceCode:
+              type: integer
+            matchGrade:
+              type: string
+            matchDataProfile:
+              type: string
+        organization:
+          $ref: '#/components/schemas/OrganizationSummary'
+    Error:
+      type: object
+      properties:
+        transactionDetail:
+          $ref: '#/components/schemas/TransactionDetail'
+        error:
+          type: object
+          properties:
+            errorMessage:
+              type: string
+            errorCode:
+              type: string
+            errorDetails:
+              type: array
+              items:
+                type: object
+    OrganizationSummary:
+      type: object
+      properties:
+        duns:
+          type: string
+          pattern: ^[0-9]{9}$
+        primaryName:
+          type: string
+        primaryAddress:
+          $ref: '#/components/schemas/Address'
+        countryISOAlpha2Code:
+          type: string
+        telephone:
+          type: array
+          items:
+            type: object
+            properties:
+              telephoneNumber:
+                type: string
+        registrationNumbers:
+          type: array
+          items:
+            type: object
+            properties:
+              registrationNumber:
+                type: string
+              typeDescription:
+                type: string
     MultiProcessResponse:
       type: object
       properties:
@@ -175,6 +163,18 @@ components:
         organization:
           type: object
           description: Resolved enrichment payload for the top-ranked match.
+    TransactionDetail:
+      type: object
+      properties:
+        transactionID:
+          type: string
+        transactionTimestamp:
+          type: string
+          format: date-time
+        inLanguage:
+          type: string
+        serviceVersion:
+          type: string
   responses:
     Unauthorized:
       description: Missing or invalid bearer token.

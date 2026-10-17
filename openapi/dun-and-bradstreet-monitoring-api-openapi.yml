@@ -124,6 +124,34 @@ paths:
                 $ref: '#/components/schemas/MonitoringNotificationsResponse'
 components:
   schemas:
+    PortfolioMembershipRequest:
+      type: object
+      required:
+      - dunsList
+      properties:
+        dunsList:
+          type: array
+          items:
+            type: string
+            pattern: ^[0-9]{9}$
+    MonitoringRegistrationRequest:
+      type: object
+      required:
+      - registrationReference
+      properties:
+        registrationReference:
+          type: string
+        description:
+          type: string
+        blockIDs:
+          type: array
+          items:
+            type: string
+        deliveryMethod:
+          type: string
+          enum:
+          - SFTP
+          - API_PULL
     MonitoringNotificationsResponse:
       type: object
       properties:
@@ -143,24 +171,6 @@ components:
                 type: string
               previousValue: {}
               currentValue: {}
-    MonitoringRegistrationRequest:
-      type: object
-      required:
-      - registrationReference
-      properties:
-        registrationReference:
-          type: string
-        description:
-          type: string
-        blockIDs:
-          type: array
-          items:
-            type: string
-        deliveryMethod:
-          type: string
-          enum:
-          - SFTP
-          - API_PULL
     PortfolioMembershipResponse:
       type: object
       properties:
@@ -177,16 +187,6 @@ components:
                 type: string
               reason:
                 type: string
-    PortfolioMembershipRequest:
-      type: object
-      required:
-      - dunsList
-      properties:
-        dunsList:
-          type: array
-          items:
-            type: string
-            pattern: ^[0-9]{9}$
     MonitoringRegistrationResponse:
       type: object
       properties:
