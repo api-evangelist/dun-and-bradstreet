@@ -11,8 +11,21 @@ description: >-
 specificationVersion: API Commons Rate Limits 0.1
 provider: Dun & Bradstreet
 modified: '2026-05-23'
-source: https://directplus.documentation.dnb.com/
-generated: '2026-08-13'
+source: https://learn.microsoft.com/en-us/connectors/dunandbradstreetmcps/
+docs_source: https://directplus.documentation.dnb.com/
+source_note: >-
+  The only numeric limit published on the open web is the Microsoft Power Platform
+  connector table for the D&B MCP Server, so it is the quote source; D&B's own docs
+  home names rate limiting and quota enforcement as a gated subject without numbers.
+limits:
+  - name: D&B MCP Server via Power Platform connector
+    limit_text: API calls per connection 100 60 seconds
+    max: 100
+    window: 60 seconds
+    scope: per Power Platform connection
+    endpoint: D&B MCP Server (Power Platform connector)
+    note: Published by Microsoft for the connector, not by D&B for the Direct+ API itself; Direct+ numeric limits are contractual and gated.
+generated: '2026-10-20'
 method: searched
 limit_count: 0
 

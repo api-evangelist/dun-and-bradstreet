@@ -1,23 +1,25 @@
-generated: '2026-08-13'
+generated: '2026-10-20'
 method: probed
 source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
 hosts:
 - host: www.dnb.com
   https: true
   tls_version: TLSv1.3
-  cert_expires: Oct 19 16:48:45 2026 GMT
-  hsts: null
+  cert_expires: Dec 19 07:54:50 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
+- host: agents.riskanalytics.dnb.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Dec  2 05:58:54 2026 GMT
+  hsts: true
+  hsts_max_age: 31536000
 - host: directplus.documentation.dnb.com
   https: true
   tls_version: TLSv1.3
-  cert_expires: Oct 12 17:17:14 2026 GMT
+  cert_expires: Dec 10 16:43:52 2026 GMT
   hsts: true
   hsts_max_age: 31536000
-- host: plus.dnb.com
-  https: true
-  tls_version: TLSv1.3
-  cert_expires: Oct 28 23:59:59 2026 GMT
-  hsts: null
 domains:
 - domain: dnb.com
   dnssec: true

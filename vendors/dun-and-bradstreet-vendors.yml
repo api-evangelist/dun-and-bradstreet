@@ -1,0 +1,74 @@
+generated: '2026-10-20'
+method: probed
+source: pre-flight dossier (docs platform, portal detections) + CNAME chains and response headers of the hosts apis.yml names
+registry: all/0-working/vendors.yml
+areas_vocabulary:
+- documentation
+- developer-portal
+- api-gateway
+- cdn
+- hosting
+- sdk-generation
+- api-collections
+- status-page
+- support
+- community
+- identity
+- mcp-hosting
+vendors:
+- vendor: akamai
+  name: Akamai
+  area: cdn
+  host: www.dnb.com
+  evidence: header:x-akamai-
+  signal: header
+  confidence: high
+  kin_score: []
+- vendor: cloudflare
+  name: Cloudflare
+  area: cdn
+  host: www.dnb.com
+  evidence: cname:cloudflare.net
+  signal: cname
+  confidence: high
+  kin_score:
+  - https_enforced
+  - hsts
+- vendor: cloudfront
+  name: Amazon CloudFront
+  area: cdn
+  host: status.dnb.com
+  evidence: cname:cloudfront.net
+  signal: cname
+  confidence: high
+  kin_score: []
+- vendor: fastly
+  name: Fastly
+  area: cdn
+  host: www.dnb.com
+  evidence: header:x-served-by:cache-
+  signal: header
+  confidence: high
+  kin_score: []
+reliance:
+  areas_vendor_served:
+  - cdn
+  vendor_count: 4
+  areas_observed: 12
+  share_of_observable_areas: 0.083
+  note: areas where a third party was DETECTED serving this provider; an area absent here was either self-run or not observed, and this script
+    cannot tell those apart
+checked:
+- 'docs-platform: custom'
+- status.dnb.com (StatusPage)
+- www.dnb.com (Website)
+- directplus.documentation.dnb.com (DeveloperPortal)
+- directplus.documentation.dnb.com (Documentation)
+- directplus.documentation.dnb.com (APIReference)
+- directplus.documentation.dnb.com (GettingStarted)
+- directplus.documentation.dnb.com (SignUp)
+- directplus.documentation.dnb.com (Login)
+- service.dnb.com (Support)
+- agents.riskanalytics.dnb.com (baseURL)
+- plus.dnb.com (baseURL)
+- agents.riskanalytics.dnb.com (mcp)

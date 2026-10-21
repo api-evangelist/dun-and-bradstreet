@@ -1,7 +1,7 @@
 openapi: 3.2.0
 info:
   title: D&B Direct+ Data File API
-  description: D&B Direct+ is Dun & Bradstreet's RESTful API platform that exposes the D&B Data Cloud — more than 500 million companies worldwide — for identity resolution, search, enrichment, multi-process (match plus enrich), batch processing, change monitoring, and historical research.
+  description: D&B Direct+ is Dun & Bradstreet's RESTful API platform that exposes the D&B Data Cloud — more than 500 million companies worldwide — for identity resolution, search, enrichment, multi-process (match plus enrich), batch processing, change monitoring, and historical research. All endpoints return JSON, are versioned in the URI path, and require an OAuth 2.0 bearer token obtained from the /v3/token endpoint via client-credentials grant. This profile is an OpenAPI sketch of the public surface based on Dun & Bradstreet's published Direct+ documentation; the canonical operation definitions live behind the gated developer portal at https://directplus.documentation.dnb.com/.
   version: '3.0'
   contact:
     name: D&B Direct+ Support
@@ -92,34 +92,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    BatchStatusResponse:
-      type: object
-      properties:
-        fileId:
-          type: string
-        status:
-          type: string
-          enum:
-          - PENDING
-          - PROCESSING
-          - COMPLETED
-          - FAILED
-        processedRecordCount:
-          type: integer
-        totalRecordCount:
-          type: integer
-    BatchSubmissionResponse:
-      type: object
-      properties:
-        fileId:
-          type: string
-        submissionTimestamp:
-          type: string
-          format: date-time
-        status:
-          type: string
-          enum:
-          - PENDING
     Error:
       type: object
       properties:
@@ -147,6 +119,22 @@ components:
           description: Direct+ process identifier (match, enrich, etc).
         productId:
           type: string
+    BatchStatusResponse:
+      type: object
+      properties:
+        fileId:
+          type: string
+        status:
+          type: string
+          enum:
+          - PENDING
+          - PROCESSING
+          - COMPLETED
+          - FAILED
+        processedRecordCount:
+          type: integer
+        totalRecordCount:
+          type: integer
     TransactionDetail:
       type: object
       properties:
@@ -159,15 +147,27 @@ components:
           type: string
         serviceVersion:
           type: string
+    BatchSubmissionResponse:
+      type: object
+      properties:
+        fileId:
+          type: string
+        submissionTimestamp:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum:
+          - PENDING
   responses:
-    NotFound:
-      description: Resource not found for the supplied identifier.
+    Unauthorized:
+      description: Missing or invalid bearer token.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Missing or invalid bearer token.
+    NotFound:
+      description: Resource not found for the supplied identifier.
       content:
         application/json:
           schema:

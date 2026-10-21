@@ -9,8 +9,18 @@ description: >-
 specificationVersion: API Commons Plans 0.1
 provider: Dun & Bradstreet
 modified: '2026-05-23'
-source: https://www.dnb.com/products.html
-generated: '2026-08-13'
+source: https://www.dnb.com/en-us/smb/duns.html
+source_pages:
+  - https://www.dnb.com/products.html
+  - https://www.dnb.com/en-us/smb/duns.html
+audience: business-product
+pricing_basis: negotiated
+published: false
+delivery:
+  delivery: managed
+note: >-
+  Re-checked 2026-10-20. No numeric API price is published; products.html lists D&B Direct+ with only Learn More / Contact Us routes. The verbatim quotes are checked against the D-U-N-S page, which carries both the free D-U-N-S statement and the same Contact Us route.
+generated: '2026-10-20'
 method: searched
 plan_count: 2
 
@@ -26,8 +36,10 @@ plans:
       based on selected Data Blocks, anticipated transaction volume,
       monitoring portfolio size, geographic coverage, and use case. There is
       no published list price.
-    audience: Enterprise, mid-market, public sector, ISVs.
+    customer_segment: Enterprise, mid-market, public sector, ISVs.
     access: contract
+    price: Contact sales
+    price_text: Contact Us
     commitment: annual
     pricingURL: https://www.dnb.com/contact-us.html
     includedFeatures:
@@ -68,11 +80,13 @@ plans:
     description: >-
       Standalone, free registration for a business to obtain a D-U-N-S
       Number. Does not include API access or any enrichment data.
-    audience: Any business, particularly those registering for U.S. federal
+    customer_segment: Any business, particularly those registering for U.S. federal
       procurement, grants, or supplier qualification programs.
     access: self-service
     pricingURL: https://www.dnb.com/duns/get-a-duns.html
     cost: 0
+    price: 0
+    price_text: Getting a D‑U‑N‑S Number is free
 
 upgrades:
   - from: Get a D-U-N-S Number

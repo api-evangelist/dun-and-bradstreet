@@ -1,5 +1,6 @@
 ---
-name: Search for companies and contacts, and replay a past response
+name: search-and-audit
+title: Search for companies and contacts, and replay a past response
 description: >-
   Discover companies and people by criteria when you have no D-U-N-S Number
   yet, and retrieve the verbatim response D&B returned at an earlier moment

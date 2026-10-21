@@ -1,5 +1,6 @@
 ---
-name: Resolve a company to a D-U-N-S Number and enrich it
+name: resolve-and-enrich-company
+title: Resolve a company to a D-U-N-S Number and enrich it
 description: >-
   Turn a messy company name and country into a verified D&B D-U-N-S Number,
   then pull the licensed Data Blocks for it. This is the foundational D&B

@@ -1,5 +1,6 @@
 ---
-name: Monitor a portfolio of companies for change
+name: monitor-a-portfolio
+title: Monitor a portfolio of companies for change
 description: >-
   Register a monitoring portfolio, add and remove D-U-N-S Numbers, and drain
   field-level change notifications. Direct+ Monitoring is pull-only — there is

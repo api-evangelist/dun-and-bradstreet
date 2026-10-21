@@ -1,5 +1,6 @@
 ---
-name: Batch match and enrich a file of companies
+name: batch-match-and-enrich
+title: Batch match and enrich a file of companies
 description: >-
   Submit a file of company records to Direct+, poll it to completion, and
   download the matched and enriched results. Use this instead of looping
